@@ -13,6 +13,26 @@ type Lead = {
   created: string;
 };
 
+type User = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  assigned: string;
+  status: "Active" | "Inactive" | "Pending" | "Suspended" | "Verified";
+  created: string;
+};
+
+type BackofficeItem = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  assigned: string;
+  status: "Completed" | "In Progress" | "Pending" | "On Hold" | "Cancelled";
+  created: string;
+};
+
 type Tab = "Leads" | "Users" | "Backoffice" | "Configuration";
 
 const mockLeads: Lead[] = [
@@ -78,10 +98,108 @@ const mockLeads: Lead[] = [
   }
 ];
 
+const mockUsers: User[] = [
+  {
+    id: "#U3066",
+    name: "John Smith",
+    email: "john.smith@company.com",
+    phone: "+1 (555) 123-4567",
+    assigned: "JS",
+    status: "Active",
+    created: "Just now"
+  },
+  {
+    id: "#U3065",
+    name: "Sarah Johnson",
+    email: "sarah.j@business.com",
+    phone: "+1 (555) 987-6543",
+    assigned: "SJ",
+    status: "Verified",
+    created: "2 hrs ago"
+  },
+  {
+    id: "#U3064",
+    name: "Mike Wilson",
+    email: "mike.wilson@corp.com",
+    phone: "+1 (555) 456-7890",
+    assigned: "MW",
+    status: "Pending",
+    created: "5 hrs ago"
+  },
+  {
+    id: "#U3063",
+    name: "Emily Davis",
+    email: "emily.davis@firm.com",
+    phone: "+1 (555) 321-0987",
+    assigned: "ED",
+    status: "Inactive",
+    created: "1 day ago"
+  },
+  {
+    id: "#U3062",
+    name: "Robert Brown",
+    email: "robert.brown@office.com",
+    phone: "+1 (555) 654-3210",
+    assigned: "RB",
+    status: "Suspended",
+    created: "2 days ago"
+  }
+];
+
+const mockBackoffice: BackofficeItem[] = [
+  {
+    id: "#B3066",
+    name: "Document Processing",
+    email: "admin@processing.com",
+    phone: "+1 (555) 111-2222",
+    assigned: "DP",
+    status: "Completed",
+    created: "Just now"
+  },
+  {
+    id: "#B3065",
+    name: "Invoice Management",
+    email: "invoice@finance.com",
+    phone: "+1 (555) 333-4444",
+    assigned: "IM",
+    status: "In Progress",
+    created: "1 hr ago"
+  },
+  {
+    id: "#B3064",
+    name: "Data Analysis",
+    email: "data@analytics.com",
+    phone: "+1 (555) 555-6666",
+    assigned: "DA",
+    status: "Pending",
+    created: "3 hrs ago"
+  },
+  {
+    id: "#B3063",
+    name: "Report Generation",
+    email: "reports@system.com",
+    phone: "+1 (555) 777-8888",
+    assigned: "RG",
+    status: "On Hold",
+    created: "6 hrs ago"
+  },
+  {
+    id: "#B3062",
+    name: "System Maintenance",
+    email: "maintenance@tech.com",
+    phone: "+1 (555) 999-0000",
+    assigned: "SM",
+    status: "Cancelled",
+    created: "Yesterday"
+  }
+];
+
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<Tab>("Leads");
   const [showActionMenu, setShowActionMenu] = useState<string | null>(null);
   const [selectedLeads, setSelectedLeads] = useState<string[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+  const [selectedBackoffice, setSelectedBackoffice] = useState<string[]>([]);
   const [selectAll, setSelectAll] = useState(false);
 
   const getStatusColor = (status: string) => {
@@ -91,6 +209,15 @@ export default function AdminDashboard() {
       case "Working": return "#3b82f6";
       case "Contacted": return "#8b5cf6";
       case "Proposal Sent": return "#ef4444";
+      case "Active": return "#10b981";
+      case "Verified": return "#059669";
+      case "Inactive": return "#6b7280";
+      case "Pending": return "#f59e0b";
+      case "Suspended": return "#ef4444";
+      case "Completed": return "#10b981";
+      case "In Progress": return "#3b82f6";
+      case "On Hold": return "#f59e0b";
+      case "Cancelled": return "#ef4444";
       default: return "#6b7280";
     }
   };
@@ -117,6 +244,41 @@ export default function AdminDashboard() {
       setSelectedLeads([...selectedLeads, leadId]);
     }
   };
+
+  const handleSelectAllUsers = () => {
+    if (selectAll) {
+      setSelectedUsers([]);
+    } else {
+      setSelectedUsers(mockUsers.map(user => user.id));
+    }
+    setSelectAll(!selectAll);
+  };
+
+  const handleSelectUser = (userId: string) => {
+    if (selectedUsers.includes(userId)) {
+      setSelectedUsers(selectedUsers.filter(id => id !== userId));
+    } else {
+      setSelectedUsers([...selectedUsers, userId]);
+    }
+  };
+
+  const handleSelectAllBackoffice = () => {
+    if (selectAll) {
+      setSelectedBackoffice([]);
+    } else {
+      setSelectedBackoffice(mockBackoffice.map(item => item.id));
+    }
+    setSelectAll(!selectAll);
+  };
+
+  const handleSelectBackoffice = (itemId: string) => {
+    if (selectedBackoffice.includes(itemId)) {
+      setSelectedBackoffice(selectedBackoffice.filter(id => id !== itemId));
+    } else {
+      setSelectedBackoffice([...selectedBackoffice, itemId]);
+    }
+  };
+
   const renderLeadsTab = () => (
     <div className={styles.leadsContainer}>
       <div className={styles.leadsHeader}>
@@ -329,21 +491,413 @@ export default function AdminDashboard() {
   );
 
   const renderUsersTab = () => (
-    <div className={styles.tabContent}>
-      <h2>Users Management</h2>
-      <p>Manage user accounts, permissions, and access levels.</p>
-      <div className={styles.placeholder}>
-        <p>Users management interface will be implemented here.</p>
+    <div className={styles.leadsContainer}>
+      <div className={styles.leadsHeader}>
+        <div className={styles.headerLeft}>
+          <h2>Users Management</h2>
+          <p>Manage user accounts, permissions, and access levels</p>
+        </div>
+        <div className={styles.headerRight}>
+          <button className={styles.exportBtn}>↓ Export</button>
+        </div>
+      </div>
+
+      <div className={styles.statsContainer}>
+        <div className={styles.statCard} style={{ backgroundColor: '#f8fafc' }}>
+          <div className={styles.statHeader}>
+            <span className={styles.statTitle}>TOTAL USERS</span>
+          </div>
+          <div className={styles.statMainValue}>45,892</div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>NEW TODAY:</span>
+            <span className={styles.statSubValue}>23</span>
+          </div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>ACTIVE:</span>
+            <span className={styles.statSubValue}>42,156</span>
+          </div>
+        </div>
+        
+        <div className={styles.statCard} style={{ backgroundColor: '#f0f9ff' }}>
+          <div className={styles.statHeader}>
+            <span className={styles.statTitle}>VERIFIED USERS</span>
+          </div>
+          <div className={styles.statMainValue}>38,245</div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>PENDING:</span>
+            <span className={styles.statSubValue}>3,647</span>
+          </div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>REJECTED:</span>
+            <span className={styles.statSubValue}>4,000</span>
+          </div>
+        </div>
+        
+        <div className={styles.statCard} style={{ backgroundColor: '#fefce8' }}>
+          <div className={styles.statHeader}>
+            <span className={styles.statTitle}>USER ACTIVITY</span>
+          </div>
+          <div className={styles.statMainValue}>89%</div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>DAILY:</span>
+            <span className={styles.statSubValue}>15,234</span>
+            <span className={styles.statPercentage}>+12%</span>
+          </div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>WEEKLY:</span>
+            <span className={styles.statSubValue}>28,567</span>
+            <span className={styles.statPercentage}>+8%</span>
+          </div>
+        </div>
+        
+        <div className={styles.statCard} style={{ backgroundColor: '#f0fdf4' }}>
+          <div className={styles.statHeader}>
+            <span className={styles.statTitle}>PERMISSIONS</span>
+          </div>
+          <div className={styles.statMainValue}>12</div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>ADMIN:</span>
+            <span className={styles.statSubValue}>5</span>
+          </div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>MODERATOR:</span>
+            <span className={styles.statSubValue}>7</span>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.tableControls}>
+        <div className={styles.leftControls}>
+          <button className={styles.bulkBtn}>Bulk Actions</button>
+          <button className={styles.refreshBtn}>↻</button>
+        </div>
+        <div className={styles.rightControls}>
+          <input type="text" placeholder="Search text" className={styles.searchInput} />
+          <button className={styles.filterBtn}>⚙ Filter</button>
+          <button className={styles.viewBtn}>⊞ View</button>
+        </div>
+      </div>
+
+      <div className={styles.tableContainer}>
+        <table className={styles.leadsTable}>
+          <thead>
+            <tr>
+              <th>
+                <input 
+                  type="checkbox" 
+                  checked={selectAll}
+                  onChange={handleSelectAllUsers}
+                  className={styles.checkbox}
+                />
+              </th>
+              <th>User ID</th>
+              <th>User</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Assigned</th>
+              <th>Status</th>
+              <th>Created ↑</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {mockUsers.map((user) => (
+              <tr key={user.id}>
+                <td>
+                  <input 
+                    type="checkbox" 
+                    checked={selectedUsers.includes(user.id)}
+                    onChange={() => handleSelectUser(user.id)}
+                    className={styles.checkbox}
+                  />
+                </td>
+                <td>{user.id}</td>
+                <td className={styles.customerCell}>
+                  <div className={styles.avatar}>{user.assigned}</div>
+                  {user.name}
+                </td>
+                <td className={styles.emailCell}>{user.email}</td>
+                <td>{user.phone}</td>
+                <td>
+                  <div className={styles.avatar}>{user.assigned}</div>
+                </td>
+                <td>
+                  <span 
+                    className={styles.status}
+                    style={{ color: getStatusColor(user.status) }}
+                  >
+                    {user.status}
+                  </span>
+                </td>
+                <td>{user.created}</td>
+                <td>
+                  <div style={{ position: 'relative' }}>
+                    <button 
+                      className={styles.moreBtn}
+                      onClick={() => setShowActionMenu(showActionMenu === user.id ? null : user.id)}
+                    >
+                      ⋮
+                    </button>
+                    {showActionMenu === user.id && (
+                      <div className={styles.actionMenu}>
+                        <button 
+                          className={styles.actionItem}
+                          onClick={() => handleActionClick(user.id, 'activate')}
+                        >
+                          Activate User
+                        </button>
+                        <button 
+                          className={styles.actionItem}
+                          onClick={() => handleActionClick(user.id, 'suspend')}
+                        >
+                          Suspend User
+                        </button>
+                        <button 
+                          className={styles.actionItem}
+                          onClick={() => handleActionClick(user.id, 'permissions')}
+                        >
+                          Edit Permissions
+                        </button>
+                        <button 
+                          className={styles.actionItem}
+                          onClick={() => handleActionClick(user.id, 'reset-password')}
+                        >
+                          Reset Password
+                        </button>
+                        <button 
+                          className={styles.actionItem}
+                          onClick={() => handleActionClick(user.id, 'delete')}
+                        >
+                          Delete User
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className={styles.pagination}>
+        <button className={styles.paginationBtn}>← Previous</button>
+        <div className={styles.pageNumbers}>
+          <span className={styles.activePage}>1</span>
+          <span>2</span>
+          <span>3</span>
+          <span>...</span>
+          <span>8</span>
+          <span>9</span>
+          <span>10</span>
+        </div>
+        <button className={styles.paginationBtn}>Next →</button>
       </div>
     </div>
   );
 
   const renderBackofficeTab = () => (
-    <div className={styles.tabContent}>
-      <h2>Back Office</h2>
-      <p>Handle administrative tasks and internal operations.</p>
-      <div className={styles.placeholder}>
-        <p>Back office management interface will be implemented here.</p>
+    <div className={styles.leadsContainer}>
+      <div className={styles.leadsHeader}>
+        <div className={styles.headerLeft}>
+          <h2>Back Office</h2>
+          <p>Handle administrative tasks and internal operations</p>
+        </div>
+        <div className={styles.headerRight}>
+          <button className={styles.exportBtn}>↓ Export</button>
+        </div>
+      </div>
+
+      <div className={styles.statsContainer}>
+        <div className={styles.statCard} style={{ backgroundColor: '#f8fafc' }}>
+          <div className={styles.statHeader}>
+            <span className={styles.statTitle}>TOTAL TASKS</span>
+          </div>
+          <div className={styles.statMainValue}>1,247</div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>NEW TODAY:</span>
+            <span className={styles.statSubValue}>18</span>
+          </div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>OVERDUE:</span>
+            <span className={styles.statSubValue}>7</span>
+          </div>
+        </div>
+        
+        <div className={styles.statCard} style={{ backgroundColor: '#f0f9ff' }}>
+          <div className={styles.statHeader}>
+            <span className={styles.statTitle}>IN PROGRESS</span>
+          </div>
+          <div className={styles.statMainValue}>342</div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>HIGH PRIORITY:</span>
+            <span className={styles.statSubValue}>45</span>
+          </div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>MEDIUM:</span>
+            <span className={styles.statSubValue}>297</span>
+          </div>
+        </div>
+        
+        <div className={styles.statCard} style={{ backgroundColor: '#fefce8' }}>
+          <div className={styles.statHeader}>
+            <span className={styles.statTitle}>COMPLETED</span>
+          </div>
+          <div className={styles.statMainValue}>856</div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>THIS WEEK:</span>
+            <span className={styles.statSubValue}>124</span>
+            <span className={styles.statPercentage}>+15%</span>
+          </div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>THIS MONTH:</span>
+            <span className={styles.statSubValue}>456</span>
+            <span className={styles.statPercentage}>+8%</span>
+          </div>
+        </div>
+        
+        <div className={styles.statCard} style={{ backgroundColor: '#f0fdf4' }}>
+          <div className={styles.statHeader}>
+            <span className={styles.statTitle}>EFFICIENCY</span>
+          </div>
+          <div className={styles.statMainValue}>94%</div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>AVG TIME:</span>
+            <span className={styles.statSubValue}>2.4h</span>
+          </div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>SUCCESS RATE:</span>
+            <span className={styles.statSubValue}>98%</span>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.tableControls}>
+        <div className={styles.leftControls}>
+          <button className={styles.bulkBtn}>Bulk Actions</button>
+          <button className={styles.refreshBtn}>↻</button>
+        </div>
+        <div className={styles.rightControls}>
+          <input type="text" placeholder="Search text" className={styles.searchInput} />
+          <button className={styles.filterBtn}>⚙ Filter</button>
+          <button className={styles.viewBtn}>⊞ View</button>
+        </div>
+      </div>
+
+      <div className={styles.tableContainer}>
+        <table className={styles.leadsTable}>
+          <thead>
+            <tr>
+              <th>
+                <input 
+                  type="checkbox" 
+                  checked={selectAll}
+                  onChange={handleSelectAllBackoffice}
+                  className={styles.checkbox}
+                />
+              </th>
+              <th>Task ID</th>
+              <th>User</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Assigned</th>
+              <th>Status</th>
+              <th>Created ↑</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {mockBackoffice.map((item) => (
+              <tr key={item.id}>
+                <td>
+                  <input 
+                    type="checkbox" 
+                    checked={selectedBackoffice.includes(item.id)}
+                    onChange={() => handleSelectBackoffice(item.id)}
+                    className={styles.checkbox}
+                  />
+                </td>
+                <td>{item.id}</td>
+                <td className={styles.customerCell}>
+                  <div className={styles.avatar}>{item.assigned}</div>
+                  {item.name}
+                </td>
+                <td className={styles.emailCell}>{item.email}</td>
+                <td>{item.phone}</td>
+                <td>
+                  <div className={styles.avatar}>{item.assigned}</div>
+                </td>
+                <td>
+                  <span 
+                    className={styles.status}
+                    style={{ color: getStatusColor(item.status) }}
+                  >
+                    {item.status}
+                  </span>
+                </td>
+                <td>{item.created}</td>
+                <td>
+                  <div style={{ position: 'relative' }}>
+                    <button 
+                      className={styles.moreBtn}
+                      onClick={() => setShowActionMenu(showActionMenu === item.id ? null : item.id)}
+                    >
+                      ⋮
+                    </button>
+                    {showActionMenu === item.id && (
+                      <div className={styles.actionMenu}>
+                        <button 
+                          className={styles.actionItem}
+                          onClick={() => handleActionClick(item.id, 'complete')}
+                        >
+                          Mark Complete
+                        </button>
+                        <button 
+                          className={styles.actionItem}
+                          onClick={() => handleActionClick(item.id, 'hold')}
+                        >
+                          Put On Hold
+                        </button>
+                        <button 
+                          className={styles.actionItem}
+                          onClick={() => handleActionClick(item.id, 'reassign')}
+                        >
+                          Reassign Task
+                        </button>
+                        <button 
+                          className={styles.actionItem}
+                          onClick={() => handleActionClick(item.id, 'priority')}
+                        >
+                          Change Priority
+                        </button>
+                        <button 
+                          className={styles.actionItem}
+                          onClick={() => handleActionClick(item.id, 'cancel')}
+                        >
+                          Cancel Task
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className={styles.pagination}>
+        <button className={styles.paginationBtn}>← Previous</button>
+        <div className={styles.pageNumbers}>
+          <span className={styles.activePage}>1</span>
+          <span>2</span>
+          <span>3</span>
+          <span>...</span>
+          <span>8</span>
+          <span>9</span>
+          <span>10</span>
+        </div>
+        <button className={styles.paginationBtn}>Next →</button>
       </div>
     </div>
   );
