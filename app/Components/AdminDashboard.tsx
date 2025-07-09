@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./AdminDashboard.module.css";
 
 type Lead = {
@@ -196,11 +196,20 @@ const mockBackoffice: BackofficeItem[] = [
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<Tab>("Leads");
+  const [mounted, setMounted] = useState(false);
   const [showActionMenu, setShowActionMenu] = useState<string | null>(null);
   const [selectedLeads, setSelectedLeads] = useState<string[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
   const [selectedBackoffice, setSelectedBackoffice] = useState<string[]>([]);
   const [selectAll, setSelectAll] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   const getStatusColor = (status: string) => {
     switch (status) {
