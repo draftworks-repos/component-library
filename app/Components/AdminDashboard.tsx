@@ -81,6 +81,8 @@ const mockLeads: Lead[] = [
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<Tab>("Leads");
   const [showActionMenu, setShowActionMenu] = useState<string | null>(null);
+  const [selectedLeads, setSelectedLeads] = useState<string[]>([]);
+  const [selectAll, setSelectAll] = useState(false);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -99,6 +101,22 @@ export default function AdminDashboard() {
     // Handle the action logic here
   };
 
+  const handleSelectAll = () => {
+    if (selectAll) {
+      setSelectedLeads([]);
+    } else {
+      setSelectedLeads(mockLeads.map(lead => lead.id));
+    }
+    setSelectAll(!selectAll);
+  };
+
+  const handleSelectLead = (leadId: string) => {
+    if (selectedLeads.includes(leadId)) {
+      setSelectedLeads(selectedLeads.filter(id => id !== leadId));
+    } else {
+      setSelectedLeads([...selectedLeads, leadId]);
+    }
+  };
   const renderLeadsTab = () => (
     <div className={styles.leadsContainer}>
       <div className={styles.leadsHeader}>
@@ -112,28 +130,80 @@ export default function AdminDashboard() {
       </div>
 
       <div className={styles.statsContainer}>
-        <div className={styles.statCard}>
-          <div className={styles.statLabel}>Total Leads</div>
-          <div className={styles.statValue}>1,247</div>
+        <div className={styles.statCard} style={{ backgroundColor: '#f8fafc' }}>
+          <div className={styles.statHeader}>
+            <span className={styles.statTitle}>TOTAL LEADS</span>
+          </div>
+          <div className={styles.statMainValue}>600,465</div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>NEW TODAY:</span>
+            <span className={styles.statSubValue}>800</span>
+          </div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>UNSUBSCRIBED:</span>
+            <span className={styles.statSubValue}>50</span>
+          </div>
         </div>
-        <div className={styles.statCard}>
-          <div className={styles.statLabel}>Progressing Leads</div>
-          <div className={styles.statValue}>892</div>
+        
+        <div className={styles.statCard} style={{ backgroundColor: '#f0f9ff' }}>
+          <div className={styles.statHeader}>
+            <span className={styles.statTitle}>ACTIVE CAMPAIGNS</span>
+            <button className={styles.addBtn}>+</button>
+          </div>
+          <div className={styles.statMainValue}>8</div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>SMS:</span>
+            <span className={styles.statSubValue}>3</span>
+          </div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>EMAIL:</span>
+            <span className={styles.statSubValue}>5</span>
+          </div>
         </div>
-        <div className={styles.statCard}>
-          <div className={styles.statLabel}>Completed Leads</div>
-          <div className={styles.statValue}>355</div>
+        
+        <div className={styles.statCard} style={{ backgroundColor: '#fefce8' }}>
+          <div className={styles.statHeader}>
+            <span className={styles.statTitle}>CLICKS</span>
+          </div>
+          <div className={styles.statMainValue}>2,100</div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>SMS:</span>
+            <span className={styles.statSubValue}>700</span>
+            <span className={styles.statPercentage}>CTR: 35%</span>
+          </div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>EMAIL:</span>
+            <span className={styles.statSubValue}>1600</span>
+            <span className={styles.statPercentage}>CTR: 60%</span>
+          </div>
+        </div>
+        
+        <div className={styles.statCard} style={{ backgroundColor: '#f0fdf4' }}>
+          <div className={styles.statHeader}>
+            <span className={styles.statTitle}>TOTAL SPEND</span>
+          </div>
+          <div className={styles.statMainValue}>$2,074</div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>SMS:</span>
+            <span className={styles.statSubValue}>$400</span>
+            <span className={styles.statPercentage}>CRL: 35%</span>
+          </div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>EMAIL:</span>
+            <span className={styles.statSubValue}>$1,674</span>
+            <span className={styles.statPercentage}>CRL: 65%</span>
+          </div>
         </div>
       </div>
 
       <div className={styles.tableControls}>
         <div className={styles.leftControls}>
-          <button className={styles.filterBtn}>⚙ Filter</button>
-          <button className={styles.bulkBtn}>☐ Bulk Actions</button>
+          <button className={styles.bulkBtn}>Bulk Actions</button>
           <button className={styles.refreshBtn}>↻</button>
         </div>
         <div className={styles.rightControls}>
-          <input type="text" placeholder="Search" className={styles.searchInput} />
+          <input type="text" placeholder="Search text" className={styles.searchInput} />
+          <button className={styles.filterBtn}>⚙ Filter</button>
           <button className={styles.viewBtn}>⊞ View</button>
         </div>
       </div>
@@ -142,6 +212,14 @@ export default function AdminDashboard() {
         <table className={styles.leadsTable}>
           <thead>
             <tr>
+              <th>
+                <input 
+                  type="checkbox" 
+                  checked={selectAll}
+                  onChange={handleSelectAll}
+                  className={styles.checkbox}
+                />
+              </th>
               <th>Lead ID</th>
               <th>Customer</th>
               <th>Company</th>
@@ -156,6 +234,14 @@ export default function AdminDashboard() {
           <tbody>
             {mockLeads.map((lead) => (
               <tr key={lead.id}>
+                <td>
+                  <input 
+                    type="checkbox" 
+                    checked={selectedLeads.includes(lead.id)}
+                    onChange={() => handleSelectLead(lead.id)}
+                    className={styles.checkbox}
+                  />
+                </td>
                 <td>{lead.id}</td>
                 <td className={styles.customerCell}>
                   <div className={styles.avatar}>{lead.assigned}</div>
