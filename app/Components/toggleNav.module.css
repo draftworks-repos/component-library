@@ -101,6 +101,7 @@
   cursor: pointer;
   font-weight: 500;
   transition: background 0.2s;
+  color: #1f2937;
 }
 
 .menuItem:hover,
@@ -118,6 +119,7 @@
   font-size: 1rem;
   cursor: pointer;
   padding: 0 12px;
+  color: #1f2937;
 }
 
 .socialIcons a {
