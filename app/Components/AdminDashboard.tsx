@@ -8,9 +8,6 @@ type Lead = {
   company: string;
   email: string;
   phone: string;
-  value: string;
-  tags: string;
-  source: string;
   assigned: string;
   status: "Customer" | "Qualified" | "Working" | "Contacted" | "Proposal Sent";
   created: string;
@@ -25,9 +22,6 @@ const mockLeads: Lead[] = [
     company: "Empire Mark",
     email: "rhye@empiremark.io",
     phone: "+1 (318) 698-3149",
-    value: "$1821.02",
-    tags: "Important",
-    source: "Facebook",
     assigned: "OL",
     status: "Customer",
     created: "Just now"
@@ -38,9 +32,6 @@ const mockLeads: Lead[] = [
     company: "Wit Ventures",
     email: "baker@witventures.com",
     phone: "+1 (320) 507-6709",
-    value: "$8,398.70",
-    tags: "Follow up",
-    source: "Facebook",
     assigned: "PB",
     status: "Qualified",
     created: "44 mins ago"
@@ -51,9 +42,6 @@ const mockLeads: Lead[] = [
     company: "Factor Four",
     email: "steiner@factorfour.com",
     phone: "+1 (208) 608-6292",
-    value: "$5,286.94",
-    tags: "Review",
-    source: "LinkedIn",
     assigned: "LS",
     status: "Working",
     created: "3 hr ago"
@@ -64,9 +52,6 @@ const mockLeads: Lead[] = [
     company: "Market Square",
     email: "wilkinson@marketsq.com",
     phone: "+1 (317) 234-6462",
-    value: "$2,968.95",
-    tags: "Follow up",
-    source: "Dribbble",
     assigned: "DW",
     status: "Contacted",
     created: "7 hr ago"
@@ -77,9 +62,6 @@ const mockLeads: Lead[] = [
     company: "Voice Firm",
     email: "candice@voicefirm.com",
     phone: "+1 (860) 539-7061",
-    value: "$7,005.73",
-    tags: "Review",
-    source: "LinkedIn",
     assigned: "CW",
     status: "Qualified",
     created: "12 hr ago"
@@ -90,9 +72,6 @@ const mockLeads: Lead[] = [
     company: "Maxus Media",
     email: "natali@maxusmedia.net",
     phone: "+1 (540) 683-1441",
-    value: "$2,595.82",
-    tags: "Review",
-    source: "UpWork",
     assigned: "NC",
     status: "Proposal Sent",
     created: "Yesterday"
@@ -101,6 +80,7 @@ const mockLeads: Lead[] = [
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<Tab>("Leads");
+  const [showActionMenu, setShowActionMenu] = useState<string | null>(null);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -113,13 +93,10 @@ export default function AdminDashboard() {
     }
   };
 
-  const getTagColor = (tag: string) => {
-    switch (tag) {
-      case "Important": return "#ef4444";
-      case "Follow up": return "#f59e0b";
-      case "Review": return "#3b82f6";
-      default: return "#6b7280";
-    }
+  const handleActionClick = (leadId: string, action: string) => {
+    console.log(`Action ${action} clicked for lead ${leadId}`);
+    setShowActionMenu(null);
+    // Handle the action logic here
   };
 
   const renderLeadsTab = () => (
@@ -131,38 +108,21 @@ export default function AdminDashboard() {
         </div>
         <div className={styles.headerRight}>
           <button className={styles.exportBtn}>↓ Export</button>
-          <button className={styles.newLeadBtn}>+ New Leads</button>
         </div>
       </div>
 
       <div className={styles.statsContainer}>
         <div className={styles.statCard}>
-          <div className={styles.statLabel}>New</div>
-          <div className={styles.statValue}>127</div>
+          <div className={styles.statLabel}>Total Leads</div>
+          <div className={styles.statValue}>1,247</div>
         </div>
         <div className={styles.statCard}>
-          <div className={styles.statLabel}>Contacted</div>
-          <div className={styles.statValue}>705k</div>
+          <div className={styles.statLabel}>Progressing Leads</div>
+          <div className={styles.statValue}>892</div>
         </div>
         <div className={styles.statCard}>
-          <div className={styles.statLabel}>Qualified</div>
-          <div className={styles.statValue}>249k</div>
-        </div>
-        <div className={styles.statCard}>
-          <div className={styles.statLabel}>Working</div>
-          <div className={styles.statValue}>57k</div>
-        </div>
-        <div className={styles.statCard}>
-          <div className={styles.statLabel}>Proposal Sent</div>
-          <div className={styles.statValue}>1.1k</div>
-        </div>
-        <div className={styles.statCard}>
-          <div className={styles.statLabel}>Customer</div>
-          <div className={styles.statValue}>3.7k</div>
-        </div>
-        <div className={styles.statCard}>
-          <div className={styles.statLabel}>Lost Leads</div>
-          <div className={styles.statValue}>5.2k</div>
+          <div className={styles.statLabel}>Completed Leads</div>
+          <div className={styles.statValue}>355</div>
         </div>
       </div>
 
@@ -187,13 +147,10 @@ export default function AdminDashboard() {
               <th>Company</th>
               <th>Email</th>
               <th>Phone</th>
-              <th>Value</th>
-              <th>Tags</th>
-              <th>Source</th>
               <th>Assigned</th>
               <th>Status</th>
               <th>Created ↑</th>
-              <th></th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -207,16 +164,6 @@ export default function AdminDashboard() {
                 <td>{lead.company}</td>
                 <td className={styles.emailCell}>{lead.email}</td>
                 <td>{lead.phone}</td>
-                <td>{lead.value}</td>
-                <td>
-                  <span 
-                    className={styles.tag}
-                    style={{ backgroundColor: getTagColor(lead.tags) }}
-                  >
-                    {lead.tags}
-                  </span>
-                </td>
-                <td>{lead.source}</td>
                 <td>
                   <div className={styles.avatar}>{lead.assigned}</div>
                 </td>
@@ -230,7 +177,48 @@ export default function AdminDashboard() {
                 </td>
                 <td>{lead.created}</td>
                 <td>
-                  <button className={styles.moreBtn}>⋮</button>
+                  <div style={{ position: 'relative' }}>
+                    <button 
+                      className={styles.moreBtn}
+                      onClick={() => setShowActionMenu(showActionMenu === lead.id ? null : lead.id)}
+                    >
+                      ⋮
+                    </button>
+                    {showActionMenu === lead.id && (
+                      <div className={styles.actionMenu}>
+                        <button 
+                          className={styles.actionItem}
+                          onClick={() => handleActionClick(lead.id, 'lost')}
+                        >
+                          Mark as Lost
+                        </button>
+                        <button 
+                          className={styles.actionItem}
+                          onClick={() => handleActionClick(lead.id, 'progress')}
+                        >
+                          In Progress
+                        </button>
+                        <button 
+                          className={styles.actionItem}
+                          onClick={() => handleActionClick(lead.id, 'follow-up')}
+                        >
+                          Follow Up
+                        </button>
+                        <button 
+                          className={styles.actionItem}
+                          onClick={() => handleActionClick(lead.id, 'edit')}
+                        >
+                          Edit Lead
+                        </button>
+                        <button 
+                          className={styles.actionItem}
+                          onClick={() => handleActionClick(lead.id, 'delete')}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}

@@ -294,6 +294,43 @@
   background: #f1f5f9;
 }
 
+.actionMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  min-width: 140px;
+}
+
+.actionItem {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  text-align: left;
+  background: none;
+  border: none;
+  font-size: 0.875rem;
+  color: #374151;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.actionItem:hover {
+  background: #f9fafb;
+}
+
+.actionItem:first-child {
+  border-radius: 6px 6px 0 0;
+}
+
+.actionItem:last-child {
+  border-radius: 0 0 6px 6px;
+}
+
 .pagination {
   display: flex;
   justify-content: space-between;
