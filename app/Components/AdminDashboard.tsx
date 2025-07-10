@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import AuthPopup from "./AuthPopup";
+import AuthManager from "./AuthManager";
 import styles from "./AdminDashboard.module.css";
 
 type Lead = {
@@ -965,7 +965,7 @@ export default function AdminDashboard() {
         {activeTab === "Configuration" && renderConfigurationTab()}
       </div>
       
-      <AuthPopup 
+      <AuthManager 
         isOpen={showAuthPopup} 
         onClose={() => setShowAuthPopup(false)} 
       />
