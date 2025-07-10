@@ -125,7 +125,7 @@ export default function AuthPopup({ isOpen, onClose }: AuthPopupProps) {
                 disabled={isLoading}
                 className={`${styles.btn} ${styles.signInBtn}`}
               >
-                {isLoading ? "Signing In..." : "Sign In"}
+                Sign In
               </button>
 
               <button
@@ -133,7 +133,7 @@ export default function AuthPopup({ isOpen, onClose }: AuthPopupProps) {
                 disabled={isLoading}
                 className={`${styles.btn} ${styles.signUpBtn}`}
               >
-                {isLoading ? "Signing Up..." : "Sign Up"}
+                Sign Up
               </button>
 
               <div className={styles.divider}>
