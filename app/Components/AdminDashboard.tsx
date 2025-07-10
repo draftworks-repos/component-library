@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import AuthPopup from "./AuthPopup";
 import styles from "./AdminDashboard.module.css";
 
 type Lead = {
@@ -203,6 +204,7 @@ export default function AdminDashboard() {
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
   const [selectedBackoffice, setSelectedBackoffice] = useState<string[]>([]);
   const [selectAll, setSelectAll] = useState(false);
+  const [showAuthPopup, setShowAuthPopup] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -935,7 +937,10 @@ export default function AdminDashboard() {
             <Link href="/" className={styles.profileBtn}>
               🏠 Home
             </Link>
-            <button className={`${styles.profileBtn} ${styles.logoutBtn}`}>
+            <button 
+              className={`${styles.profileBtn} ${styles.logoutBtn}`}
+              onClick={() => setShowAuthPopup(true)}
+            >
               🚪 Logout
             </button>
           </div>
@@ -959,6 +964,11 @@ export default function AdminDashboard() {
         {activeTab === "Backoffice" && renderBackofficeTab()}
         {activeTab === "Configuration" && renderConfigurationTab()}
       </div>
+      
+      <AuthPopup 
+        isOpen={showAuthPopup} 
+        onClose={() => setShowAuthPopup(false)} 
+      />
     </div>
   );
 }
