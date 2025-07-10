@@ -11,12 +11,75 @@
   padding: 20px 0;
 }
 
-.logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #1e293b;
+.profileSection {
   padding: 0 20px;
   margin-bottom: 30px;
+  text-align: center;
+}
+
+.profileIcon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(180, 0, 104, 1);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 auto 12px auto;
+}
+
+.profileName {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.profileEmail {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin-bottom: 16px;
+}
+
+.profileButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.profileBtn {
+  padding: 8px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: white;
+  color: #374151;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.profileBtn:hover {
+  background: #f9fafb;
+  border-color: rgba(180, 0, 104, 0.3);
+}
+
+.logoutBtn {
+  background: rgba(180, 0, 104, 0.1);
+  border-color: rgba(180, 0, 104, 0.3);
+  color: rgba(180, 0, 104, 1);
+}
+
+.logoutBtn:hover {
+  background: rgba(180, 0, 104, 0.2);
 }
 
 .nav {
@@ -42,9 +105,9 @@
 }
 
 .navItem.active {
-  background: #eff6ff;
-  color: #2563eb;
-  border-left-color: #2563eb;
+  background: rgba(180, 0, 104, 0.1);
+  color: rgba(180, 0, 104, 1);
+  border-left-color: rgba(180, 0, 104, 1);
   font-weight: 500;
 }
 

@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import styles from "./AdminDashboard.module.css";
 
 type Lead = {
@@ -924,7 +925,21 @@ export default function AdminDashboard() {
   return (
     <div className={styles.dashboard}>
       <div className={styles.sidebar}>
-        <div className={styles.logo}>Admin Panel</div>
+        <div className={styles.profileSection}>
+          <div className={styles.profileIcon}>
+            👤
+          </div>
+          <div className={styles.profileName}>Admin User</div>
+          <div className={styles.profileEmail}>admin@company.com</div>
+          <div className={styles.profileButtons}>
+            <Link href="/" className={styles.profileBtn}>
+              🏠 Home
+            </Link>
+            <button className={`${styles.profileBtn} ${styles.logoutBtn}`}>
+              🚪 Logout
+            </button>
+          </div>
+        </div>
         <nav className={styles.nav}>
           {(["Leads", "Users", "Backoffice", "Configuration"] as Tab[]).map((tab) => (
             <button
