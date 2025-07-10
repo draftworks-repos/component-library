@@ -19,6 +19,7 @@ export default function EditProfilePanel({
   const [email, setEmail] = useState(currentEmail);
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [profileImage, setProfileImage] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
@@ -63,7 +64,25 @@ export default function EditProfilePanel({
     setName(currentName);
     setEmail(currentEmail);
     setMessage("");
+    setProfileImage(null);
     onClose();
+  };
+
+  const handleProfileImageClick = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setProfileImage(e.target?.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+    input.click();
   };
 
   const handleOverlayClick = (e: React.MouseEvent) => {
@@ -86,8 +105,27 @@ export default function EditProfilePanel({
 
         <div className={styles.content}>
           <div className={styles.profilePreview}>
-            <div className={styles.profileIcon}>
-              {name.charAt(0).toUpperCase() || "U"}
+            <div 
+              className={styles.profileIcon}
+              onClick={handleProfileImageClick}
+            >
+              {profileImage ? (
+                <img 
+                  src={profileImage} 
+                  alt="Profile" 
+                  style={{ 
+                    width: '100%', 
+                    height: '100%', 
+                    borderRadius: '50%', 
+                    objectFit: 'cover' 
+                  }} 
+                />
+              ) : (
+                name.charAt(0).toUpperCase() || "U"
+              )}
+              <div className={styles.profileIconOverlay}>
+                ✏️
+              </div>
             </div>
             <p className={styles.previewText}>Profile Preview</p>
           </div>

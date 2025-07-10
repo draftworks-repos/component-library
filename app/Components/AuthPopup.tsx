@@ -15,6 +15,7 @@ export default function AuthPopup({ isOpen, onClose }: AuthPopupProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
   const [showDashboard, setShowDashboard] = useState(false);
+  const [isAccountCreated, setIsAccountCreated] = useState(false);
 
   if (!isOpen) return null;
 
@@ -60,7 +61,8 @@ export default function AuthPopup({ isOpen, onClose }: AuthPopupProps) {
 
     // Simulate API call
     setTimeout(() => {
-      // Instead of showing success message, open SignUp panel
+      // Close auth popup and open SignUp panel
+      onClose();
       setShowSignUp(true);
       setIsLoading(false);
     }, 1000);
@@ -72,6 +74,7 @@ export default function AuthPopup({ isOpen, onClose }: AuthPopupProps) {
     
     // Simulate Google authentication
     setTimeout(() => {
+      onClose();
       setShowDashboard(true);
       setIsLoading(false);
     }, 1500);
@@ -160,6 +163,7 @@ export default function AuthPopup({ isOpen, onClose }: AuthPopupProps) {
         onClose={() => setShowSignUp(false)}
         onSuccess={() => {
           setShowSignUp(false);
+          setIsAccountCreated(true);
           setShowDashboard(true);
         }}
       />
@@ -169,7 +173,13 @@ export default function AuthPopup({ isOpen, onClose }: AuthPopupProps) {
         onClose={() => setShowDashboard(false)}
         onLogout={() => {
           setShowDashboard(false);
-          onClose();
+          // Only show auth popup again if account wasn't created
+          if (!isAccountCreated) {
+            // Reset auth popup state
+            setEmail("");
+            setError("");
+            setIsLoading(false);
+          }
         }}
       />
     </>

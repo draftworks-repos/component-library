@@ -59,6 +59,7 @@ export default function DashboardPanel({ isOpen, onClose, onLogout }: DashboardP
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [userName] = useState("Kunal");
   const [userEmail] = useState("kunal@company.com");
+  const [profileImage, setProfileImage] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
@@ -90,7 +91,23 @@ export default function DashboardPanel({ isOpen, onClose, onLogout }: DashboardP
 
   const handleLogout = () => {
     onLogout?.();
-    onClose();
+  };
+
+  const handleProfileImageClick = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setProfileImage(e.target?.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+    input.click();
   };
 
   const handleOverlayClick = (e: React.MouseEvent) => {
@@ -115,8 +132,27 @@ export default function DashboardPanel({ isOpen, onClose, onLogout }: DashboardP
             <div className={styles.profileSection}>
               <div className={styles.profileCard}>
                 <div className={styles.profileHeader}>
-                  <div className={styles.profileIcon}>
-                    {userName.charAt(0).toUpperCase()}
+                  <div 
+                    className={styles.profileIcon}
+                    onClick={handleProfileImageClick}
+                  >
+                    {profileImage ? (
+                      <img 
+                        src={profileImage} 
+                        alt="Profile" 
+                        style={{ 
+                          width: '100%', 
+                          height: '100%', 
+                          borderRadius: '50%', 
+                          objectFit: 'cover' 
+                        }} 
+                      />
+                    ) : (
+                      userName.charAt(0).toUpperCase()
+                    )}
+                    <div className={styles.profileIconOverlay}>
+                      ✏️
+                    </div>
                   </div>
                   <div className={styles.profileInfo}>
                     <h3 className={styles.profileName}>{userName}</h3>
