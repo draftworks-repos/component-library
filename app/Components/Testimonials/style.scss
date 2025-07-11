@@ -1,0 +1,310 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+
+// 1. RESETTINGS
+// 2. CARD TESTIMONIAL
+// 3. SWIPER TESTIMONIALS
+// 4. SWIPER BULLETS
+
+//--------------------------------- 1. SETTINGS
+:root {
+  --color-custom: #ffeba7;
+  --color-primary: #ff3671;
+  --color-text-dark: #0d0925;
+  --color-text-medium: #4e4a67;
+  --color-text-light: #7b7992;
+  --color-light: #fff;
+  --color-bg-medium: #4e4a67;
+  --color-bg: #26242e;
+  --spacing-base: 4px;
+  --gradient-bg: linear-gradient(45deg, #4527a0, #6a1b9a);
+  --shadow-base: 0px 14px 80px rgba(34, 35, 58, 0.2);
+  --shadow-colored: rgba(255, 54, 110, 0.2) 0px 0px 5px 0px,
+                    rgba(255, 54, 110, 0.4) 0px 3px 20px 0px,
+                    rgba(255, 54, 110, 0.3) 0px 10px 28px 0px;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+  text-decoration: none;
+}
+
+body {
+  background-size: 200% 200%;
+  min-height: 100vh;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: var(--color-bg);
+}
+
+h1 {
+  margin-bottom: 40px;
+  color: var(--color-light);
+  font-size: 44px;
+  text-align: center;
+}
+
+//--------------------------------- 2. CARD
+.c-card-testimonial {
+  .c-card-testimonial__profile {
+    width: 300px;
+    flex-shrink: 0;
+    height: 300px;
+    border-radius: 20px;
+    transform: translateX(-80px);
+    overflow: hidden;
+
+    @media screen and (max-width: 768px) {
+      transform: translateY(-50%);
+      width: 90%;
+    }
+
+    @media screen and (max-width: 576px) {
+      width: 95%;
+    }
+
+    @media screen and (max-height: 500px) and (min-width: 992px) {
+      height: 270px;
+    }
+    
+    .c-card-testimonial__image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 20px;
+      opacity: 0;
+      transition: all .3s;
+    }
+  }
+  
+  .c-card-testimonial__description {
+    padding-right: 25px;
+
+    @media screen and (max-width: 768px) {
+      margin-top: -80px;
+      text-align: center;
+      padding: 0 30px;
+    }
+
+    @media screen and (max-width: 576px) {
+      padding: 0
+    }
+
+    > * {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: all 400ms;
+    }
+    
+    .c-card-testimonial__job {
+      color: var(--color-text-light);
+    }
+
+    .c-card-testimonial__author {
+      margin: var(--spacing-base) 0 calc(var(--spacing-base) * 5);
+      color: var(--color-text-dark);
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .c-card-testimonial__excerpt {
+      margin-bottom: 30px;
+      color: var(--color-text-medium);
+      line-height: 1.5em;
+    }
+
+    .c-card-testimonial__link {
+      display: inline-flex;
+      justify-content: center;
+      padding: calc(var(--spacing-base) * 4) calc(var(--spacing-base) * 8);
+      color: var(--color-light);
+      background-color: var(--color-primary);
+      border-radius: 50px;
+      letter-spacing: 1px;
+      box-shadow: var(--shadow-colored);
+      text-transform: uppercase;
+
+      @media screen and (max-width: 576px) {
+        width: 100%;
+      }
+    }
+  }
+}
+
+//--------------------------------- 3. SWIPER TESTIMONIALS
+.c-testimonials {
+  width: 95%;
+  position: relative;
+  max-width: 800px;
+  margin: auto;
+  box-shadow: var(--shadow-base);
+  padding: calc(var(--spacing-base) * 8);
+  border-radius: 25px;
+  height: 400px;
+  background-color: var(--color-light);
+  transition: all 300ms;
+
+  @media screen and (max-width: 992px) {
+    max-width: 680px;
+    height: 400px;
+  }
+
+  @media screen and (max-width: 768px) {
+    min-height: 500px;
+    height: auto;
+    margin: 180px auto;
+  }
+
+  @media screen and (max-height: 500px) and (min-width: 992px) {
+    height: 350px;
+  }
+
+  .c-testimonials__item {
+    display: flex;
+    align-items: center;
+
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+    }
+
+    &.swiper-slide-active {
+      .c-card-testimonial__profile {
+        .c-card-testimonial__image {
+          opacity: 1;
+          transition-delay: 300ms;
+        }
+      }
+
+      .c-card-testimonial__description {
+        > * {
+          opacity: 1;
+          transform: none;
+
+          @for $i from 0 to 15 {
+            &:nth-child(#{$i + 1}) {
+              transition-delay: $i * 0.1 + 0.3s;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .c-testimonials__pagination {
+    position: absolute;
+    top: 50%;
+    right: calc(var(--spacing-base) * 5);
+    bottom: auto!important;
+    left: auto!important;
+    width: 11px!important;
+    text-align: center;
+    z-index: 21;
+    transform: translateY(-50%);
+
+    @media screen and (max-width: 768px) {
+      top: 205px;
+      left: 50%!important;
+      width: 100%!important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: translateX(-50%);
+    }
+
+    &.swiper-pagination-bullets {
+      .swiper-pagination-bullet {
+        margin: 8px 0;
+
+        @media screen and (max-width: 768px) {
+          margin: 0 5px;
+        }
+      }
+    }
+  }
+  
+  .c-testimonials__arrows {
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: calc(var(--spacing-base) * 3);
+    display: flex;
+    justify-content: center;
+    
+    @media screen and (min-width: 768px) {
+      justify-content: flex-end;
+      
+    }
+    
+    .c-testimonials__arrow {
+      &-next,
+      &-prev {
+        position: relative;
+        margin-left: calc(var(--spacing-base) * 2);
+        cursor: pointer;
+        outline: 0;
+        border: 0;
+        color: var(--color-light);
+        background-color: transparent;
+        font-size: 16px;
+        transition: color 300ms ease;
+        
+        &::before {
+          content: '';
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          right: 50%;
+          height: 1px;
+          background-color: var(--color-light);
+          transition: all 250ms ease;
+        }
+        
+        &:hover {
+          &::before {
+            left: 0;
+            right: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+//--------------------------------- 4. SWIPER JS BULLETS
+.swiper-container-horizontal {
+  > .swiper-pagination-bullets,
+  .swiper-pagination-custom,
+  .swiper-pagination-fraction {
+    bottom: calc(var(--spacing-base) * 3);
+    left: 0;
+    width: 100%;
+  }
+}
+
+.swiper-pagination-bullet {
+  $_bullet-size: 11px;
+
+  display: block;
+  width: $_bullet-size;
+  height: $_bullet-size;
+  border-radius: $_bullet-size;
+  background: var(--color-bg-medium);
+  transition: all .3s;
+
+  &-active {
+    height: calc(#{$_bullet-size} * 3);
+    background: var(--color-primary);
+
+    @media screen and (max-width: 768px) {
+      height: $_bullet-size;
+      width: calc(#{$_bullet-size} * 3);
+    }
+  }
+}
