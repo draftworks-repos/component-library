@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import Image from 'next/image';
 
 // Import Swiper React components
@@ -76,7 +76,39 @@ const testimonialsData = [
   },
 ];
 
+function useIsMobileOrTablet() {
+  const [isMobileOrTablet, setIsMobileOrTablet] = React.useState(false);
+  React.useEffect(() => {
+    function handleResize() {
+      setIsMobileOrTablet(window.innerWidth <= 992);
+    }
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  return isMobileOrTablet;
+}
+
 export default function TestimonialCarousel() {
+  const isMobileOrTablet = useIsMobileOrTablet();
+  const [expandedIndexes, setExpandedIndexes] = useState<{ [key: number]: boolean }>({});
+  const swiperRef = useRef<any>(null);
+
+  const handleReadMore = (index: number) => {
+    setExpandedIndexes((prev) => ({ ...prev, [index]: true }));
+  };
+
+  const handlePrev = () => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.slidePrev();
+    }
+  };
+  const handleNext = () => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.slideNext();
+    }
+  };
+
   return (
     <div className={styles.wrapper}>
       <h1>Testimonials Swiper JS</h1>
@@ -98,39 +130,62 @@ export default function TestimonialCarousel() {
             prevEl: '.c-testimonials__arrow-prev',
           }}
           className="mySwiper"
+          ref={swiperRef}
         >
-          {testimonialsData.map((testimonial, index) => (
-            <SwiperSlide key={index} className={styles.swiperWrapper}>
-              <div className={styles.cCardTestimonial}>
-                <div className={styles.cCardTestimonialProfile}>
-                  <Image
-                    src={testimonial.imageUrl}
-                    alt={`${testimonial.name}'s profile picture`}
-                    width={300}
-                    height={300}
-                    objectFit="cover"
-                  />
+          {testimonialsData.map((testimonial, index) => {
+            let excerpt = testimonial.text;
+            let showReadMore = false;
+            if (isMobileOrTablet && !expandedIndexes[index]) {
+              const words = testimonial.text.split(' ');
+              if (words.length > 20) {
+                excerpt = words.slice(0, 20).join(' ') + '...';
+                showReadMore = true;
+              }
+            }
+            return (
+              <SwiperSlide key={index} className={styles.swiperWrapper}>
+                <div className={styles.cCardTestimonial}>
+                  <div className={styles.cCardTestimonialProfile}>
+                    <Image
+                      src={testimonial.imageUrl}
+                      alt={`${testimonial.name}'s profile picture`}
+                      width={300}
+                      height={300}
+                      objectFit="cover"
+                    />
+                  </div>
+                  <div className={styles.cCardTestimonialDescription}>
+                    <div className={styles.cCardTestimonialAuthor}>{testimonial.name}</div>
+                    <a href={testimonial.googleReviewUrl} className={styles.googleReview} target="_blank" rel="noopener noreferrer">
+                      <div className={styles.stars}>★★★★★</div>
+                      <Image src="/google.svg" alt="Google" width={20} height={20} />
+                      <span>Google Review</span>
+                    </a>
+                    <div className={styles.cCardTestimonialExcerpt}>
+                      {excerpt}
+                      {showReadMore && (
+                        <>
+                          {' '}
+                          <button style={{ color: '#0070f3', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }} onClick={() => handleReadMore(index)}>
+                            read more
+                          </button>
+                        </>
+                      )}
+                    </div>
+                    {/* Navigation controls inside card */}
+                    <div className={styles.cardNavContainer}>
+                      <button className={styles.cardNavButton} onClick={handlePrev} aria-label="Previous testimonial">
+                        <svg viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18" /></svg>
+                      </button>
+                      <button className={styles.cardNavButton} onClick={handleNext} aria-label="Next testimonial">
+                        <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18" /></svg>
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div className={styles.cCardTestimonialDescription}>
-                  <div className={styles.cCardTestimonialAuthor}>{testimonial.name}</div>
-                  <a href={testimonial.googleReviewUrl} className={styles.googleReview} target="_blank" rel="noopener noreferrer">
-                    <div className={styles.stars}>★★★★★</div>
-                    <Image src="/google.svg" alt="Google" width={20} height={20} />
-                    <span>Google Review</span>
-                  </a>
-                  <div className={styles.cCardTestimonialExcerpt}>{testimonial.text}</div>
-                  <a
-                    href={testimonial.linkedinUrl}
-                    className={styles.cCardTestimonialLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    More on Linkedin
-                  </a>
-                </div>
-              </div>
-            </SwiperSlide>
-          ))}
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
         <div className="c-testimonials__pagination"></div>
         <div className={styles.cTestimonialsArrows}>

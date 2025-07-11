@@ -126,7 +126,7 @@
   box-shadow: var(--shadow-base);
   padding: calc(var(--spacing-base) * 8);
   border-radius: 25px;
-  height: 500px;
+  height: 450px;
   background-color: var(--color-light);
   transition: all 300ms;
 }
@@ -171,7 +171,7 @@
   position: absolute;
   top: 100%;
   left: 0;
-  margin-top: calc(var(--spacing-base) * 3);
+  margin-top: calc(var(--spacing-base) * 5);
   display: flex;
   justify-content: center;
 }
@@ -179,11 +179,12 @@
 .cTestimonialsArrows :global(.c-testimonials__arrow-prev),
 .cTestimonialsArrows :global(.c-testimonials__arrow-next) {
   position: relative;
-  margin-left: calc(var(--spacing-base) * 2);
+  margin-left: calc(var(--spacing-base) * 5);
+  margin-right: calc(var(--spacing-base) * 3);
   cursor: pointer;
   outline: 0;
   border: 0;
-  color: var(--color-light);
+  color: var(--color-primary);
   background-color: transparent;
   font-size: 16px;
   transition: color 300ms ease;
@@ -197,7 +198,7 @@
   left: 50%;
   right: 50%;
   height: 1px;
-  background-color: var(--color-light);
+  background-color: var(--color-primary);
   transition: all 250ms ease;
 }
 
@@ -221,6 +222,10 @@
     height: auto;
     padding-bottom: 60px;
   }
+
+  .googleReview {
+    justify-content: center;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -233,7 +238,6 @@
     flex-direction: column;
   }
   .cCardTestimonialProfile {
-    transform: translateY(-50%);
     width: 90%;
   }
   .cCardTestimonialDescription {
@@ -241,15 +245,19 @@
     padding: 0 30px;
   }
   .cTestimonials :global(.c-testimonials__pagination) {
-    top: 205px;
     left: 50%!important;
+    bottom: -35%!important;
     width: 100%!important;
+    margin-top: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     transform: translateX(-50%);
   }
   .cTestimonialsArrows {
+    justify-content: center;
+  }
+  .googleReview {
     justify-content: center;
   }
 }
@@ -264,6 +272,9 @@
   .cCardTestimonialLink {
     width: 100%;
   }
+  .googleReview {
+    justify-content: center;
+  }
 }
 
 @media screen and (max-height: 500px) and (min-width: 992px) {
@@ -272,6 +283,9 @@
   }
   .cCardTestimonialProfile {
     height: 270px;
+  }
+  .googleReview {
+    justify-content: center;
   }
 }
 
@@ -301,14 +315,61 @@
     height: var(--_bullet-size);
     width: calc(var(--_bullet-size) * 3);
   }
+  .googleReview {
+    justify-content: center;
+  }
 }
 
 @media screen and (min-width: 768px) {
     .cTestimonialsArrows {
         justify-content: flex-end;
     }
+    
 } 
 
 .cTestimonials :global(.swiper) {
+  width: 100%;
+  height: 100%;
   overflow: visible !important;
+}
+
+.cardNavButton {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6a1b9a, #8e245c);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(106, 27, 154, 0.15);
+  margin: 0 6px;
+}
+
+.cardNavButton svg {
+  width: 22px;
+  height: 22px;
+  stroke: #fff;
+  stroke-width: 2.5;
+  fill: none;
+}
+
+.cardNavButton:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 16px rgba(106, 27, 154, 0.25);
+}
+
+.cardNavContainer {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  justify-content: flex-start;
+}
+
+@media screen and (max-width: 992px) {
+  .cardNavContainer {
+    justify-content: center;
+  }
 }
