@@ -7,7 +7,6 @@
   --color-text-light: #7b7992;
   --color-light: #fff;
   --color-bg-medium: #4e4a67;
-  --color-bg: #26242e;
   --spacing-base: 4px;
   --gradient-bg: linear-gradient(45deg, #4527a0, #6a1b9a);
   --shadow-base: 0px 14px 80px rgba(34, 35, 58, 0.2);
@@ -26,16 +25,19 @@
 }
 
 .wrapper h1 {
-  margin-bottom: 40px;
-  color: var(--color-light);
+  color: var(--color-primary);
   font-size: 44px;
   text-align: center;
 }
 
 /* 2. CARD */
 .cCardTestimonial {
+  min-width: 100%;
+  min-height: 100%;
   display: flex;
+  justify-content: center;
   align-items: center;
+  gap: 40px;
 }
 
 .cCardTestimonialProfile {
@@ -43,8 +45,8 @@
   flex-shrink: 0;
   height: 300px;
   border-radius: 20px;
-  transform: translateX(-80px);
   overflow: hidden;
+  align-self: center !important;
 }
 
 .cCardTestimonialProfile img {
@@ -58,6 +60,8 @@
 
 .cCardTestimonialDescription {
   padding-right: 25px;
+  min-height: fit-content;
+  width: 100%;
 }
 
 .cCardTestimonialDescription > * {
@@ -233,7 +237,6 @@
     width: 90%;
   }
   .cCardTestimonialDescription {
-    margin-top: -80px;
     text-align: center;
     padding: 0 30px;
   }
@@ -305,3 +308,7 @@
         justify-content: flex-end;
     }
 } 
+
+.cTestimonials :global(.swiper) {
+  overflow: visible !important;
+}

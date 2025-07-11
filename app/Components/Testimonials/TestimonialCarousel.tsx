@@ -19,71 +19,57 @@ import styles from './TestimonialCarousel.module.scss';
 
 const testimonialsData = [
   {
-    name: 'Zzor',
-    text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae aliquid ut, explicabo sit fugiat recusandae dolore omnis minus sequi incidunt aut doloribus minima soluta velit, nobis, est eos iste at! '.repeat(3),
+    name: 'Angana Roy',
+    text: '“I had gotten in touch with them through a friend. Adwitiya was extremely helpful and prompt with all of my queries. They provided legal advice in a way which was easy to understand for a layman like me. All love and wishes to them. Would definitely recommend further.”',
     linkedinUrl: 'https://www.linkedin.com/in/hugo-salazar/',
     imageUrl: 'https://www.ats.hugo-salazar.com/wp-content/uploads/2023/04/zzor.jpeg',
     googleReviewUrl: '#',
   },
   {
-    name: 'Amón Lopez',
-    text: 'Asperiores tempora id corporis ab reiciendis enim odio expedita dolorum recusandae! Perspiciatis ullam commodi expedita veritatis, architecto molestiae tempora magni voluptas voluptatem. Facilis consequuntur vitae magnam magni? Corrupti, aperiam excepturi! '.repeat(3),
+    name: 'Shyam Gupta',
+    text: '“I had gotten in touch with them through a friend. Adwitiya was extremely helpful and prompt with all of my queries. They provided legal advice in a way which was easy to understand for a layman like me. All love and wishes to them. Would definitely recommend further.”',
     linkedinUrl: 'https://www.linkedin.com/in/hugo-salazar/',
     imageUrl: 'https://www.ats.hugo-salazar.com/wp-content/uploads/2023/04/pincho.jpeg',
     googleReviewUrl: '#',
   },
   {
-    name: 'Jane Doe',
-    text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae aliquid ut, explicabo sit fugiat recusandae dolore omnis minus sequi incidunt aut doloribus minima soluta velit, nobis, est eos iste at! '.repeat(3),
+    name: 'Mechtrobo Private Limited',
+    text: '“Thank you Team Delfyle for on time delivering you commitment. Recommended by one of my friend when I&#39;m struggling with my ITR & license related work, you people&#39;s really help us in a great manner.”',
     linkedinUrl: 'https://www.linkedin.com/in/hugo-salazar/',
     imageUrl: 'https://www.ats.hugo-salazar.com/wp-content/uploads/2023/04/zzor.jpeg',
     googleReviewUrl: '#',
   },
   {
-    name: 'John Smith',
-    text: 'Asperiores tempora id corporis ab reiciendis enim odio expedita dolorum recusandae! Perspiciatis ullam commodi expedita veritatis, architecto molestiae tempora magni voluptas voluptatem. Facilis consequuntur vitae magnam magni? Corrupti, aperiam excepturi! '.repeat(3),
+    name: 'Shantanu Samaddar',
+    text: '“The team is vey friendly in communication, yet professional in execution. Makes best and correct use of information provided and usually comes up with the best solution possible. There is usually no back and forth with information and documents to reach a conclusion or solution. In short, friendly, quick, confident and fair priced.”',
     linkedinUrl: 'https://www.linkedin.com/in/hugo-salazar/',
     imageUrl: 'https://www.ats.hugo-salazar.com/wp-content/uploads/2023/04/pincho.jpeg',
     googleReviewUrl: '#',
   },
   {
-    name: 'Emily White',
-    text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae aliquid ut, explicabo sit fugiat recusandae dolore omnis minus sequi incidunt aut doloribus minima soluta velit, nobis, est eos iste at! '.repeat(3),
+    name: 'Shashank Shekhar Singh ',
+    text: '“We’ve had an outstanding experience working with Delfyle. Their team has been absolutely helpful at every step—whether it was company registration, trademark filings, GST, ITR, tax audits, or accounting and other matters. They were always available, responsive, and proactive in finding the right solutions for our compliance needs. What sets Delfyle apart is their deep understanding of regulatory requirements and their commitment to making the process seamless and stress-free. Their support has been instrumental in helping our organization stay compliant and grow with confidence.”',
     linkedinUrl: 'https://www.linkedin.com/in/hugo-salazar/',
     imageUrl: 'https://www.ats.hugo-salazar.com/wp-content/uploads/2023/04/zzor.jpeg',
     googleReviewUrl: '#',
   },
   {
-    name: 'Chris Green',
-    text: 'Asperiores tempora id corporis ab reiciendis enim odio expedita dolorum recusandae! Perspiciatis ullam commodi expedita veritatis, architecto molestiae tempora magni voluptas voluptatem. Facilis consequuntur vitae magnam magni? Corrupti, aperiam excepturi! '.repeat(3),
+    name: 'Trishila Roy',
+    text: '“I have approached Delfyle for Trademark few months back. Loved their energy towards their work!! The team is highly professional and enthusiastic! Got my services delivered on time with minimal fees! Thank you Team Delfyle! You guys are amazing. Period.”',
     linkedinUrl: 'https://www.linkedin.com/in/hugo-salazar/',
     imageUrl: 'https://www.ats.hugo-salazar.com/wp-content/uploads/2023/04/pincho.jpeg',
     googleReviewUrl: '#',
   },
   {
-    name: 'Sarah Brown',
-    text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae aliquid ut, explicabo sit fugiat recusandae dolore omnis minus sequi incidunt aut doloribus minima soluta velit, nobis, est eos iste at! '.repeat(3),
+    name: 'Subhanil Basu',
+    text: '“Great service provided by the team. The professionals are highly talented and does the work seamlessly and efficiently! Highly recommend.”',
     linkedinUrl: 'https://www.linkedin.com/in/hugo-salazar/',
     imageUrl: 'https://www.ats.hugo-salazar.com/wp-content/uploads/2023/04/zzor.jpeg',
     googleReviewUrl: '#',
   },
   {
-    name: 'Michael Black',
-    text: 'Asperiores tempora id corporis ab reiciendis enim odio expedita dolorum recusandae! Perspiciatis ullam commodi expedita veritatis, architecto molestiae tempora magni voluptas voluptatem. Facilis consequuntur vitae magnam magni? Corrupti, aperiam excepturi! '.repeat(3),
-    linkedinUrl: 'https://www.linkedin.com/in/hugo-salazar/',
-    imageUrl: 'https://www.ats.hugo-salazar.com/wp-content/uploads/2023/04/pincho.jpeg',
-    googleReviewUrl: '#',
-  },
-  {
-    name: 'Laura Grey',
-    text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae aliquid ut, explicabo sit fugiat recusandae dolore omnis minus sequi incidunt aut doloribus minima soluta velit, nobis, est eos iste at! '.repeat(3),
-    linkedinUrl: 'https://www.linkedin.com/in/hugo-salazar/',
-    imageUrl: 'https://www.ats.hugo-salazar.com/wp-content/uploads/2023/04/zzor.jpeg',
-    googleReviewUrl: '#',
-  },
-  {
-    name: 'David Purple',
-    text: 'Asperiores tempora id corporis ab reiciendis enim odio expedita dolorum recusandae! Perspiciatis ullam commodi expedita veritatis, architecto molestiae tempora magni voluptas voluptatem. Facilis consequuntur vitae magnam magni? Corrupti, aperiam excepturi! '.repeat(3),
+    name: 'Shreyash Subudhi',
+    text: '“The team has been very helpful in delivering my needful requirements. The team have been able to provide services beyond their area of presence. A professional and humble team at the same time.”',
     linkedinUrl: 'https://www.linkedin.com/in/hugo-salazar/',
     imageUrl: 'https://www.ats.hugo-salazar.com/wp-content/uploads/2023/04/pincho.jpeg',
     googleReviewUrl: '#',
@@ -114,7 +100,7 @@ export default function TestimonialCarousel() {
           className="mySwiper"
         >
           {testimonialsData.map((testimonial, index) => (
-            <SwiperSlide key={index}>
+            <SwiperSlide key={index} className={styles.swiperWrapper}>
               <div className={styles.cCardTestimonial}>
                 <div className={styles.cCardTestimonialProfile}>
                   <Image
