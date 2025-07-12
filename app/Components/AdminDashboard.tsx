@@ -210,9 +210,6 @@ export default function AdminDashboard() {
   const [showStatusDropdown, setShowStatusDropdown] = useState<string | null>(null);
   const [leadAssignments, setLeadAssignments] = useState<{[key: string]: string}>({});
   const [leadStatuses, setLeadStatuses] = useState<{[key: string]: string}>({});
-  const [showBulkDropdown, setShowBulkDropdown] = useState(false);
-  const [showFilterDropdown, setShowFilterDropdown] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     setMounted(true);
@@ -225,28 +222,7 @@ export default function AdminDashboard() {
     });
     setLeadAssignments(defaultAssignments);
     setLeadStatuses(defaultStatuses);
-
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
-      if (!target.closest('[data-dropdown="bulk"]')) {
-        setShowBulkDropdown(false);
-      }
-      if (!target.closest('[data-dropdown="filter"]')) {
-        setShowFilterDropdown(false);
-      }
-      if (!target.closest(`[data-dropdown="assigned-${showAssignedDropdown}"]`)) {
-        setShowAssignedDropdown(null);
-      }
-      if (!target.closest(`[data-dropdown="status-${showStatusDropdown}"]`)) {
-        setShowStatusDropdown(null);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [showAssignedDropdown, showStatusDropdown]);
+  }, []);
 
   if (!mounted) {
     return null;
@@ -300,10 +276,6 @@ export default function AdminDashboard() {
     setShowAssignedDropdown(null);
   };
 
-  const toTitleCase = (str: string) => {
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  };
-
   const handleStatusChange = (leadId: string, status: string) => {
     setLeadStatuses(prev => ({ ...prev, [leadId]: status }));
     setShowStatusDropdown(null);
@@ -355,16 +327,6 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleBulkAction = (action: string) => {
-    console.log(`Bulk action: ${action}`);
-    setShowBulkDropdown(false);
-  };
-
-  const handleSearch = () => {
-    console.log(`Searching for: ${searchTerm}`);
-    // Implement search logic here
-  };
-
   const renderLeadsTab = () => (
     <div className={styles.leadsContainer}>
       <div className={styles.leadsHeader}>
@@ -392,7 +354,7 @@ export default function AdminDashboard() {
             <span className={styles.statSubValue}>1,200</span>
           </div>
         </div>
-
+        
         <div className={styles.statCard} style={{ backgroundColor: '#fefce8' }}>
           <div className={styles.statHeader}>
             <span className={styles.statTitle}>PENDING</span>
@@ -407,7 +369,7 @@ export default function AdminDashboard() {
             <span className={styles.statSubValue}>450</span>
           </div>
         </div>
-
+        
         <div className={styles.statCard} style={{ backgroundColor: '#f0fdf4' }}>
           <div className={styles.statHeader}>
             <span className={styles.statTitle}>ASSIGNED</span>
@@ -422,7 +384,7 @@ export default function AdminDashboard() {
             <span className={styles.statSubValue}>825</span>
           </div>
         </div>
-
+        
         <div className={styles.statCard} style={{ backgroundColor: '#fef2f2' }}>
           <div className={styles.statHeader}>
             <span className={styles.statTitle}>REJECTED</span>
@@ -441,109 +403,12 @@ export default function AdminDashboard() {
 
       <div className={styles.tableControls}>
         <div className={styles.leftControls}>
-          <div style={{ position: 'relative' }} data-dropdown="bulk">
-            <button 
-              className={styles.bulkBtn}
-              onClick={() => setShowBulkDropdown(!showBulkDropdown)}
-            >
-              Bulk Actions
-            </button>
-            {showBulkDropdown && (
-              <div className={styles.modernDropdown}>
-                <div className={styles.dropdownArrowUp}></div>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => handleBulkAction('trash')}
-                  style={{ color: '#374151' }}
-                >
-                  🗑️ Trash
-                </button>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => handleBulkAction('download')}
-                  style={{ color: '#374151' }}
-                >
-                  ⬇️ Download
-                </button>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => handleBulkAction('export')}
-                  style={{ color: '#374151' }}
-                >
-                  📤 Export
-                </button>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => handleBulkAction('assign')}
-                  style={{ color: '#374151' }}
-                >
-                  👤 Assign
-                </button>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => handleBulkAction('archive')}
-                  style={{ color: '#374151' }}
-                >
-                  📁 Archive
-                </button>
-              </div>
-            )}
-          </div>
+          <button className={styles.bulkBtn}>Bulk Actions</button>
           <button className={styles.refreshBtn}>↻</button>
         </div>
         <div className={styles.rightControls}>
-          <input 
-            type="text" 
-            placeholder="Search text" 
-            className={styles.searchInput}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-          />
-          <button className={styles.searchBtn} onClick={handleSearch}>🔍 Search</button>
-          <div style={{ position: 'relative' }} data-dropdown="filter">
-            <button 
-              className={styles.filterBtn}
-              onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-            >
-              ⚙ Filter
-            </button>
-            {showFilterDropdown && (
-              <div className={styles.modernDropdown}>
-                <div className={styles.dropdownArrowUp}></div>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => console.log('Filter by status')}
-                >
-                  Status
-                </button>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => console.log('Filter by assigned')}
-                >
-                  Assigned
-                </button>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => console.log('Filter by date')}
-                >
-                  Date Range
-                </button>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => console.log('Filter by priority')}
-                >
-                  Priority
-                </button>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => console.log('Clear filters')}
-                >
-                  Clear All
-                </button>
-              </div>
-            )}
-          </div>
+          <input type="text" placeholder="Search text" className={styles.searchInput} />
+          <button className={styles.filterBtn}>⚙ Filter</button>
           <button className={styles.viewBtn}>⊞ View</button>
         </div>
       </div>
@@ -616,7 +481,7 @@ export default function AdminDashboard() {
                   </button>
                 </td>
                 <td>
-                  <div style={{ position: 'relative' }} data-dropdown={`assigned-${lead.id}`}>
+                  <div style={{ position: 'relative' }}>
                     <button
                       onClick={() => setShowAssignedDropdown(showAssignedDropdown === lead.id ? null : lead.id)}
                       className={styles.dropdownButton}
@@ -624,11 +489,11 @@ export default function AdminDashboard() {
                         color: leadAssignments[lead.id] === 'BOE1' ? '#3b82f6' : 
                                leadAssignments[lead.id] === 'BOE2' ? '#10b981' :
                                leadAssignments[lead.id] === 'BOE3' ? '#f59e0b' :
-                               leadAssignments[lead.id] === 'BOE4' ? '#8b5cf6' : '#ef4444',
-                        justifyContent: 'center' // Center the text
+                               leadAssignments[lead.id] === 'BOE4' ? '#8b5cf6' : '#ef4444'
                       }}
                     >
                       {leadAssignments[lead.id] || 'BOE1'}
+                      <span className={styles.dropdownArrow}>▼</span>
                     </button>
                     {showAssignedDropdown === lead.id && (
                       <div className={styles.modernDropdown}>
@@ -653,17 +518,17 @@ export default function AdminDashboard() {
                   </div>
                 </td>
                 <td>
-                  <div style={{ position: 'relative' }} data-dropdown={`status-${lead.id}`}>
+                  <div style={{ position: 'relative' }}>
                     <button
                       onClick={() => setShowStatusDropdown(showStatusDropdown === lead.id ? null : lead.id)}
                       className={styles.dropdownButton}
                       style={{
                         color: leadStatuses[lead.id] === 'assigned' ? '#f59e0b' : 
-                               leadStatuses[lead.id] === 'pending' ? '#ef4444' : '#10b981',
-                        justifyContent: 'center' // Center the text
+                               leadStatuses[lead.id] === 'pending' ? '#ef4444' : '#10b981'
                       }}
                     >
-                      {toTitleCase(leadStatuses[lead.id] || 'assigned')}
+                      {leadStatuses[lead.id] || 'assigned'}
+                      <span className={styles.dropdownArrow}>▼</span>
                     </button>
                     {showStatusDropdown === lead.id && (
                       <div className={styles.modernDropdown}>
@@ -775,7 +640,7 @@ export default function AdminDashboard() {
             <span className={styles.statSubValue}>42,156</span>
           </div>
         </div>
-
+        
         <div className={styles.statCard} style={{ backgroundColor: '#f0f9ff' }}>
           <div className={styles.statHeader}>
             <span className={styles.statTitle}>VERIFIED USERS</span>
@@ -790,7 +655,7 @@ export default function AdminDashboard() {
             <span className={styles.statSubValue}>4,000</span>
           </div>
         </div>
-
+        
         <div className={styles.statCard} style={{ backgroundColor: '#fefce8' }}>
           <div className={styles.statHeader}>
             <span className={styles.statTitle}>USER ACTIVITY</span>
@@ -807,7 +672,7 @@ export default function AdminDashboard() {
             <span className={styles.statPercentage}>+8%</span>
           </div>
         </div>
-
+        
         <div className={styles.statCard} style={{ backgroundColor: '#f0fdf4' }}>
           <div className={styles.statHeader}>
             <span className={styles.statTitle}>PERMISSIONS</span>
@@ -826,109 +691,12 @@ export default function AdminDashboard() {
 
       <div className={styles.tableControls}>
         <div className={styles.leftControls}>
-          <div style={{ position: 'relative' }} data-dropdown="bulk">
-            <button 
-              className={styles.bulkBtn}
-              onClick={() => setShowBulkDropdown(!showBulkDropdown)}
-            >
-              Bulk Actions
-            </button>
-            {showBulkDropdown && (
-              <div className={styles.modernDropdown}>
-                <div className={styles.dropdownArrowUp}></div>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => handleBulkAction('trash')}
-                  style={{ color: '#374151' }}
-                >
-                  🗑️ Trash
-                </button>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => handleBulkAction('download')}
-                  style={{ color: '#374151' }}
-                >
-                  ⬇️ Download
-                </button>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => handleBulkAction('export')}
-                  style={{ color: '#374151' }}
-                >
-                  📤 Export
-                </button>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => handleBulkAction('assign')}
-                  style={{ color: '#374151' }}
->
-                  👤 Assign
-                </button>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => handleBulkAction('archive')}
-                  style={{ color: '#374151' }}
-                >
-                  📁 Archive
-                </button>
-              </div>
-            )}
-          </div>
+          <button className={styles.bulkBtn}>Bulk Actions</button>
           <button className={styles.refreshBtn}>↻</button>
         </div>
         <div className={styles.rightControls}>
-          <input 
-            type="text" 
-            placeholder="Search text" 
-            className={styles.searchInput}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-          />
-          <button className={styles.searchBtn} onClick={handleSearch}>🔍 Search</button>
-          <div style={{ position: 'relative' }} data-dropdown="filter">
-            <button 
-              className={styles.filterBtn}
-              onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-            >
-              ⚙ Filter
-            </button>
-            {showFilterDropdown && (
-              <div className={styles.modernDropdown}>
-                <div className={styles.dropdownArrowUp}></div>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => console.log('Filter by status')}
-                >
-                  Status
-                </button>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => console.log('Filter by assigned')}
-                >
-                  Assigned
-                </button>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => console.log('Filter by date')}
-                >
-                  Date Range
-                </button>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => console.log('Filter by priority')}
-                >
-                  Priority
-                </button>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => console.log('Clear filters')}
-                >
-                  Clear All
-                </button>
-              </div>
-            )}
-          </div>
+          <input type="text" placeholder="Search text" className={styles.searchInput} />
+          <button className={styles.filterBtn}>⚙ Filter</button>
           <button className={styles.viewBtn}>⊞ View</button>
         </div>
       </div>
@@ -974,7 +742,7 @@ export default function AdminDashboard() {
                 <td className={styles.emailCell}>{user.email}</td>
                 <td>{user.phone}</td>
                 <td>
-                  {user.assigned}
+                  <div className={styles.avatar}>{user.assigned}</div>
                 </td>
                 <td>
                   <span 
@@ -1078,7 +846,7 @@ export default function AdminDashboard() {
             <span className={styles.statSubValue}>7</span>
           </div>
         </div>
-
+        
         <div className={styles.statCard} style={{ backgroundColor: '#f0f9ff' }}>
           <div className={styles.statHeader}>
             <span className={styles.statTitle}>IN PROGRESS</span>
@@ -1093,7 +861,7 @@ export default function AdminDashboard() {
             <span className={styles.statSubValue}>297</span>
           </div>
         </div>
-
+        
         <div className={styles.statCard} style={{ backgroundColor: '#fefce8' }}>
           <div className={styles.statHeader}>
             <span className={styles.statTitle}>COMPLETED</span>
@@ -1110,7 +878,7 @@ export default function AdminDashboard() {
             <span className={styles.statPercentage}>+8%</span>
           </div>
         </div>
-
+        
         <div className={styles.statCard} style={{ backgroundColor: '#f0fdf4' }}>
           <div className={styles.statHeader}>
             <span className={styles.statTitle}>EFFICIENCY</span>
@@ -1129,109 +897,12 @@ export default function AdminDashboard() {
 
       <div className={styles.tableControls}>
         <div className={styles.leftControls}>
-          <div style={{ position: 'relative' }} data-dropdown="bulk">
-            <button 
-              className={styles.bulkBtn}
-              onClick={() => setShowBulkDropdown(!showBulkDropdown)}
-            >
-              Bulk Actions
-            </button>
-            {showBulkDropdown && (
-              <div className={styles.modernDropdown}>
-                <div className={styles.dropdownArrowUp}></div>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => handleBulkAction('trash')}
-                  style={{ color: '#374151' }}
-                >
-                  🗑️ Trash
-                </button>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => handleBulkAction('download')}
-                  style={{ color: '#374151' }}
-                >
-                  ⬇️ Download
-                </button>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => handleBulkAction('export')}
-                  style={{ color: '#374151' }}
-                >
-                  📤 Export
-                </button>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => handleBulkAction('assign')}
-                  style={{ color: '#374151' }}
-                >
-                  👤 Assign
-                </button>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => handleBulkAction('archive')}
-                  style={{ color: '#374151' }}
-                >
-                  📁 Archive
-                </button>
-              </div>
-            )}
-          </div>
+          <button className={styles.bulkBtn}>Bulk Actions</button>
           <button className={styles.refreshBtn}>↻</button>
         </div>
         <div className={styles.rightControls}>
-          <input 
-            type="text" 
-            placeholder="Search text" 
-            className={styles.searchInput}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-          />
-          <button className={styles.searchBtn} onClick={handleSearch}>🔍 Search</button>
-          <div style={{ position: 'relative' }} data-dropdown="filter">
-            <button 
-              className={styles.filterBtn}
-              onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-            >
-              ⚙ Filter
-            </button>
-            {showFilterDropdown && (
-              <div className={styles.modernDropdown}>
-                <div className={styles.dropdownArrowUp}></div>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => console.log('Filter by status')}
-                >
-                  Status
-                </button>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => console.log('Filter by assigned')}
-                >
-                  Assigned
-                </button>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => console.log('Filter by date')}
-                >
-                  Date Range
-                </button>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => console.log('Filter by priority')}
-                >
-                  Priority
-                </button>
-                <button
-                  className={styles.modernDropdownItem}
-                  onClick={() => console.log('Clear filters')}
-                >
-                  Clear All
-                </button>
-              </div>
-            )}
-          </div>
+          <input type="text" placeholder="Search text" className={styles.searchInput} />
+          <button className={styles.filterBtn}>⚙ Filter</button>
           <button className={styles.viewBtn}>⊞ View</button>
         </div>
       </div>
@@ -1277,7 +948,7 @@ export default function AdminDashboard() {
                 <td className={styles.emailCell}>{item.email}</td>
                 <td>{item.phone}</td>
                 <td>
-                  {item.assigned}
+                  <div className={styles.avatar}>{item.assigned}</div>
                 </td>
                 <td>
                   <span 
@@ -1388,13 +1059,13 @@ export default function AdminDashboard() {
           ))}
         </nav>
       </div>
-
+      
       <div className={styles.content}>
         {activeTab === "Leads" && renderLeadsTab()}
         {activeTab === "Users" && renderUsersTab()}
         {activeTab === "Backoffice" && renderBackofficeTab()}
       </div>
-
+      
       <AuthManager 
         isOpen={showAuthPopup} 
         onClose={() => setShowAuthPopup(false)} 
