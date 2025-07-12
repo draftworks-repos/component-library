@@ -7,9 +7,9 @@ import styles from "./AdminDashboard.module.css";
 type Lead = {
   id: string;
   name: string;
-  company: string;
   email: string;
   phone: string;
+  message: string;
   assigned: string;
   status: "Customer" | "Qualified" | "Working" | "Contacted" | "Proposal Sent";
   created: string;
@@ -41,9 +41,9 @@ const mockLeads: Lead[] = [
   {
     id: "#3066",
     name: "Olivia Rhye",
-    company: "Empire Mark",
     email: "rhye@empiremark.io",
     phone: "+1 (318) 698-3149",
+    message: "Interested in your property listings and would like to schedule a meeting to discuss investment opportunities.",
     assigned: "OL",
     status: "Customer",
     created: "Just now"
@@ -51,9 +51,9 @@ const mockLeads: Lead[] = [
   {
     id: "#3065",
     name: "Phoenix Baker",
-    company: "Wit Ventures",
     email: "baker@witventures.com",
     phone: "+1 (320) 507-6709",
+    message: "Looking for commercial property options in downtown area. Budget range 500K-1M.",
     assigned: "PB",
     status: "Qualified",
     created: "44 mins ago"
@@ -61,9 +61,9 @@ const mockLeads: Lead[] = [
   {
     id: "#3064",
     name: "Lana Steiner",
-    company: "Factor Four",
     email: "steiner@factorfour.com",
     phone: "+1 (208) 608-6292",
+    message: "Need more details on Riverfront project. When can we schedule a site visit?",
     assigned: "LS",
     status: "Working",
     created: "3 hr ago"
@@ -71,9 +71,9 @@ const mockLeads: Lead[] = [
   {
     id: "#3063",
     name: "Demi Wilkinson",
-    company: "Market Square",
     email: "wilkinson@marketsq.com",
     phone: "+1 (317) 234-6462",
+    message: "Following up on last week's discussion about the Twin Tower project.",
     assigned: "DW",
     status: "Contacted",
     created: "7 hr ago"
@@ -81,9 +81,9 @@ const mockLeads: Lead[] = [
   {
     id: "#3062",
     name: "Candice Wu",
-    company: "Voice Firm",
     email: "candice@voicefirm.com",
     phone: "+1 (860) 539-7061",
+    message: "Seeking commercial property options for expanding business operations.",
     assigned: "CW",
     status: "Qualified",
     created: "12 hr ago"
@@ -91,9 +91,9 @@ const mockLeads: Lead[] = [
   {
     id: "#3061",
     name: "Natali Craig",
-    company: "Maxus Media",
     email: "natali@maxusmedia.net",
     phone: "+1 (540) 683-1441",
+    message: "Can we get a quotation for the residential plots in the new development?",
     assigned: "NC",
     status: "Proposal Sent",
     created: "Yesterday"
@@ -205,9 +205,23 @@ export default function AdminDashboard() {
   const [selectedBackoffice, setSelectedBackoffice] = useState<string[]>([]);
   const [selectAll, setSelectAll] = useState(false);
   const [showAuthPopup, setShowAuthPopup] = useState(false);
+  const [showMessagePopup, setShowMessagePopup] = useState<string | null>(null);
+  const [showAssignedDropdown, setShowAssignedDropdown] = useState<string | null>(null);
+  const [showStatusDropdown, setShowStatusDropdown] = useState<string | null>(null);
+  const [leadAssignments, setLeadAssignments] = useState<{[key: string]: string}>({});
+  const [leadStatuses, setLeadStatuses] = useState<{[key: string]: string}>({});
 
   useEffect(() => {
     setMounted(true);
+    // Initialize default assignments and statuses
+    const defaultAssignments: {[key: string]: string} = {};
+    const defaultStatuses: {[key: string]: string} = {};
+    mockLeads.forEach(lead => {
+      defaultAssignments[lead.id] = "BOE1";
+      defaultStatuses[lead.id] = "assigned";
+    });
+    setLeadAssignments(defaultAssignments);
+    setLeadStatuses(defaultStatuses);
   }, []);
 
   if (!mounted) {
@@ -257,6 +271,28 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleAssignmentChange = (leadId: string, assignment: string) => {
+    setLeadAssignments(prev => ({ ...prev, [leadId]: assignment }));
+    setShowAssignedDropdown(null);
+  };
+
+  const handleStatusChange = (leadId: string, status: string) => {
+    setLeadStatuses(prev => ({ ...prev, [leadId]: status }));
+    setShowStatusDropdown(null);
+  };
+
+  const handleEmailClick = (email: string) => {
+    window.location.href = `mailto:${email}`;
+  };
+
+  const handlePhoneClick = (phone: string) => {
+    window.location.href = `tel:${phone}`;
+  };
+
+  const handleActionIconClick = (leadId: string, action: 'download' | 'delete' | 'view') => {
+    console.log(`${action} action for lead ${leadId}`);
+    // Implement specific action logic here
+  };
   const handleSelectAllUsers = () => {
     if (selectAll) {
       setSelectedUsers([]);
@@ -390,13 +426,13 @@ export default function AdminDashboard() {
                 />
               </th>
               <th>Lead ID</th>
-              <th>Customer</th>
-              <th>Company</th>
+              <th>Client</th>
               <th>Email</th>
               <th>Phone</th>
+              <th>Message</th>
               <th>Assigned</th>
               <th>Status</th>
-              <th>Created ↑</th>
+              <th>Created At</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -416,63 +452,139 @@ export default function AdminDashboard() {
                   <div className={styles.avatar}>{lead.assigned}</div>
                   {lead.name}
                 </td>
-                <td>{lead.company}</td>
-                <td className={styles.emailCell}>{lead.email}</td>
-                <td>{lead.phone}</td>
-                <td>
-                  <div className={styles.avatar}>{lead.assigned}</div>
+                <td 
+                  className={styles.emailCell}
+                  onClick={() => handleEmailClick(lead.email)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {lead.email}
+                </td>
+                <td 
+                  onClick={() => handlePhoneClick(lead.phone)}
+                  style={{ cursor: 'pointer', color: '#2563eb' }}
+                >
+                  {lead.phone}
                 </td>
                 <td>
-                  <span 
-                    className={styles.status}
-                    style={{ color: getStatusColor(lead.status) }}
+                  <button
+                    onClick={() => setShowMessagePopup(lead.id)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: '#2563eb',
+                      cursor: 'pointer',
+                      textDecoration: 'underline',
+                      fontSize: '0.875rem'
+                    }}
                   >
-                    {lead.status}
-                  </span>
+                    Message text
+                  </button>
+                </td>
+                <td>
+                  <div style={{ position: 'relative' }}>
+                    <button
+                      onClick={() => setShowAssignedDropdown(showAssignedDropdown === lead.id ? null : lead.id)}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: '#10b981',
+                        cursor: 'pointer',
+                        fontWeight: '500',
+                        fontSize: '0.875rem'
+                      }}
+                    >
+                      {leadAssignments[lead.id] || 'BOE1'} ▼
+                    </button>
+                    {showAssignedDropdown === lead.id && (
+                      <div className={styles.actionMenu}>
+                        {['BOE1', 'BOE2', 'BOE3', 'BOE4', 'BOE5'].map(option => (
+                          <button
+                            key={option}
+                            className={styles.actionItem}
+                            onClick={() => handleAssignmentChange(lead.id, option)}
+                          >
+                            {option}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </td>
+                <td>
+                  <div style={{ position: 'relative' }}>
+                    <button
+                      onClick={() => setShowStatusDropdown(showStatusDropdown === lead.id ? null : lead.id)}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: '#f59e0b',
+                        cursor: 'pointer',
+                        fontWeight: '500',
+                        fontSize: '0.875rem'
+                      }}
+                    >
+                      {leadStatuses[lead.id] || 'assigned'} ▼
+                    </button>
+                    {showStatusDropdown === lead.id && (
+                      <div className={styles.actionMenu}>
+                        {['assigned', 'pending', 'completed'].map(option => (
+                          <button
+                            key={option}
+                            className={styles.actionItem}
+                            onClick={() => handleStatusChange(lead.id, option)}
+                          >
+                            {option}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </td>
                 <td>{lead.created}</td>
                 <td>
-                  <div style={{ position: 'relative' }}>
-                    <button 
-                      className={styles.moreBtn}
-                      onClick={() => setShowActionMenu(showActionMenu === lead.id ? null : lead.id)}
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <button
+                      onClick={() => handleActionIconClick(lead.id, 'download')}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        color: '#10b981',
+                        fontSize: '16px',
+                        padding: '4px'
+                      }}
+                      title="Download"
                     >
-                      ⋮
+                      ⬇️
                     </button>
-                    {showActionMenu === lead.id && (
-                      <div className={styles.actionMenu}>
-                        <button 
-                          className={styles.actionItem}
-                          onClick={() => handleActionClick(lead.id, 'lost')}
-                        >
-                          Mark as Lost
-                        </button>
-                        <button 
-                          className={styles.actionItem}
-                          onClick={() => handleActionClick(lead.id, 'progress')}
-                        >
-                          In Progress
-                        </button>
-                        <button 
-                          className={styles.actionItem}
-                          onClick={() => handleActionClick(lead.id, 'follow-up')}
-                        >
-                          Follow Up
-                        </button>
-                        <button 
-                          className={styles.actionItem}
-                          onClick={() => handleActionClick(lead.id, 'edit')}
-                        >
-                          Edit Lead
-                        </button>
-                        <button 
-                          className={styles.actionItem}
-                          onClick={() => handleActionClick(lead.id, 'delete')}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    )}
+                    <button
+                      onClick={() => handleActionIconClick(lead.id, 'delete')}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        color: '#ef4444',
+                        fontSize: '16px',
+                        padding: '4px'
+                      }}
+                      title="Delete"
+                    >
+                      🗑️
+                    </button>
+                    <button
+                      onClick={() => handleActionIconClick(lead.id, 'view')}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        color: '#3b82f6',
+                        fontSize: '16px',
+                        padding: '4px'
+                      }}
+                      title="View"
+                    >
+                      👁️
+                    </button>
                   </div>
                 </td>
               </tr>
