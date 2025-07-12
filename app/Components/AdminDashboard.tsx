@@ -27,6 +27,7 @@ type User = {
   phone: string;
   assigned: string;
   status: "Active" | "Inactive" | "Pending" | "Suspended" | "Verified";
+  verified: boolean;
   created: string;
 };
 
@@ -40,7 +41,13 @@ type BackofficeItem = {
   created: string;
 };
 
-type Tab = "Leads" | "Users" | "Backoffice";
+type Tab = "Leads" | "Users" | "Backoffice" | "Backoffice Executives";
+
+// Function to get random BOE assignment
+const getRandomBOE = () => {
+  const boeOptions = ['BOE1', 'BOE2', 'BOE3', 'BOE4', 'BOE5'];
+  return boeOptions[Math.floor(Math.random() * boeOptions.length)];
+};
 
 // Mock leads data using the actual schema structure
 const mockLeads: ILead[] = [
@@ -53,7 +60,7 @@ const mockLeads: ILead[] = [
     "email": "olivia.clark@example.com",
     "phone": "+1 (483) 983-9572",
     "message": "Interested in your property listings and would like to schedule a meeting to discuss investment opportunities.",
-    "assigned": "",
+    "assigned": "BOE1",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-10T01:10:05.959519"
@@ -67,7 +74,7 @@ const mockLeads: ILead[] = [
     "email": "james.johnson@example.com",
     "phone": "+1 (816) 467-7360",
     "message": "Looking for commercial property options in downtown area. Budget range 500K-1M.",
-    "assigned": "",
+    "assigned": "BOE3",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-10T10:51:05.959584"
@@ -81,7 +88,7 @@ const mockLeads: ILead[] = [
     "email": "james.walker@example.com",
     "phone": "+1 (636) 850-6708",
     "message": "Need more details on Riverfront project. When can we schedule a site visit?",
-    "assigned": "",
+    "assigned": "BOE2",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-06T00:16:05.959623"
@@ -95,7 +102,7 @@ const mockLeads: ILead[] = [
     "email": "sophia.clark@example.com",
     "phone": "+1 (338) 438-7757",
     "message": "Following up on last week's discussion about the Twin Tower project.",
-    "assigned": "",
+    "assigned": "BOE5",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-11T13:19:05.959654"
@@ -109,7 +116,7 @@ const mockLeads: ILead[] = [
     "email": "isabella.johnson@example.com",
     "phone": "+1 (873) 152-3109",
     "message": "Seeking commercial property options for expanding business operations.",
-    "assigned": "",
+    "assigned": "BOE4",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-08T10:52:05.959684"
@@ -123,7 +130,7 @@ const mockLeads: ILead[] = [
     "email": "emma.rhye@example.com",
     "phone": "+1 (409) 699-3446",
     "message": "Interested in residential plots and looking for good investment opportunities.",
-    "assigned": "",
+    "assigned": "BOE1",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-08T13:16:05.959713"
@@ -137,7 +144,7 @@ const mockLeads: ILead[] = [
     "email": "lucas.clark@example.com",
     "phone": "+1 (860) 836-4883",
     "message": "Need brochure and pricing details for the new housing project.",
-    "assigned": "",
+    "assigned": "BOE3",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-05T22:45:05.959743"
@@ -151,7 +158,7 @@ const mockLeads: ILead[] = [
     "email": "liam.johnson@example.com",
     "phone": "+1 (883) 929-1812",
     "message": "Schedule a site visit for Twin Tower. Interested in 2-3 bedroom apartments.",
-    "assigned": "",
+    "assigned": "BOE2",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-09T21:03:05.959780"
@@ -165,7 +172,7 @@ const mockLeads: ILead[] = [
     "email": "olivia.lee@example.com",
     "phone": "+1 (513) 338-4262",
     "message": "Can we get a quotation for the premium apartment units?",
-    "assigned": "",
+    "assigned": "BOE5",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-09T10:02:05.959813"
@@ -179,7 +186,7 @@ const mockLeads: ILead[] = [
     "email": "isabella.young@example.com",
     "phone": "+1 (550) 160-7883",
     "message": "Looking for family-friendly residential areas with good connectivity.",
-    "assigned": "",
+    "assigned": "BOE4",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-09T21:30:05.959843"
@@ -193,7 +200,7 @@ const mockLeads: ILead[] = [
     "email": "isabella.lewis@example.com",
     "phone": "+1 (903) 566-1124",
     "message": "Interested in eco-friendly housing options and sustainable living projects.",
-    "assigned": "",
+    "assigned": "BOE1",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-12T16:42:05.959872"
@@ -207,7 +214,7 @@ const mockLeads: ILead[] = [
     "email": "isabella.brown@example.com",
     "phone": "+1 (209) 327-5544",
     "message": "Following up on previous inquiry about office space availability.",
-    "assigned": "",
+    "assigned": "BOE3",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-11T15:01:05.959902"
@@ -221,7 +228,7 @@ const mockLeads: ILead[] = [
     "email": "lucas.walker@example.com",
     "phone": "+1 (996) 661-6017",
     "message": "Need information about parking facilities and amenities in the complex.",
-    "assigned": "",
+    "assigned": "BOE2",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-07T21:03:05.959930"
@@ -235,7 +242,7 @@ const mockLeads: ILead[] = [
     "email": "lucas.lee@example.com",
     "phone": "+1 (664) 601-9541",
     "message": "Interested in luxury penthouses with city view. Please share catalog.",
-    "assigned": "",
+    "assigned": "BOE5",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-12T15:23:05.959957"
@@ -249,7 +256,7 @@ const mockLeads: ILead[] = [
     "email": "liam.brown@example.com",
     "phone": "+1 (675) 416-6888",
     "message": "Looking for investment properties with good rental yield potential.",
-    "assigned": "",
+    "assigned": "BOE4",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-10T18:53:05.959985"
@@ -263,7 +270,7 @@ const mockLeads: ILead[] = [
     "email": "ava.lee@example.com",
     "phone": "+1 (628) 465-8124",
     "message": "Need more details about payment plans and financing options available.",
-    "assigned": "",
+    "assigned": "BOE1",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-09T08:28:05.960013"
@@ -277,7 +284,7 @@ const mockLeads: ILead[] = [
     "email": "olivia.smith@example.com",
     "phone": "+1 (718) 947-9651",
     "message": "Interested in ground floor units suitable for elderly residents.",
-    "assigned": "",
+    "assigned": "BOE3",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-10T07:35:05.960040"
@@ -291,7 +298,7 @@ const mockLeads: ILead[] = [
     "email": "james.rhye@example.com",
     "phone": "+1 (932) 364-1149",
     "message": "Would like to visit the model apartment and discuss customization options.",
-    "assigned": "",
+    "assigned": "BOE2",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-12T07:34:05.960068"
@@ -305,7 +312,7 @@ const mockLeads: ILead[] = [
     "email": "ava.johnson@example.com",
     "phone": "+1 (280) 826-7725",
     "message": "Looking for studio apartments near business district with modern amenities.",
-    "assigned": "",
+    "assigned": "BOE5",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-06T06:21:05.960099"
@@ -319,7 +326,7 @@ const mockLeads: ILead[] = [
     "email": "olivia.lewis@example.com",
     "phone": "+1 (453) 432-7836",
     "message": "Need information about security features and safety measures in the building.",
-    "assigned": "",
+    "assigned": "BOE4",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-11T22:39:05.960126"
@@ -333,7 +340,7 @@ const mockLeads: ILead[] = [
     "email": "ava.clark@example.com",
     "phone": "+1 (895) 798-8758",
     "message": "Interested in corner units with balcony and garden view options.",
-    "assigned": "",
+    "assigned": "BOE1",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-06T08:22:05.960154"
@@ -347,7 +354,7 @@ const mockLeads: ILead[] = [
     "email": "lucas.johnson@example.com",
     "phone": "+1 (898) 117-9328",
     "message": "Looking for pet-friendly apartments with nearby park access.",
-    "assigned": "",
+    "assigned": "BOE3",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-08T15:50:05.960183"
@@ -361,7 +368,7 @@ const mockLeads: ILead[] = [
     "email": "sophia.brown@example.com",
     "phone": "+1 (606) 351-2138",
     "message": "Need details about children's play area and educational facilities nearby.",
-    "assigned": "",
+    "assigned": "BOE2",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-12T10:15:05.960210"
@@ -375,7 +382,7 @@ const mockLeads: ILead[] = [
     "email": "james.clark@example.com",
     "phone": "+1 (329) 607-3148",
     "message": "Interested in duplex apartments with separate entrance and parking.",
-    "assigned": "",
+    "assigned": "BOE5",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-06T02:22:05.960238"
@@ -389,7 +396,7 @@ const mockLeads: ILead[] = [
     "email": "ava.brown@example.com",
     "phone": "+1 (625) 409-2895",
     "message": "Looking for furnished apartments with modern kitchen and appliances.",
-    "assigned": "",
+    "assigned": "BOE4",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-12T01:39:05.960266"
@@ -403,7 +410,7 @@ const mockLeads: ILead[] = [
     "email": "liam.lee@example.com",
     "phone": "+1 (608) 424-3747",
     "message": "Need information about gym facilities and swimming pool timings.",
-    "assigned": "",
+    "assigned": "BOE1",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-08T15:48:05.960293"
@@ -417,7 +424,7 @@ const mockLeads: ILead[] = [
     "email": "ava.walker@example.com",
     "phone": "+1 (897) 648-8939",
     "message": "Interested in smart home features and IoT integration in apartments.",
-    "assigned": "",
+    "assigned": "BOE3",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-08T19:29:05.960320"
@@ -431,7 +438,7 @@ const mockLeads: ILead[] = [
     "email": "isabella.rhye@example.com",
     "phone": "+1 (853) 601-6176",
     "message": "Looking for wheelchair accessible units with special amenities.",
-    "assigned": "",
+    "assigned": "BOE2",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-10T02:13:05.960348"
@@ -445,7 +452,7 @@ const mockLeads: ILead[] = [
     "email": "emma.brown@example.com",
     "phone": "+1 (762) 785-4535",
     "message": "Need information about rooftop garden and terrace access policies.",
-    "assigned": "",
+    "assigned": "BOE5",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-05T19:27:05.960374"
@@ -459,7 +466,7 @@ const mockLeads: ILead[] = [
     "email": "isabella.brown@example.com",
     "phone": "+1 (575) 649-9787",
     "message": "Interested in energy-efficient apartments with solar panel integration.",
-    "assigned": "",
+    "assigned": "BOE4",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-06T07:57:05.960395"
@@ -473,7 +480,7 @@ const mockLeads: ILead[] = [
     "email": "ava.lee@example.com",
     "phone": "+1 (230) 396-6698",
     "message": "Looking for units with home office space and high-speed internet connectivity.",
-    "assigned": "",
+    "assigned": "BOE1",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-09T06:21:05.960420"
@@ -487,7 +494,7 @@ const mockLeads: ILead[] = [
     "email": "emma.lee@example.com",
     "phone": "+1 (539) 954-3162",
     "message": "Need details about maintenance charges and utility bill inclusions.",
-    "assigned": "",
+    "assigned": "BOE3",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-08T07:09:05.960444"
@@ -501,7 +508,7 @@ const mockLeads: ILead[] = [
     "email": "olivia.young@example.com",
     "phone": "+1 (304) 292-9642",
     "message": "Interested in guest house facilities and visitor parking arrangements.",
-    "assigned": "",
+    "assigned": "BOE2",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-08T04:55:05.960470"
@@ -515,7 +522,7 @@ const mockLeads: ILead[] = [
     "email": "sophia.rhye@example.com",
     "phone": "+1 (662) 470-5531",
     "message": "Looking for apartments with natural lighting and cross ventilation.",
-    "assigned": "",
+    "assigned": "BOE5",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-09T02:02:05.960497"
@@ -529,7 +536,7 @@ const mockLeads: ILead[] = [
     "email": "james.johnson@example.com",
     "phone": "+1 (859) 950-7377",
     "message": "Need information about clubhouse facilities and community events.",
-    "assigned": "",
+    "assigned": "BOE4",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-08T09:28:05.960523"
@@ -543,7 +550,7 @@ const mockLeads: ILead[] = [
     "email": "lucas.clark@example.com",
     "phone": "+1 (500) 828-9925",
     "message": "Interested in penthouse units with private elevator access.",
-    "assigned": "",
+    "assigned": "BOE1",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-07T00:33:05.960548"
@@ -557,7 +564,7 @@ const mockLeads: ILead[] = [
     "email": "james.rhye@example.com",
     "phone": "+1 (734) 308-4276",
     "message": "Looking for apartments with study room and library access.",
-    "assigned": "",
+    "assigned": "BOE3",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-09T19:04:05.960574"
@@ -571,7 +578,7 @@ const mockLeads: ILead[] = [
     "email": "james.lewis@example.com",
     "phone": "+1 (601) 543-8775",
     "message": "Need details about backup power systems and water supply arrangements.",
-    "assigned": "",
+    "assigned": "BOE2",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-09T10:42:05.960600"
@@ -585,7 +592,7 @@ const mockLeads: ILead[] = [
     "email": "olivia.brown@example.com",
     "phone": "+1 (298) 498-3199",
     "message": "Interested in corner apartments with panoramic city view.",
-    "assigned": "",
+    "assigned": "BOE5",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-08T04:50:05.960625"
@@ -599,7 +606,7 @@ const mockLeads: ILead[] = [
     "email": "olivia.johnson@example.com",
     "phone": "+1 (592) 130-8454",
     "message": "Looking for apartments with modular kitchen and premium fittings.",
-    "assigned": "",
+    "assigned": "BOE4",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-08T23:36:05.960651"
@@ -613,7 +620,7 @@ const mockLeads: ILead[] = [
     "email": "lucas.brown@example.com",
     "phone": "+1 (445) 633-3773",
     "message": "Need information about fire safety systems and emergency exits.",
-    "assigned": "",
+    "assigned": "BOE1",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-09T01:31:05.960676"
@@ -627,7 +634,7 @@ const mockLeads: ILead[] = [
     "email": "isabella.brown@example.com",
     "phone": "+1 (840) 736-8325",
     "message": "Interested in apartments with walk-in closets and storage solutions.",
-    "assigned": "",
+    "assigned": "BOE3",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-11T03:59:05.960701"
@@ -641,7 +648,7 @@ const mockLeads: ILead[] = [
     "email": "noah.clark@example.com",
     "phone": "+1 (581) 548-9927",
     "message": "Looking for apartments with multimedia room and entertainment systems.",
-    "assigned": "",
+    "assigned": "BOE2",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-12T11:51:05.960727"
@@ -655,7 +662,7 @@ const mockLeads: ILead[] = [
     "email": "noah.walker@example.com",
     "phone": "+1 (682) 912-5304",
     "message": "Need details about concierge services and package delivery systems.",
-    "assigned": "",
+    "assigned": "BOE5",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-10T17:52:05.960753"
@@ -669,7 +676,7 @@ const mockLeads: ILead[] = [
     "email": "isabella.lewis@example.com",
     "phone": "+1 (766) 799-5743",
     "message": "Interested in apartments with private balcony and outdoor seating area.",
-    "assigned": "",
+    "assigned": "BOE4",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-10T00:05:05.960777"
@@ -683,7 +690,7 @@ const mockLeads: ILead[] = [
     "email": "james.johnson@example.com",
     "phone": "+1 (455) 988-4345",
     "message": "Looking for apartments with home automation and smart lighting systems.",
-    "assigned": "",
+    "assigned": "BOE1",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-07T19:09:05.960802"
@@ -697,7 +704,7 @@ const mockLeads: ILead[] = [
     "email": "james.brown@example.com",
     "phone": "+1 (961) 801-3443",
     "message": "Need information about co-working spaces and business center facilities.",
-    "assigned": "",
+    "assigned": "BOE3",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-09T16:39:05.960828"
@@ -711,7 +718,7 @@ const mockLeads: ILead[] = [
     "email": "ava.lee@example.com",
     "phone": "+1 (482) 876-3155",
     "message": "Interested in apartments with spa and wellness center access.",
-    "assigned": "",
+    "assigned": "BOE2",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-07T04:21:05.960853"
@@ -725,7 +732,7 @@ const mockLeads: ILead[] = [
     "email": "sophia.rhye@example.com",
     "phone": "+1 (449) 750-6512",
     "message": "Looking for apartments with meditation room and yoga studio facilities.",
-    "assigned": "",
+    "assigned": "BOE5",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-06T22:39:05.960879"
@@ -739,7 +746,7 @@ const mockLeads: ILead[] = [
     "email": "sophia.davis@example.com",
     "phone": "+1 (801) 497-8100",
     "message": "Need details about electric vehicle charging stations and green parking.",
-    "assigned": "",
+    "assigned": "BOE4",
     "status": "pending",
     "action": "",
     "createdAt": "2025-07-08T21:15:05.960904"
@@ -754,6 +761,7 @@ const mockUsers: User[] = [
     phone: "+1 (555) 123-4567",
     assigned: "JS",
     status: "Active",
+    verified: true,
     created: "Just now"
   },
   {
@@ -763,6 +771,7 @@ const mockUsers: User[] = [
     phone: "+1 (555) 987-6543",
     assigned: "SJ",
     status: "Verified",
+    verified: true,
     created: "2 hrs ago"
   },
   {
@@ -772,6 +781,7 @@ const mockUsers: User[] = [
     phone: "+1 (555) 456-7890",
     assigned: "MW",
     status: "Pending",
+    verified: false,
     created: "5 hrs ago"
   },
   {
@@ -781,6 +791,7 @@ const mockUsers: User[] = [
     phone: "+1 (555) 321-0987",
     assigned: "ED",
     status: "Inactive",
+    verified: false,
     created: "1 day ago"
   },
   {
@@ -790,6 +801,7 @@ const mockUsers: User[] = [
     phone: "+1 (555) 654-3210",
     assigned: "RB",
     status: "Suspended",
+    verified: false,
     created: "2 days ago"
   }
 ];
@@ -854,8 +866,12 @@ export default function AdminDashboard() {
   const [showMessagePopup, setShowMessagePopup] = useState<string | null>(null);
   const [showAssignedDropdown, setShowAssignedDropdown] = useState<string | null>(null);
   const [showStatusDropdown, setShowStatusDropdown] = useState<string | null>(null);
+  const [showUserStatusDropdown, setShowUserStatusDropdown] = useState<string | null>(null);
+  const [showRequestStatusDropdown, setShowRequestStatusDropdown] = useState<string | null>(null);
   const [leadAssignments, setLeadAssignments] = useState<{[key: string]: string}>({});
   const [leadStatuses, setLeadStatuses] = useState<{[key: string]: string}>({});
+  const [userStatuses, setUserStatuses] = useState<{[key: string]: string}>({});
+  const [requestStatuses, setRequestStatuses] = useState<{[key: string]: string}>({});
   const [dropdownPositions, setDropdownPositions] = useState<{[key: string]: 'up' | 'down'}>({});
 
   useEffect(() => {
@@ -863,6 +879,8 @@ export default function AdminDashboard() {
     // Initialize default assignments and statuses from the actual data
     const defaultAssignments: {[key: string]: string} = {};
     const defaultStatuses: {[key: string]: string} = {};
+    const defaultUserStatuses: {[key: string]: string} = {};
+    const defaultRequestStatuses: {[key: string]: string} = {};
     const defaultPositions: {[key: string]: 'up' | 'down'} = {};
     
     mockLeads.forEach((lead, index) => {
@@ -873,9 +891,18 @@ export default function AdminDashboard() {
       // Set last 4 rows to show dropdown above
       defaultPositions[lead._id] = index >= mockLeads.length - 4 ? 'up' : 'down';
     });
+
+    // Initialize user statuses and request statuses
+    mockUsers.forEach((user, index) => {
+      defaultUserStatuses[user.id] = user.status;
+      defaultRequestStatuses[user.id] = "Pending"; // Default request status
+      defaultPositions[user.id] = index >= mockUsers.length - 2 ? 'up' : 'down';
+    });
     
     setLeadAssignments(defaultAssignments);
     setLeadStatuses(defaultStatuses);
+    setUserStatuses(defaultUserStatuses);
+    setRequestStatuses(defaultRequestStatuses);
     setDropdownPositions(defaultPositions);
   }, []);
 
@@ -888,6 +915,8 @@ export default function AdminDashboard() {
       if (!target.closest('.dropdown-container')) {
         setShowAssignedDropdown(null);
         setShowStatusDropdown(null);
+        setShowUserStatusDropdown(null);
+        setShowRequestStatusDropdown(null);
         setShowActionMenu(null);
       }
     };
@@ -921,6 +950,7 @@ export default function AdminDashboard() {
       case "pending": return "#f59e0b";
       case "assigned": return "#3b82f6";
       case "completed": return "#10b981";
+      case "In porgress": return "#3b82f6"; // Handle typo
       default: return "#6b7280";
     }
   };
@@ -984,6 +1014,34 @@ export default function AdminDashboard() {
     e.stopPropagation();
     setLeadStatuses(prev => ({ ...prev, [leadId]: status }));
     setShowStatusDropdown(null);
+  };
+
+  const handleUserStatusDropdownClick = (e: React.MouseEvent, userId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowRequestStatusDropdown(null); // Close request status dropdown if open
+    setShowUserStatusDropdown(showUserStatusDropdown === userId ? null : userId);
+  };
+
+  const handleRequestStatusDropdownClick = (e: React.MouseEvent, userId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowUserStatusDropdown(null); // Close user status dropdown if open
+    setShowRequestStatusDropdown(showRequestStatusDropdown === userId ? null : userId);
+  };
+
+  const handleUserStatusChangeWithEvent = (e: React.MouseEvent, userId: string, status: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setUserStatuses(prev => ({ ...prev, [userId]: status }));
+    setShowUserStatusDropdown(null);
+  };
+
+  const handleRequestStatusChangeWithEvent = (e: React.MouseEvent, userId: string, status: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setRequestStatuses(prev => ({ ...prev, [userId]: status }));
+    setShowRequestStatusDropdown(null);
   };
 
   const handleEmailClick = (email: string) => {
@@ -1391,7 +1449,7 @@ export default function AdminDashboard() {
         <div className={styles.headerRight}>
           <button className={styles.exportBtn}>
             Export
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '8px' }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" >
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
               <polyline points="7,10 12,15 17,10"/>
               <line x1="12" y1="15" x2="12" y2="3"/>
@@ -1400,95 +1458,53 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      <div className={styles.statsContainer}>
+      <div className={styles.statsContainerCentered}>
         <div className={styles.statCard}>
           <div className={styles.statHeader}>
-            <span className={styles.statTitle}>TOTAL USERS</span>
+            <span className={styles.statTitle}>USERS</span>
             <div className={styles.statIcon} style={{ backgroundColor: '#3b82f6' }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
               </svg>
             </div>
           </div>
-          <div className={styles.statMainValue}>45,892</div>
+          <div className={styles.statMainValue}>45</div>
           <div className={styles.statSubLine}>
             <div>
               <span className={styles.statSubLabel}>New Today: </span>
               <span className={styles.statSubValue}>23</span>
             </div>
             <div>
-              <span className={styles.statSubLabel} style={{ marginLeft: '24px' }}>Active: </span> 
-              <span className={styles.statSubValue}>42,156</span>
+              <span className={styles.statSubLabel} style={{ marginLeft: '24px' }}>Last 30 days: </span> 
+              <span className={styles.statSubValue}>42</span>
             </div>
           </div>
         </div>
 
         <div className={styles.statCard}>
           <div className={styles.statHeader}>
-            <span className={styles.statTitle}>VERIFIED USERS</span>
-            <div className={styles.statIcon} style={{ backgroundColor: '#10b981' }}>
+            <span className={styles.statTitle}>SUSPENDED</span>
+            <div className={styles.statIcon} style={{ backgroundColor: '#ef4444' }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/>
-              </svg>
-            </div>
-          </div>
-          <div className={styles.statMainValue}>38,245</div>
-          <div className={styles.statSubLine}>
-            <div>
-              <span className={styles.statSubLabel}>Pending: </span> 
-              <span className={styles.statSubValue}>3,647</span>
-            </div>
-            <div>
-              <span className={styles.statSubLabel} style={{ marginLeft: '24px' }}>Rejected: </span>
-              <span className={styles.statSubValue}>4,000</span>
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.statCard}>
-          <div className={styles.statHeader}>
-            <span className={styles.statTitle}>USER ACTIVITY</span>
-            <div className={styles.statIcon} style={{ backgroundColor: '#f59e0b' }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-              </svg>
-            </div>
-          </div>
-          <div className={styles.statMainValue}>89%</div>
-          <div className={styles.statSubLine}>
-            <div>
-              <span className={styles.statSubLabel}>Daily: </span>
-              <span className={styles.statSubValue}>15,234</span>
-            </div>
-            <div>
-              <span className={styles.statSubLabel} style={{ marginLeft: '24px' }}>Weekly: </span>
-              <span className={styles.statSubValue}>28,567</span>
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.statCard}>
-          <div className={styles.statHeader}>
-            <span className={styles.statTitle}>PERMISSIONS</span>
-            <div className={styles.statIcon} style={{ backgroundColor: '#8b5cf6' }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="15" y1="9" x2="9" y2="15"/>
+                <line x1="9" y1="9" x2="15" y2="15"/>
               </svg>
             </div>
           </div>
           <div className={styles.statMainValue}>12</div>
           <div className={styles.statSubLine}>
             <div>
-              <span className={styles.statSubLabel}>Admin: </span>
-              <span className={styles.statSubValue}>5</span>
+              <span className={styles.statSubLabel}>Today: </span>
+              <span className={styles.statSubValue}>2</span>
             </div>
             <div>
-              <span className={styles.statSubLabel} style={{ marginLeft: '24px' }}>Moderator: </span>
+              <span className={styles.statSubLabel} style={{ marginLeft: '24px' }}>Last 30 days: </span>
               <span className={styles.statSubValue}>7</span>
+            </div>
             </div>
           </div>
         </div>
-      </div>
 
       <div className={styles.tableControls}>
         <div className={styles.leftControls}>
@@ -1497,14 +1513,14 @@ export default function AdminDashboard() {
         <div className={styles.rightControls}>
           <input type="text" placeholder="Search text" className={styles.searchInput} />
           <button className={styles.searchBtn}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="8"/>
               <path d="m21 21-4.35-4.35"/>
-            </svg>
+              </svg>
           </button>
           <button className={styles.filterBtn}>⚙ Filter</button>
-        </div>
-      </div>
+            </div>
+          </div>
 
       <div className={styles.tableContainer}>
         <table className={styles.leadsTable}>
@@ -1518,12 +1534,13 @@ export default function AdminDashboard() {
                   className={styles.checkbox}
                 />
               </th>
+              <th>Verified</th>
               <th>User ID</th>
               <th>User</th>
               <th>Email</th>
               <th>Phone</th>
-              <th>Assigned</th>
               <th>Status</th>
+              <th>Request Status</th>
               <th>Created ↑</th>
               <th>Action</th>
             </tr>
@@ -1539,23 +1556,265 @@ export default function AdminDashboard() {
                     className={styles.checkbox}
                   />
                 </td>
+                <td>
+                  {user.verified ? (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#10b981' }}>
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                      <polyline points="22,4 12,14.01 9,11.01"/>
+                    </svg>
+                  ) : (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#ef4444' }}>
+                      <circle cx="12" cy="12" r="10"/>
+                      <line x1="15" y1="9" x2="9" y2="15"/>
+                      <line x1="9" y1="9" x2="15" y2="15"/>
+                    </svg>
+                  )}
+                </td>
                 <td>{user.id}</td>
                 <td className={styles.customerCell}>
                   <div className={styles.avatar}>{user.assigned}</div>
                   {user.name}
                 </td>
-                <td className={styles.emailCell}>{user.email}</td>
-                <td>{user.phone}</td>
-                <td>
-                  <div className={styles.avatar}>{user.assigned}</div>
+                <td 
+                  className={styles.emailCell}
+                  onClick={() => handleEmailClick(user.email)}
+                  style={{ cursor: 'pointer', color: '#2563eb' }}
+                >
+                  {user.email}
+                </td>
+                <td 
+                  onClick={() => handlePhoneClick(user.phone)}
+                  style={{ cursor: 'pointer', color: '#2563eb' }}
+                >
+                  {user.phone}
                 </td>
                 <td>
-                  <span 
-                    className={styles.status}
-                    style={{ color: getStatusColor(user.status) }}
+                  <div style={{ position: 'relative' }} className="dropdown-container">
+                    <button
+                      onClick={(e) => handleUserStatusDropdownClick(e, user.id)}
+                      className={styles.dropdownButton}
+                      style={{
+                        color: getStatusColor(userStatuses[user.id] || user.status)
+                      }}
+                    >
+                      {userStatuses[user.id] || user.status}
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '4px' }}>
+                        <polyline points="6,9 12,15 18,9"/>
+                      </svg>
+                    </button>
+                    {showUserStatusDropdown === user.id && (
+                      <div className={`${styles.modernDropdown} ${dropdownPositions[user.id] === 'up' ? styles.dropdownUp : ''}`}>
+                        <div className={`${styles.dropdownArrowUp} ${dropdownPositions[user.id] === 'up' ? styles.arrowDown : ''}`}></div>
+                        {['Active', 'Inactive', 'Suspended'].map(option => (
+                          <button
+                            key={option}
+                            className={styles.modernDropdownItem}
+                            onClick={(e) => handleUserStatusChangeWithEvent(e, user.id, option)}
+                            style={{
+                              color: getStatusColor(option)
+                            }}
+                          >
+                            {option}
+                          </button>
+                        ))}
+            </div>
+                    )}
+            </div>
+                </td>
+                <td>
+                  <div style={{ position: 'relative' }} className="dropdown-container">
+                    <button
+                      onClick={(e) => handleRequestStatusDropdownClick(e, user.id)}
+                      className={styles.dropdownButton}
+                      style={{
+                        color: getStatusColor(requestStatuses[user.id] || "Pending")
+                      }}
+                    >
+                      {requestStatuses[user.id] || "Pending"}
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '4px' }}>
+                        <polyline points="6,9 12,15 18,9"/>
+                      </svg>
+                    </button>
+                    {showRequestStatusDropdown === user.id && (
+                      <div className={`${styles.modernDropdown} ${dropdownPositions[user.id] === 'up' ? styles.dropdownUp : ''}`}>
+                        <div className={`${styles.dropdownArrowUp} ${dropdownPositions[user.id] === 'up' ? styles.arrowDown : ''}`}></div>
+                        {['Pending', 'In Progress', 'Completed'].map(option => (
+                          <button
+                            key={option}
+                            className={styles.modernDropdownItem}
+                            onClick={(e) => handleRequestStatusChangeWithEvent(e, user.id, option)}
+                            style={{
+                              color: getStatusColor(option)
+                            }}
+                          >
+                            {option}
+                          </button>
+                        ))}
+          </div>
+                    )}
+                  </div>
+                </td>
+                <td>{user.created}</td>
+                <td>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <button
+                      onClick={() => handleActionIconClick(user.id, 'view')}
+                      className={styles.actionIcon}
+                      style={{ color: '#3b82f6' }}
+                      title="View"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                      </svg>
+                    </button>
+                    <button
+                      onClick={() => handleActionIconClick(user.id, 'edit')}
+                      className={styles.actionIcon}
+                      style={{ color: '#f59e0b' }}
+                      title="Edit"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                      </svg>
+                    </button>
+                    <button
+                      onClick={() => handleActionIconClick(user.id, 'delete')}
+                      className={styles.actionIcon}
+                      style={{ color: '#ef4444' }}
+                      title="Delete"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="3,6 5,6 21,6"/>
+                        <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"/>
+                        <line x1="10" y1="11" x2="10" y2="17"/>
+                        <line x1="14" y1="11" x2="14" y2="17"/>
+                      </svg>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        </div>
+
+      <div className={styles.pagination} style={{display: 'none'}}>
+        <button className={styles.paginationBtn}>← Previous</button>
+        <div className={styles.pageNumbers}>
+          <span className={styles.activePage}>1</span>
+          <span>2</span>
+          <span>3</span>
+          <span>...</span>
+          <span>8</span>
+          <span>9</span>
+          <span>10</span>
+        </div>
+        <button className={styles.paginationBtn}>Next →</button>
+      </div>
+    </div>
+  );
+
+  const renderBackofficeTab = () => (
+    <div className={styles.leadsContainer}>
+      <div className={styles.leadsHeader}>
+        <div className={styles.headerLeft}>
+          <h2>Backoffice Management</h2>
+          <p>Manage backoffice executives and their assignments</p>
+        </div>
+        <div className={styles.headerRight}>
+        </div>
+      </div>
+
+      <div className={styles.statsContainerCentered}>
+        <div className={styles.statCard}>
+          <div className={styles.statHeader}>
+            <span className={styles.statTitle}>Backoffice Executives</span>
+            <div className={styles.statIcon} style={{ backgroundColor: '#3b82f6' }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+          </div>
+          <div className={styles.statMainValue}>5</div>
+          <div className={styles.statSubLine}>
+            <div>
+              <span className={styles.statSubLabel}>Slots: </span>
+              <span className={styles.statSubValue}>5</span>
+            </div>
+            <div>
+              <span className={styles.statSubLabel} style={{ marginLeft: '24px' }}>Empty Slots: </span> 
+              <span className={styles.statSubValue}>0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.tableControls}>
+        <div className={styles.leftControls}>
+          <button className={styles.bulkBtn}>Bulk Actions</button>
+          <button className={styles.bulkBtn}>Add Backoffice executive</button>
+        </div>
+        <div className={styles.rightControls}>
+        </div>
+      </div>
+
+      <div className={styles.tableContainer}>
+        <table className={styles.leadsTable}>
+          <thead>
+            <tr>
+              <th>
+                <input 
+                  type="checkbox" 
+                  checked={selectAll}
+                  onChange={handleSelectAllUsers}
+                  className={styles.checkbox}
+                />
+              </th>
+              <th>Verified</th>
+              <th>User ID</th>
+              <th>User</th>
+              <th>Email</th>
+              <th>Created ↑</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {mockUsers.map((user) => (
+              <tr key={user.id}>
+                <td>
+                  <input 
+                    type="checkbox" 
+                    checked={selectedUsers.includes(user.id)}
+                    onChange={() => handleSelectUser(user.id)}
+                    className={styles.checkbox}
+                  />
+                </td>
+                <td>
+                  {user.verified ? (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#10b981' }}>
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                      <polyline points="22,4 12,14.01 9,11.01"/>
+                    </svg>
+                  ) : (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#ef4444' }}>
+                      <circle cx="12" cy="12" r="10"/>
+                      <line x1="15" y1="9" x2="9" y2="15"/>
+                      <line x1="9" y1="9" x2="15" y2="15"/>
+                    </svg>
+                  )}
+                </td>
+                <td>{user.id}</td>
+                <td className={styles.customerCell}>
+                  <div className={styles.avatar}>{user.assigned}</div>
+                  {user.name}
+                </td>
+                <td 
+                  className={styles.emailCell}
+                  onClick={() => handleEmailClick(user.email)}
+                  style={{ cursor: 'pointer', color: '#2563eb' }}
                   >
-                    {user.status}
-                  </span>
+                  {user.email}
                 </td>
                 <td>{user.created}</td>
                 <td>
@@ -1602,7 +1861,7 @@ export default function AdminDashboard() {
         </table>
       </div>
 
-      <div className={styles.pagination}>
+      <div className={styles.pagination} style={{display: 'none'}}>
         <button className={styles.paginationBtn}>← Previous</button>
         <div className={styles.pageNumbers}>
           <span className={styles.activePage}>1</span>
@@ -1618,17 +1877,17 @@ export default function AdminDashboard() {
     </div>
   );
 
-  const renderBackofficeTab =() => (
+  const renderBackofficeExecutivesTab = () => (
     <div className={styles.leadsContainer}>
       <div className={styles.leadsHeader}>
         <div className={styles.headerLeft}>
-          <h2>Back Office</h2>
-          <p>Handle administrative tasks and internal operations</p>
+          <h2>Backoffice Executives</h2>
+          <p>Manage executive tasks and high-priority operations</p>
         </div>
         <div className={styles.headerRight}>
           <button className={styles.exportBtn}>
             Export
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '8px' }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" >
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
               <polyline points="7,10 12,15 17,10"/>
               <line x1="12" y1="15" x2="12" y2="3"/>
@@ -1637,91 +1896,98 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      <div className={styles.statsContainer}>
+      <div className={styles.statsContainer} style={{ display: 'none' }}>
         <div className={styles.statCard}>
           <div className={styles.statHeader}>
-            <span className={styles.statTitle}>TOTAL TASKS</span>
+            <span className={styles.statTitle}>LEADS (LAST 30 DAYS)</span>
             <div className={styles.statIcon} style={{ backgroundColor: '#3b82f6' }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
               </svg>
             </div>
           </div>
-          <div className={styles.statMainValue}>1,247</div>
+          <div className={styles.statMainValue}>1,200</div>
           <div className={styles.statSubLine}>
             <div>
-              <span className={styles.statSubLabel}>New Today: </span>
-              <span className={styles.statSubValue}>18</span>
+            <span className={styles.statSubLabel}>This Week: </span>
+            <span className={styles.statSubValue}>320</span>
             </div>
             <div>
-              <span className={styles.statSubLabel} style={{ marginLeft: '24px' }}>Overdue: </span> 
-              <span className={styles.statSubValue}>7</span>
+            <span className={styles.statSubLabel} style={{ marginLeft: '24px' }}>Total Leads: </span> 
+            <span className={styles.statSubValue}>1,200</span>
             </div>
           </div>
         </div>
 
         <div className={styles.statCard}>
           <div className={styles.statHeader}>
-            <span className={styles.statTitle}>IN PROGRESS</span>
+            <span className={styles.statTitle}>PENDING</span>
             <div className={styles.statIcon} style={{ backgroundColor: '#f59e0b' }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/>
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12,6 12,12 16,14"/>
               </svg>
             </div>
           </div>
-          <div className={styles.statMainValue}>342</div>
+          <div className={styles.statMainValue}>600</div>
           <div className={styles.statSubLine}>
             <div>
-              <span className={styles.statSubLabel}>High Priority: </span> 
-              <span className={styles.statSubValue}>45</span>
+            <span className={styles.statSubLabel}>This Week: </span> 
+            <span className={styles.statSubValue}>150</span>
             </div>
             <div>
-              <span className={styles.statSubLabel} style={{ marginLeft: '24px' }}>Medium: </span>
-              <span className={styles.statSubValue}>297</span>
+            <span className={styles.statSubLabel} style={{ marginLeft: '24px' }}>This Month: </span>
+            <span className={styles.statSubValue}>450</span>
             </div>
           </div>
         </div>
 
         <div className={styles.statCard}>
           <div className={styles.statHeader}>
-            <span className={styles.statTitle}>COMPLETED</span>
+            <span className={styles.statTitle}>ASSIGNED</span>
             <div className={styles.statIcon} style={{ backgroundColor: '#10b981' }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/>
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22,4 12,14.01 9,11.01"/>
               </svg>
             </div>
           </div>
-          <div className={styles.statMainValue}>856</div>
+          <div className={styles.statMainValue}>1,100</div>
           <div className={styles.statSubLine}>
             <div>
               <span className={styles.statSubLabel}>This Week: </span>
-              <span className={styles.statSubValue}>124</span>
+            <span className={styles.statSubValue}>275</span>
             </div>
             <div>
               <span className={styles.statSubLabel} style={{ marginLeft: '24px' }}>This Month: </span>
-              <span className={styles.statSubValue}>456</span>
+            <span className={styles.statSubValue}>825</span>
             </div>
           </div>
         </div>
 
         <div className={styles.statCard}>
           <div className={styles.statHeader}>
-            <span className={styles.statTitle}>EFFICIENCY</span>
+            <span className={styles.statTitle}>REJECTED</span>
             <div className={styles.statIcon} style={{ backgroundColor: '#ef4444' }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="13 2 13 9 20 9 11 22 11 15 4 15 13 2"/>
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="15" y1="9" x2="9" y2="15"/>
+                <line x1="9" y1="9" x2="15" y2="15"/>
               </svg>
             </div>
           </div>
-          <div className={styles.statMainValue}>94%</div>
+          <div className={styles.statMainValue}>100</div>
           <div className={styles.statSubLine}>
             <div>
-              <span className={styles.statSubLabel}>Avg Time: </span>
-              <span className={styles.statSubValue}>2.4h</span>
+            <span className={styles.statSubLabel}>This Week: </span>
+            <span className={styles.statSubValue}>15</span>
             </div>
             <div>
-              <span className={styles.statSubLabel} style={{ marginLeft: '24px' }}>Success Rate: </span>
-              <span className={styles.statSubValue}>98%</span>
+            <span className={styles.statSubLabel} style={{ marginLeft: '24px' }}>This Month: </span>
+            <span className={styles.statSubValue}>85</span>
             </div>
           </div>
         </div>
@@ -1751,75 +2017,118 @@ export default function AdminDashboard() {
                 <input 
                   type="checkbox" 
                   checked={selectAll}
-                  onChange={handleSelectAllBackoffice}
+                  onChange={handleSelectAll}
                   className={styles.checkbox}
                 />
               </th>
-              <th>Task ID</th>
-              <th>Task Name</th>
+              <th>Lead ID</th>
+              <th>Client</th>
               <th>Email</th>
               <th>Phone</th>
+              <th>Message</th>
               <th>Assigned</th>
-              <th>Status</th>
-              <th>Created ↑</th>
+              <th>Takeover</th>
+              <th>Created At</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {mockBackoffice.map((item) => (
-              <tr key={item.id}>
+            {mockLeads.map((lead) => (
+              <tr key={lead._id}>
                 <td>
                   <input 
                     type="checkbox" 
-                    checked={selectedBackoffice.includes(item.id)}
-                    onChange={() => handleSelectBackoffice(item.id)}
+                    checked={selectedLeads.includes(lead._id)}
+                    onChange={() => handleSelectLead(lead._id)}
                     className={styles.checkbox}
                   />
                 </td>
-                <td>{item.id}</td>
+                <td>{lead._id}</td>
                 <td className={styles.customerCell}>
-                  <div className={styles.avatar}>{item.assigned}</div>
-                  {item.name}
+                  <div className={styles.avatar}>{lead.client.initials}</div>
+                  {lead.client.name}
                 </td>
-                <td className={styles.emailCell}>{item.email}</td>
-                <td>{item.phone}</td>
-                <td>
-                  <div className={styles.avatar}>{item.assigned}</div>
+                <td 
+                  className={styles.emailCell}
+                  onClick={() => handleEmailClick(lead.email)}
+                  style={{ cursor: 'pointer', color: '#2563eb' }}
+                >
+                  {lead.email}
+                </td>
+                <td 
+                  onClick={() => handlePhoneClick(lead.phone)}
+                  style={{ cursor: 'pointer', color: '#2563eb' }}
+                >
+                  {lead.phone}
                 </td>
                 <td>
-                  <span 
-                    className={styles.status}
-                    style={{ color: getStatusColor(item.status) }}
+                    <button
+                    onClick={() => setShowMessagePopup(lead._id)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: '#2563eb',
+                      cursor: 'pointer',
+                      textDecoration: 'none',
+                      fontSize: '0.875rem'
+                    }}
                   >
-                    {item.status}
+                    Message text
+                  </button>
+                </td>
+                <td>
+                  <span style={{
+                    color: leadAssignments[lead._id] === 'BOE1' ? '#3b82f6' : 
+                           leadAssignments[lead._id] === 'BOE2' ? '#10b981' :
+                           leadAssignments[lead._id] === 'BOE3' ? '#f59e0b' :
+                           leadAssignments[lead._id] === 'BOE4' ? '#8b5cf6' : 
+                           leadAssignments[lead._id] === 'BOE5' ? '#ef4444' : '#6b7280'
+                  }}>
+                    {leadAssignments[lead._id] || 'None'}
                   </span>
                 </td>
-                <td>{item.created}</td>
+                <td>
+                    <button
+                    onClick={() => handleActionIconClick(lead._id, 'takeover')}
+                    className={styles.bulkBtn}
+                    style={{
+                      background: 'white',
+                      border: '1px solid #d1d5db',
+                      color: '#374151',
+                      fontSize: '0.875rem',
+                      fontWeight: '500',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s',
+                      padding: '6px 12px',
+                      borderRadius: '6px'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#f9fafb';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'white';
+                    }}
+                  >
+                    Takeover
+                    </button>
+                </td>
+                <td>{formatDate(lead.createdAt)}</td>
                 <td>
                   <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                     <button
-                      onClick={() => handleActionIconClick(item.id, 'view')}
+                      onClick={() => handleActionIconClick(lead._id, 'download')}
                       className={styles.actionIcon}
-                      style={{ color: '#3b82f6' }}
-                      title="View"
+                      style={{ color: '#10b981' }}
+                      title="Download"
                     >
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7,10 12,15 17,10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
                       </svg>
                     </button>
                     <button
-                      onClick={() => handleActionIconClick(item.id, 'edit')}
-                      className={styles.actionIcon}
-                      style={{ color: '#f59e0b' }}
-                      title="Edit"
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
-                      </svg>
-                    </button>
-                    <button
-                      onClick={() => handleActionIconClick(item.id, 'delete')}
+                      onClick={() => handleActionIconClick(lead._id, 'delete')}
                       className={styles.actionIcon}
                       style={{ color: '#ef4444' }}
                       title="Delete"
@@ -1829,6 +2138,17 @@ export default function AdminDashboard() {
                         <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"/>
                         <line x1="10" y1="11" x2="10" y2="17"/>
                         <line x1="14" y1="11" x2="14" y2="17"/>
+                      </svg>
+                    </button>
+                    <button
+                      onClick={() => handleActionIconClick(lead._id, 'view')}
+                      className={styles.actionIcon}
+                      style={{ color: '#3b82f6' }}
+                      title="View"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                        <circle cx="12" cy="12" r="3"/>
                       </svg>
                     </button>
                   </div>
@@ -1878,7 +2198,7 @@ export default function AdminDashboard() {
           </div>
         </div>
         <nav className={styles.nav}>
-          {(["Leads", "Users", "Backoffice"] as Tab[]).map((tab) => (
+          {(["Leads", "Users", "Backoffice", "Backoffice Executives"] as Tab[]).map((tab) => (
             <button
               key={tab}
               className={`${styles.navItem} ${activeTab === tab ? styles.active : ""}`}
@@ -1894,6 +2214,7 @@ export default function AdminDashboard() {
         {activeTab === "Leads" && renderLeadsTab()}
         {activeTab === "Users" && renderUsersTab()}
         {activeTab === "Backoffice" && renderBackofficeTab()}
+        {activeTab === "Backoffice Executives" && renderBackofficeExecutivesTab()}
       </div>
 
       <AuthManager 

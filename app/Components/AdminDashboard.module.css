@@ -221,6 +221,21 @@
   overflow-x: auto;
 }
 
+.statsContainerCentered {
+  display: flex;
+  padding: 20px 24px;
+  gap: 16px;
+  border-bottom: 1px solid #e2e8f0;
+  overflow-x: auto;
+  justify-content: start;
+}
+
+.statsContainerCentered .statCard {
+  width: 50%;
+  max-width: 300px;
+  flex: none;
+}
+
 .statCard {
   flex: 1;
   min-width: 240px;
