@@ -224,6 +224,25 @@ export default function AdminDashboard() {
     setLeadStatuses(defaultStatuses);
   }, []);
 
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      
+      // Check if click is outside dropdown areas
+      if (!target.closest('.dropdown-container')) {
+        setShowAssignedDropdown(null);
+        setShowStatusDropdown(null);
+        setShowActionMenu(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   if (!mounted) {
     return null;
   }
@@ -481,7 +500,7 @@ export default function AdminDashboard() {
                   </button>
                 </td>
                 <td>
-                  <div style={{ position: 'relative' }}>
+                  <div style={{ position: 'relative' }} className="dropdown-container">
                     <button
                       onClick={() => setShowAssignedDropdown(showAssignedDropdown === lead.id ? null : lead.id)}
                       className={styles.dropdownButton}
@@ -517,7 +536,7 @@ export default function AdminDashboard() {
                   </div>
                 </td>
                 <td>
-                  <div style={{ position: 'relative' }}>
+                  <div style={{ position: 'relative' }} className="dropdown-container">
                     <button
                       onClick={() => setShowStatusDropdown(showStatusDropdown === lead.id ? null : lead.id)}
                       className={styles.dropdownButton}
@@ -752,7 +771,7 @@ export default function AdminDashboard() {
                 </td>
                 <td>{user.created}</td>
                 <td>
-                  <div style={{ position: 'relative' }}>
+                  <div style={{ position: 'relative' }} className="dropdown-container">
                     <button 
                       className={styles.moreBtn}
                       onClick={() => setShowActionMenu(showActionMenu === user.id ? null : user.id)}
@@ -958,7 +977,7 @@ export default function AdminDashboard() {
                 </td>
                 <td>{item.created}</td>
                 <td>
-                  <div style={{ position: 'relative' }}>
+                  <div style={{ position: 'relative' }} className="dropdown-container">
                     <button 
                       className={styles.moreBtn}
                       onClick={() => setShowActionMenu(showActionMenu === item.id ? null : item.id)}
