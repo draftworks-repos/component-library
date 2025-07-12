@@ -310,7 +310,11 @@ export default function AdminDashboard() {
           </div>
           <div className={styles.statMainValue}>1,200</div>
           <div className={styles.statSubInfo}>
-            <span className={styles.statSubLabel}>IN LAST 30 DAYS:</span>
+            <span className={styles.statSubLabel}>LAST 30 DAYS:</span>
+            <span className={styles.statSubValue}>1,200</span>
+          </div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>THIS WEEK:</span>
             <span className={styles.statSubValue}>320</span>
           </div>
           <div className={styles.statSubInfo}>
@@ -325,12 +329,12 @@ export default function AdminDashboard() {
           </div>
           <div className={styles.statMainValue}>600</div>
           <div className={styles.statSubInfo}>
-            <span className={styles.statSubLabel}>HIGH PRIORITY:</span>
-            <span className={styles.statSubValue}>45</span>
+            <span className={styles.statSubLabel}>THIS WEEK:</span>
+            <span className={styles.statSubValue}>150</span>
           </div>
           <div className={styles.statSubInfo}>
-            <span className={styles.statSubLabel}>MEDIUM PRIORITY:</span>
-            <span className={styles.statSubValue}>555</span>
+            <span className={styles.statSubLabel}>THIS MONTH:</span>
+            <span className={styles.statSubValue}>450</span>
           </div>
         </div>
         
@@ -340,12 +344,12 @@ export default function AdminDashboard() {
           </div>
           <div className={styles.statMainValue}>1,100</div>
           <div className={styles.statSubInfo}>
-            <span className={styles.statSubLabel}>ACTIVE:</span>
-            <span className={styles.statSubValue}>950</span>
+            <span className={styles.statSubLabel}>THIS WEEK:</span>
+            <span className={styles.statSubValue}>275</span>
           </div>
           <div className={styles.statSubInfo}>
-            <span className={styles.statSubLabel}>IN PROGRESS:</span>
-            <span className={styles.statSubValue}>150</span>
+            <span className={styles.statSubLabel}>THIS MONTH:</span>
+            <span className={styles.statSubValue}>825</span>
           </div>
         </div>
         
