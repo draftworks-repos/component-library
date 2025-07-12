@@ -1,40 +1,46 @@
-import mongoose, { Document, Schema, Types } from "mongoose";
-
-export type LeadStatus = "new" | "contacted" | "closed";
+import mongoose, { Schema, Document } from "mongoose";
 
 export interface ILead extends Document {
-  userId: Types.ObjectId;
-  name: string;
+  client: {
+    name: string;
+    initials: string;
+  };
   email: string;
   phone: string;
-  company?: string;
-  website?: string;
-  message?: string;
-  fileUrl?: string;
-  wantsMeeting: boolean;
-  status: LeadStatus;
+  message: string;
+  assigned: "BOE1" | "BOE2" | "BOE3" | "BOE4" | "BOE5";
+  status: "pending" | "assigned" | "completed";
+  action: "" | "trash";
   createdAt: Date;
-  updatedAt: Date;
 }
 
-const LeadSchema: Schema = new Schema<ILead>(
-  {
-    userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    name: { type: String, required: true, trim: true },
-    email: { type: String, required: true, lowercase: true },
-    phone: { type: String, required: true },
-    company: { type: String },
-    website: { type: String },
-    message: { type: String },
-    fileUrl: { type: String }, // This is where the uploaded file’s URL or path goes
-    wantsMeeting: { type: Boolean, default: false },
-    status: {
-      type: String,
-      enum: ["new", "contacted", "closed"],
-      default: "new",
-    },
+const LeadSchema: Schema = new Schema({
+  client: {
+    name: { type: String, required: true },
+    initials: { type: String, required: true },
   },
-  { timestamps: true }
-);
+  email: { type: String, required: true },
+  phone: { type: String, required: true },
+  message: { type: String },
+  assigned: {
+    type: String,
+    enum: ["BOE1", "BOE2", "BOE3", "BOE4", "BOE5"],
+    required: true,
+  },
+  status: {
+    type: String,
+    enum: ["pending", "assigned", "completed"],
+    default: "pending",
+  },
+  action: {
+    type: String,
+    enum: ["", "trash"],
+    default: "",
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
-export default mongoose.models.Lead || mongoose.model<ILead>("Lead", LeadSchema);
+export default mongoose.model<ILead>("Lead", LeadSchema);
