@@ -455,7 +455,7 @@ export default function AdminDashboard() {
                 <td 
                   className={styles.emailCell}
                   onClick={() => handleEmailClick(lead.email)}
-                  style={{ cursor: 'pointer' }}
+                  style={{ cursor: 'pointer', color: '#2563eb' }}
                 >
                   {lead.email}
                 </td>
@@ -473,7 +473,7 @@ export default function AdminDashboard() {
                       border: 'none',
                       color: '#2563eb',
                       cursor: 'pointer',
-                      textDecoration: 'underline',
+                      textDecoration: 'none',
                       fontSize: '0.875rem'
                     }}
                   >
@@ -484,24 +484,31 @@ export default function AdminDashboard() {
                   <div style={{ position: 'relative' }}>
                     <button
                       onClick={() => setShowAssignedDropdown(showAssignedDropdown === lead.id ? null : lead.id)}
+                      className={styles.dropdownButton}
                       style={{
-                        background: 'none',
-                        border: 'none',
-                        color: '#10b981',
-                        cursor: 'pointer',
-                        fontWeight: '500',
-                        fontSize: '0.875rem'
+                        color: leadAssignments[lead.id] === 'BOE1' ? '#3b82f6' : 
+                               leadAssignments[lead.id] === 'BOE2' ? '#10b981' :
+                               leadAssignments[lead.id] === 'BOE3' ? '#f59e0b' :
+                               leadAssignments[lead.id] === 'BOE4' ? '#8b5cf6' : '#ef4444'
                       }}
                     >
-                      {leadAssignments[lead.id] || 'BOE1'} ▼
+                      {leadAssignments[lead.id] || 'BOE1'}
+                      <span className={styles.dropdownArrow}>▼</span>
                     </button>
                     {showAssignedDropdown === lead.id && (
-                      <div className={styles.actionMenu}>
-                        {['BOE1', 'BOE2', 'BOE3', 'BOE4', 'BOE5'].map(option => (
+                      <div className={styles.modernDropdown}>
+                        <div className={styles.dropdownArrowUp}></div>
+                        {['BOE1', 'BOE2', 'BOE3', 'BOE4', 'BOE5'].map((option, index) => (
                           <button
                             key={option}
-                            className={styles.actionItem}
+                            className={styles.modernDropdownItem}
                             onClick={() => handleAssignmentChange(lead.id, option)}
+                            style={{
+                              color: option === 'BOE1' ? '#3b82f6' : 
+                                     option === 'BOE2' ? '#10b981' :
+                                     option === 'BOE3' ? '#f59e0b' :
+                                     option === 'BOE4' ? '#8b5cf6' : '#ef4444'
+                            }}
                           >
                             {option}
                           </button>
@@ -514,24 +521,27 @@ export default function AdminDashboard() {
                   <div style={{ position: 'relative' }}>
                     <button
                       onClick={() => setShowStatusDropdown(showStatusDropdown === lead.id ? null : lead.id)}
+                      className={styles.dropdownButton}
                       style={{
-                        background: 'none',
-                        border: 'none',
-                        color: '#f59e0b',
-                        cursor: 'pointer',
-                        fontWeight: '500',
-                        fontSize: '0.875rem'
+                        color: leadStatuses[lead.id] === 'assigned' ? '#f59e0b' : 
+                               leadStatuses[lead.id] === 'pending' ? '#ef4444' : '#10b981'
                       }}
                     >
-                      {leadStatuses[lead.id] || 'assigned'} ▼
+                      {leadStatuses[lead.id] || 'assigned'}
+                      <span className={styles.dropdownArrow}>▼</span>
                     </button>
                     {showStatusDropdown === lead.id && (
-                      <div className={styles.actionMenu}>
+                      <div className={styles.modernDropdown}>
+                        <div className={styles.dropdownArrowUp}></div>
                         {['assigned', 'pending', 'completed'].map(option => (
                           <button
                             key={option}
-                            className={styles.actionItem}
+                            className={styles.modernDropdownItem}
                             onClick={() => handleStatusChange(lead.id, option)}
+                            style={{
+                              color: option === 'assigned' ? '#f59e0b' : 
+                                     option === 'pending' ? '#ef4444' : '#10b981'
+                            }}
                           >
                             {option}
                           </button>
@@ -545,45 +555,39 @@ export default function AdminDashboard() {
                   <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                     <button
                       onClick={() => handleActionIconClick(lead.id, 'download')}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        cursor: 'pointer',
-                        color: '#10b981',
-                        fontSize: '16px',
-                        padding: '4px'
-                      }}
+                      className={styles.actionIcon}
+                      style={{ color: '#10b981' }}
                       title="Download"
                     >
-                      ⬇️
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7,10 12,15 17,10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                      </svg>
                     </button>
                     <button
                       onClick={() => handleActionIconClick(lead.id, 'delete')}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        cursor: 'pointer',
-                        color: '#ef4444',
-                        fontSize: '16px',
-                        padding: '4px'
-                      }}
+                      className={styles.actionIcon}
+                      style={{ color: '#ef4444' }}
                       title="Delete"
                     >
-                      🗑️
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="3,6 5,6 21,6"/>
+                        <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"/>
+                        <line x1="10" y1="11" x2="10" y2="17"/>
+                        <line x1="14" y1="11" x2="14" y2="17"/>
+                      </svg>
                     </button>
                     <button
                       onClick={() => handleActionIconClick(lead.id, 'view')}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        cursor: 'pointer',
-                        color: '#3b82f6',
-                        fontSize: '16px',
-                        padding: '4px'
-                      }}
+                      className={styles.actionIcon}
+                      style={{ color: '#3b82f6' }}
                       title="View"
                     >
-                      👁️
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                      </svg>
                     </button>
                   </div>
                 </td>

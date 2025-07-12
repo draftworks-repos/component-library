@@ -387,6 +387,117 @@
   color: #2563eb;
 }
 
+.dropdownButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  fontWeight: 500;
+  fontSize: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.dropdownButton:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.dropdownArrow {
+  font-size: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.dropdownButton:hover .dropdownArrow {
+  transform: translateY(-1px);
+}
+
+.modernDropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  z-index: 20;
+  min-width: 120px;
+  padding: 8px 0;
+  animation: fadeUp 0.2s ease-out;
+}
+
+.dropdownArrowUp {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-bottom: none;
+  border-right: none;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.modernDropdownItem {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  text-align: left;
+  background: none;
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border-radius: 0;
+}
+
+.modernDropdownItem:hover {
+  background: rgba(0, 0, 0, 0.04);
+  transform: translateX(2px);
+}
+
+.modernDropdownItem:first-child {
+  border-radius: 8px 8px 0 0;
+}
+
+.modernDropdownItem:last-child {
+  border-radius: 0 0 8px 8px;
+}
+
+.actionIcon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actionIcon:hover {
+  background: rgba(0, 0, 0, 0.05);
+  transform: translateY(-1px);
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
 .tag {
   padding: 2px 8px;
   border-radius: 12px;
