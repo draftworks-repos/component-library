@@ -178,7 +178,8 @@
   gap: 12px;
 }
 
-.exportBtn, .newLeadBtn {
+.exportBtn,
+.newLeadBtn {
   padding: 8px 16px;
   border-radius: 6px;
   font-size: 0.875rem;
@@ -292,13 +293,17 @@
   border-bottom: 1px solid #e2e8f0;
 }
 
-.leftControls, .rightControls {
+.leftControls,
+.rightControls {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.filterBtn, .bulkBtn, .refreshBtn, .viewBtn {
+.filterBtn,
+.bulkBtn,
+.refreshBtn,
+.viewBtn {
   padding: 6px 12px;
   background: white;
   border: 1px solid #d1d5db;
@@ -309,7 +314,10 @@
   transition: all 0.2s;
 }
 
-.filterBtn:hover, .bulkBtn:hover, .refreshBtn:hover, .viewBtn:hover {
+.filterBtn:hover,
+.bulkBtn:hover,
+.refreshBtn:hover,
+.viewBtn:hover {
   background: #f9fafb;
 }
 
@@ -492,6 +500,7 @@
     opacity: 0;
     transform: translateX(-50%) translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
@@ -612,44 +621,45 @@
   .dashboard {
     flex-direction: column;
   }
-  
+
   .sidebar {
     width: 100%;
     padding: 10px 0;
   }
-  
+
   .nav {
     flex-direction: row;
     overflow-x: auto;
     padding: 0 10px;
   }
-  
+
   .navItem {
     white-space: nowrap;
     min-width: fit-content;
   }
-  
+
   .leadsHeader {
     flex-direction: column;
     gap: 16px;
     align-items: stretch;
   }
-  
+
   .headerRight {
     justify-content: flex-end;
   }
-  
+
   .statsContainer {
     flex-wrap: wrap;
   }
-  
+
   .tableControls {
     flex-direction: column;
     gap: 12px;
     align-items: stretch;
   }
-  
-  .leftControls, .rightControls {
+
+  .leftControls,
+  .rightControls {
     justify-content: center;
   }
 }
