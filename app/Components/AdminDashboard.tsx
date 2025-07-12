@@ -306,19 +306,15 @@ export default function AdminDashboard() {
       <div className={styles.statsContainer}>
         <div className={styles.statCard} style={{ backgroundColor: '#f0f9ff' }}>
           <div className={styles.statHeader}>
-            <span className={styles.statTitle}>LEADS</span>
+            <span className={styles.statTitle}>LEADS (LAST 30 DAYS)</span>
           </div>
           <div className={styles.statMainValue}>1,200</div>
-          <div className={styles.statSubInfo}>
-            <span className={styles.statSubLabel}>LAST 30 DAYS:</span>
-            <span className={styles.statSubValue}>1,200</span>
-          </div>
           <div className={styles.statSubInfo}>
             <span className={styles.statSubLabel}>THIS WEEK:</span>
             <span className={styles.statSubValue}>320</span>
           </div>
           <div className={styles.statSubInfo}>
-            <span className={styles.statSubLabel}>TOTAL LEADS:</span>
+            <span className={styles.statSubLabel}>TOTAL:</span>
             <span className={styles.statSubValue}>1,200</span>
           </div>
         </div>
