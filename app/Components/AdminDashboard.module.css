@@ -437,6 +437,12 @@
   animation: fadeUp 0.2s ease-out;
 }
 
+.dropdownUp {
+  top: auto;
+  bottom: calc(100% + 8px);
+  animation: fadeDown 0.2s ease-out;
+}
+
 .dropdownArrowUp {
   position: absolute;
   top: -6px;
@@ -449,6 +455,14 @@
   border-bottom: none;
   border-right: none;
   transform: translateX(-50%) rotate(45deg);
+}
+
+.arrowDown {
+  top: auto;
+  bottom: -6px;
+  border-bottom: 1px solid #e2e8f0;
+  border-top: none;
+  transform: translateX(-50%) rotate(225deg);
 }
 
 .modernDropdownItem {
@@ -499,6 +513,18 @@
   from {
     opacity: 0;
     transform: translateX(-50%) translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
   }
 
   to {
