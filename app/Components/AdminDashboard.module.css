@@ -413,14 +413,7 @@
   background: rgba(0, 0, 0, 0.05);
 }
 
-.dropdownArrow {
-  font-size: 0.75rem;
-  transition: transform 0.2s ease;
-}
 
-.dropdownButton:hover .dropdownArrow {
-  transform: translateY(-1px);
-}
 
 .modernDropdown {
   position: absolute;
@@ -434,7 +427,7 @@
   z-index: 20;
   min-width: 120px;
   padding: 8px 0;
-  animation: fadeUp 0.2s ease-out;
+  animation: smoothAppear 0.15s ease-out;
 }
 
 .dropdownArrowUp {
@@ -455,7 +448,7 @@
   display: block;
   width: 100%;
   padding: 10px 16px;
-  text-align: left;
+  text-align: center;
   background: none;
   border: none;
   font-size: 0.875rem;
@@ -467,7 +460,7 @@
 
 .modernDropdownItem:hover {
   background: rgba(0, 0, 0, 0.04);
-  transform: translateX(2px);
+  transform: translateY(-1px);
 }
 
 .modernDropdownItem:first-child {
@@ -476,6 +469,22 @@
 
 .modernDropdownItem:last-child {
   border-radius: 0 0 8px 8px;
+}
+
+.searchBtn {
+  padding: 6px 12px;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.searchBtn:hover {
+  background: #f9fafb;
+  border-color: #2563eb;
 }
 
 .actionIcon {
@@ -495,15 +504,15 @@
   transform: translateY(-1px);
 }
 
-@keyframes fadeUp {
+@keyframes smoothAppear {
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(10px);
+    transform: translateX(-50%) translateY(-5px) scale(0.95);
   }
 
   to {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    transform: translateX(-50%) translateY(0) scale(1);
   }
 }
 
