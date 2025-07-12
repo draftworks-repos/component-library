@@ -493,7 +493,6 @@ export default function AdminDashboard() {
                       }}
                     >
                       {leadAssignments[lead.id] || 'BOE1'}
-                      <span className={styles.dropdownArrow}>▼</span>
                     </button>
                     {showAssignedDropdown === lead.id && (
                       <div className={styles.modernDropdown}>
@@ -528,7 +527,6 @@ export default function AdminDashboard() {
                       }}
                     >
                       {leadStatuses[lead.id] || 'assigned'}
-                      <span className={styles.dropdownArrow}>▼</span>
                     </button>
                     {showStatusDropdown === lead.id && (
                       <div className={styles.modernDropdown}>
