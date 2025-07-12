@@ -370,7 +370,7 @@ export default function AdminDashboard() {
           <div className={styles.statSubLine}>
             <span className={styles.statSubLabel}>This Week: </span>
             <span className={styles.statSubValue}>320</span>
-            <span className={styles.statSubLabel} style={{ marginLeft: '24px' }}>Total Leads: </span>
+            <span className={styles.statSubLabel} style={{ marginLeft: '24px' }}>Total Leads: </span> 
             <span className={styles.statSubValue}>1,200</span>
           </div>
         </div>
@@ -384,7 +384,7 @@ export default function AdminDashboard() {
           </div>
           <div className={styles.statMainValue}>600</div>
           <div className={styles.statSubLine}>
-            <span className={styles.statSubLabel}>This Week: </span>
+            <span className={styles.statSubLabel}>This Week: </span> 
             <span className={styles.statSubValue}>150</span>
             <span className={styles.statSubLabel} style={{ marginLeft: '24px' }}>This Month: </span>
             <span className={styles.statSubValue}>450</span>
@@ -430,7 +430,12 @@ export default function AdminDashboard() {
         </div>
         <div className={styles.rightControls}>
           <input type="text" placeholder="Search text" className={styles.searchInput} />
-          <button className={styles.searchBtn}>🔍</button>
+          <button className={styles.searchBtn}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.35-4.35"/>
+            </svg>
+          </button>
           <button className={styles.filterBtn}>⚙ Filter</button>
         </div>
       </div>
@@ -715,7 +720,12 @@ export default function AdminDashboard() {
         </div>
         <div className={styles.rightControls}>
           <input type="text" placeholder="Search text" className={styles.searchInput} />
-          <button className={styles.searchBtn}>🔍</button>
+          <button className={styles.searchBtn}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.35-4.35"/>
+            </svg>
+          </button>
           <button className={styles.filterBtn}>⚙ Filter</button>
         </div>
       </div>
@@ -838,7 +848,7 @@ export default function AdminDashboard() {
     </div>
   );
 
-  const renderBackofficeTab = () => (
+  const renderBackofficeTab =() => (
     <div className={styles.leadsContainer}>
       <div className={styles.leadsHeader}>
         <div className={styles.headerLeft}>
@@ -920,7 +930,12 @@ export default function AdminDashboard() {
         </div>
         <div className={styles.rightControls}>
           <input type="text" placeholder="Search text" className={styles.searchInput} />
-          <button className={styles.searchBtn}>🔍</button>
+          <button className={styles.searchBtn}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.35-4.35"/>
+            </svg>
+          </button>
           <button className={styles.filterBtn}>⚙ Filter</button>
         </div>
       </div>
