@@ -302,8 +302,7 @@
 
 .filterBtn,
 .bulkBtn,
-.refreshBtn,
-.viewBtn {
+.searchBtn {
   padding: 6px 12px;
   background: white;
   border: 1px solid #d1d5db;
@@ -316,9 +315,13 @@
 
 .filterBtn:hover,
 .bulkBtn:hover,
-.refreshBtn:hover,
-.viewBtn:hover {
+.searchBtn:hover {
   background: #f9fafb;
+}
+
+.searchBtn {
+  font-size: 1rem;
+  padding: 6px 10px;
 }
 
 .checkbox {

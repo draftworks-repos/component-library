@@ -228,7 +228,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
-      
+
       // Check if click is outside dropdown areas
       if (!target.closest('.dropdown-container')) {
         setShowAssignedDropdown(null);
@@ -373,7 +373,7 @@ export default function AdminDashboard() {
             <span className={styles.statSubValue}>1,200</span>
           </div>
         </div>
-        
+
         <div className={styles.statCard} style={{ backgroundColor: '#fefce8' }}>
           <div className={styles.statHeader}>
             <span className={styles.statTitle}>PENDING</span>
@@ -388,7 +388,7 @@ export default function AdminDashboard() {
             <span className={styles.statSubValue}>450</span>
           </div>
         </div>
-        
+
         <div className={styles.statCard} style={{ backgroundColor: '#f0fdf4' }}>
           <div className={styles.statHeader}>
             <span className={styles.statTitle}>ASSIGNED</span>
@@ -403,7 +403,7 @@ export default function AdminDashboard() {
             <span className={styles.statSubValue}>825</span>
           </div>
         </div>
-        
+
         <div className={styles.statCard} style={{ backgroundColor: '#fef2f2' }}>
           <div className={styles.statHeader}>
             <span className={styles.statTitle}>REJECTED</span>
@@ -423,12 +423,11 @@ export default function AdminDashboard() {
       <div className={styles.tableControls}>
         <div className={styles.leftControls}>
           <button className={styles.bulkBtn}>Bulk Actions</button>
-          <button className={styles.refreshBtn}>↻</button>
         </div>
         <div className={styles.rightControls}>
           <input type="text" placeholder="Search text" className={styles.searchInput} />
+          <button className={styles.searchBtn}>🔍</button>
           <button className={styles.filterBtn}>⚙ Filter</button>
-          <button className={styles.viewBtn}>⊞ View</button>
         </div>
       </div>
 
@@ -657,7 +656,7 @@ export default function AdminDashboard() {
             <span className={styles.statSubValue}>42,156</span>
           </div>
         </div>
-        
+
         <div className={styles.statCard} style={{ backgroundColor: '#f0f9ff' }}>
           <div className={styles.statHeader}>
             <span className={styles.statTitle}>VERIFIED USERS</span>
@@ -672,7 +671,7 @@ export default function AdminDashboard() {
             <span className={styles.statSubValue}>4,000</span>
           </div>
         </div>
-        
+
         <div className={styles.statCard} style={{ backgroundColor: '#fefce8' }}>
           <div className={styles.statHeader}>
             <span className={styles.statTitle}>USER ACTIVITY</span>
@@ -689,7 +688,7 @@ export default function AdminDashboard() {
             <span className={styles.statPercentage}>+8%</span>
           </div>
         </div>
-        
+
         <div className={styles.statCard} style={{ backgroundColor: '#f0fdf4' }}>
           <div className={styles.statHeader}>
             <span className={styles.statTitle}>PERMISSIONS</span>
@@ -709,12 +708,11 @@ export default function AdminDashboard() {
       <div className={styles.tableControls}>
         <div className={styles.leftControls}>
           <button className={styles.bulkBtn}>Bulk Actions</button>
-          <button className={styles.refreshBtn}>↻</button>
         </div>
         <div className={styles.rightControls}>
           <input type="text" placeholder="Search text" className={styles.searchInput} />
+          <button className={styles.searchBtn}>🔍</button>
           <button className={styles.filterBtn}>⚙ Filter</button>
-          <button className={styles.viewBtn}>⊞ View</button>
         </div>
       </div>
 
@@ -863,7 +861,7 @@ export default function AdminDashboard() {
             <span className={styles.statSubValue}>7</span>
           </div>
         </div>
-        
+
         <div className={styles.statCard} style={{ backgroundColor: '#f0f9ff' }}>
           <div className={styles.statHeader}>
             <span className={styles.statTitle}>IN PROGRESS</span>
@@ -878,7 +876,7 @@ export default function AdminDashboard() {
             <span className={styles.statSubValue}>297</span>
           </div>
         </div>
-        
+
         <div className={styles.statCard} style={{ backgroundColor: '#fefce8' }}>
           <div className={styles.statHeader}>
             <span className={styles.statTitle}>COMPLETED</span>
@@ -895,7 +893,7 @@ export default function AdminDashboard() {
             <span className={styles.statPercentage}>+8%</span>
           </div>
         </div>
-        
+
         <div className={styles.statCard} style={{ backgroundColor: '#f0fdf4' }}>
           <div className={styles.statHeader}>
             <span className={styles.statTitle}>EFFICIENCY</span>
@@ -915,12 +913,11 @@ export default function AdminDashboard() {
       <div className={styles.tableControls}>
         <div className={styles.leftControls}>
           <button className={styles.bulkBtn}>Bulk Actions</button>
-          <button className={styles.refreshBtn}>↻</button>
         </div>
         <div className={styles.rightControls}>
           <input type="text" placeholder="Search text" className={styles.searchInput} />
+          <button className={styles.searchBtn}>🔍</button>
           <button className={styles.filterBtn}>⚙ Filter</button>
-          <button className={styles.viewBtn}>⊞ View</button>
         </div>
       </div>
 
@@ -1076,13 +1073,13 @@ export default function AdminDashboard() {
           ))}
         </nav>
       </div>
-      
+
       <div className={styles.content}>
         {activeTab === "Leads" && renderLeadsTab()}
         {activeTab === "Users" && renderUsersTab()}
         {activeTab === "Backoffice" && renderBackofficeTab()}
       </div>
-      
+
       <AuthManager 
         isOpen={showAuthPopup} 
         onClose={() => setShowAuthPopup(false)} 
