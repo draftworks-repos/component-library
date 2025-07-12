@@ -150,6 +150,8 @@
   border-radius: 8px;
   padding: 0;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: visible;
 }
 
 .leadsHeader {
@@ -180,6 +182,9 @@
 
 .exportBtn,
 .newLeadBtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   padding: 8px 16px;
   border-radius: 6px;
   font-size: 0.875rem;
@@ -268,7 +273,7 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 4px;
-  margin-top: 8px;
+  margin-top: 20px;
 }
 
 .statSubLabel {
@@ -352,12 +357,26 @@
 }
 
 .tableContainer {
-  overflow-x: auto;
+  overflow: visible;
+  position: relative;
+  margin-bottom: 20px;
 }
 
 .leadsTable {
   width: 100%;
   border-collapse: collapse;
+  position: relative;
+}
+
+.leadsTable tbody tr {
+  position: relative;
+}
+
+.leadsTable tbody tr:last-child .dropdown-container,
+.leadsTable tbody tr:nth-last-child(2) .dropdown-container,
+.leadsTable tbody tr:nth-last-child(3) .dropdown-container,
+.leadsTable tbody tr:nth-last-child(4) .dropdown-container {
+  z-index: 1002;
 }
 
 .leadsTable th {
@@ -417,9 +436,15 @@
   padding: 6px 12px;
   border-radius: 6px;
   transition: all 0.2s ease;
+  user-select: none;
 }
 
 .dropdownButton:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.dropdownButton:focus {
+  outline: none;
   background: rgba(0, 0, 0, 0.05);
 }
 
@@ -441,10 +466,11 @@
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  z-index: 20;
+  z-index: 1000;
   min-width: 120px;
   padding: 8px 0;
   animation: fadeUp 0.2s ease-out;
+  pointer-events: auto;
 }
 
 .dropdownUp {
@@ -465,6 +491,7 @@
   border-bottom: none;
   border-right: none;
   transform: translateX(-50%) rotate(45deg);
+  z-index: 1001;
 }
 
 .arrowDown {
@@ -487,6 +514,7 @@
   cursor: pointer;
   transition: all 0.15s ease;
   border-radius: 0;
+  user-select: none;
 }
 
 .modernDropdownItem:hover {
@@ -612,6 +640,8 @@
   align-items: center;
   padding: 16px 24px;
   border-top: 1px solid #e2e8f0;
+  position: relative;
+  z-index: 1;
 }
 
 .paginationBtn {

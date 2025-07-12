@@ -8,8 +8,6 @@ export default function Home() {
   return (
     <div>
       <AdminDashboard />
-      <PoemCards/>
-      <TestimonialCarousel />
     </div>
   );
 }
