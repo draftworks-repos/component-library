@@ -35,7 +35,7 @@ type BackofficeItem = {
   created: string;
 };
 
-type Tab = "Leads" | "Users" | "Backoffice" | "Configuration";
+type Tab = "Leads" | "Users" | "Backoffice";
 
 const mockLeads: Lead[] = [
   {
@@ -304,68 +304,63 @@ export default function AdminDashboard() {
       </div>
 
       <div className={styles.statsContainer}>
-        <div className={styles.statCard} style={{ backgroundColor: '#f8fafc' }}>
-          <div className={styles.statHeader}>
-            <span className={styles.statTitle}>TOTAL LEADS</span>
-          </div>
-          <div className={styles.statMainValue}>600,465</div>
-          <div className={styles.statSubInfo}>
-            <span className={styles.statSubLabel}>NEW TODAY:</span>
-            <span className={styles.statSubValue}>800</span>
-          </div>
-          <div className={styles.statSubInfo}>
-            <span className={styles.statSubLabel}>UNSUBSCRIBED:</span>
-            <span className={styles.statSubValue}>50</span>
-          </div>
-        </div>
-        
         <div className={styles.statCard} style={{ backgroundColor: '#f0f9ff' }}>
           <div className={styles.statHeader}>
-            <span className={styles.statTitle}>ACTIVE CAMPAIGNS</span>
-            <button className={styles.addBtn}>+</button>
+            <span className={styles.statTitle}>LEADS</span>
           </div>
-          <div className={styles.statMainValue}>8</div>
+          <div className={styles.statMainValue}>1,200</div>
           <div className={styles.statSubInfo}>
-            <span className={styles.statSubLabel}>SMS:</span>
-            <span className={styles.statSubValue}>3</span>
+            <span className={styles.statSubLabel}>IN LAST 30 DAYS:</span>
+            <span className={styles.statSubValue}>320</span>
           </div>
           <div className={styles.statSubInfo}>
-            <span className={styles.statSubLabel}>EMAIL:</span>
-            <span className={styles.statSubValue}>5</span>
+            <span className={styles.statSubLabel}>TOTAL LEADS:</span>
+            <span className={styles.statSubValue}>1,200</span>
           </div>
         </div>
         
         <div className={styles.statCard} style={{ backgroundColor: '#fefce8' }}>
           <div className={styles.statHeader}>
-            <span className={styles.statTitle}>CLICKS</span>
+            <span className={styles.statTitle}>PENDING</span>
           </div>
-          <div className={styles.statMainValue}>2,100</div>
+          <div className={styles.statMainValue}>600</div>
           <div className={styles.statSubInfo}>
-            <span className={styles.statSubLabel}>SMS:</span>
-            <span className={styles.statSubValue}>700</span>
-            <span className={styles.statPercentage}>CTR: 35%</span>
+            <span className={styles.statSubLabel}>HIGH PRIORITY:</span>
+            <span className={styles.statSubValue}>45</span>
           </div>
           <div className={styles.statSubInfo}>
-            <span className={styles.statSubLabel}>EMAIL:</span>
-            <span className={styles.statSubValue}>1600</span>
-            <span className={styles.statPercentage}>CTR: 60%</span>
+            <span className={styles.statSubLabel}>MEDIUM PRIORITY:</span>
+            <span className={styles.statSubValue}>555</span>
           </div>
         </div>
         
         <div className={styles.statCard} style={{ backgroundColor: '#f0fdf4' }}>
           <div className={styles.statHeader}>
-            <span className={styles.statTitle}>TOTAL SPEND</span>
+            <span className={styles.statTitle}>ASSIGNED</span>
           </div>
-          <div className={styles.statMainValue}>$2,074</div>
+          <div className={styles.statMainValue}>1,100</div>
           <div className={styles.statSubInfo}>
-            <span className={styles.statSubLabel}>SMS:</span>
-            <span className={styles.statSubValue}>$400</span>
-            <span className={styles.statPercentage}>CRL: 35%</span>
+            <span className={styles.statSubLabel}>ACTIVE:</span>
+            <span className={styles.statSubValue}>950</span>
           </div>
           <div className={styles.statSubInfo}>
-            <span className={styles.statSubLabel}>EMAIL:</span>
-            <span className={styles.statSubValue}>$1,674</span>
-            <span className={styles.statPercentage}>CRL: 65%</span>
+            <span className={styles.statSubLabel}>IN PROGRESS:</span>
+            <span className={styles.statSubValue}>150</span>
+          </div>
+        </div>
+        
+        <div className={styles.statCard} style={{ backgroundColor: '#fef2f2' }}>
+          <div className={styles.statHeader}>
+            <span className={styles.statTitle}>REJECTED</span>
+          </div>
+          <div className={styles.statMainValue}>100</div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>THIS WEEK:</span>
+            <span className={styles.statSubValue}>15</span>
+          </div>
+          <div className={styles.statSubInfo}>
+            <span className={styles.statSubLabel}>THIS MONTH:</span>
+            <span className={styles.statSubValue}>85</span>
           </div>
         </div>
       </div>
@@ -914,15 +909,6 @@ export default function AdminDashboard() {
     </div>
   );
 
-  const renderConfigurationTab = () => (
-    <div className={styles.tabContent}>
-      <h2>Configuration</h2>
-      <p>System settings and configuration options.</p>
-      <div className={styles.placeholder}>
-        <p>Configuration interface will be implemented here.</p>
-      </div>
-    </div>
-  );
 
   return (
     <div className={styles.dashboard}>
@@ -946,7 +932,7 @@ export default function AdminDashboard() {
           </div>
         </div>
         <nav className={styles.nav}>
-          {(["Leads", "Users", "Backoffice", "Configuration"] as Tab[]).map((tab) => (
+          {(["Leads", "Users", "Backoffice"] as Tab[]).map((tab) => (
             <button
               key={tab}
               className={`${styles.navItem} ${activeTab === tab ? styles.active : ""}`}
@@ -962,7 +948,6 @@ export default function AdminDashboard() {
         {activeTab === "Leads" && renderLeadsTab()}
         {activeTab === "Users" && renderUsersTab()}
         {activeTab === "Backoffice" && renderBackofficeTab()}
-        {activeTab === "Configuration" && renderConfigurationTab()}
       </div>
       
       <AuthManager 
