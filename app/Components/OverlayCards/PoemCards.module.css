@@ -1,0 +1,566 @@
+@import url(https://fonts.bunny.net/css?family=kodchasan:200,400,600);
+
+.component {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #f8f9fa;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+  max-width: 800px;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
+  font-family: "Kodchasan", sans-serif;
+}
+
+.header p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #666;
+  font-family: system-ui, sans-serif;
+}
+
+.container {
+  /* defaults */
+  --_offset-steps: 6rem; /* distance up */
+  --_scale-steps: 25;  /* scale behind*/
+  --_opacity-steps: 15; /* opacity behind */
+
+  --_ani-duration: 300ms; /* transition on card elements */
+  --_ani-delay: 200ms; /* delay on card elements (will be multiplied) */
+
+  /* calculations */
+  --_offset-steps-two: calc(var(--_offset-steps) * -1);
+  --_offset-steps-three: calc(var(--_offset-steps) * -2);
+
+  --scale-steps-two: calc(1 - var(--_scale-steps) * 0.01);
+  --scale-steps-three: calc(1 - var(--_scale-steps) * 0.02);
+
+  --opacity-steps-two: calc(1 - var(--_opacity-steps) * 0.02);
+  --opacity-steps-three: calc(1 - var(--_opacity-steps) * 0.04);
+
+  display: grid;
+  grid-template-areas: "stack";
+  color: black;
+  width: min(calc(100% - 2rem), 60rem);
+}
+
+@media (width > 600px) {
+  .container {
+    --_offset-steps: 4em; /* distance up */
+  }
+}
+
+.card {
+  --_bg-alpha: .5;
+  --_border-radius: 10px;
+  --_bg-dot-offset: 20px;
+  --_bg-dot-color: var(--_bg-clr);
+
+  position: relative;
+  isolation: isolate;
+  background-color: white;
+  grid-area: stack;
+  transition: 500ms ease-in-out;
+  border-radius: var(--_border-radius);
+  translate: 0 var(--_offset);
+  order: var(--_order);
+  z-index: var(--_order);
+  scale: var(--_scale);
+  opacity: var(--_opacity);
+  font-family: "Kodchasan", sans-serif;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card::before,
+.card::after {
+  content: "";
+  position: absolute;
+  border-radius: inherit;
+  z-index: -1;
+}
+
+.card::before {
+  z-index: -1;
+  inset: calc(var(--_bg-dot-offset) * -1);
+  background-image: radial-gradient(var(--_bg-dot-color) 1px, transparent 0px);
+  background-repeat: repeat;
+  background-size: 5px 5px;
+  background-position: center;
+  border-radius: calc(var(--_border-radius) + var(--_bg-dot-offset));
+}
+
+.card::after {
+  background-color: white;
+  inset: 0;
+}
+
+.card:nth-of-type(1) {
+  --_bg-clr: linear-gradient(90deg, rgba(121, 9, 50, 1) 0%, rgba(255, 0, 94, 1) 100%);
+  --_order: var(--_1-order);
+  --_scale: var(--_1-scale);
+  --_opacity: var(--_1-opacity);
+  --_offset: var(--_1-offset);
+  --_pointer-event: var(--_1-pointer-event);
+  --_pointer-cursor: var(--_1-pointer-cursor);
+}
+
+.card:nth-of-type(2) {
+  --_bg-clr: linear-gradient(90deg, rgba(121, 9, 50, 1) 0%, rgba(255, 0, 94, 1) 100%);
+  --_order: var(--_2-order);
+  --_scale: var(--_2-scale);
+  --_opacity: var(--_2-opacity);
+  --_offset: var(--_2-offset);
+  --_pointer-event: var(--_2-pointer-event);
+  --_pointer-cursor: var(--_2-pointer-cursor);
+}
+
+.card:nth-of-type(3) {
+  --_bg-clr: linear-gradient(90deg, rgba(121, 9, 50, 1) 0%, rgba(255, 0, 94, 1) 100%);
+  --_order: var(--_3-order);
+  --_scale: var(--_3-scale);
+  --_opacity: var(--_3-opacity);
+  --_offset: var(--_3-offset);
+  --_pointer-event: var(--_3-pointer-event);
+  --_pointer-cursor: var(--_3-pointer-cursor);
+}
+
+.card:nth-of-type(4) {
+  --_bg-clr: linear-gradient(90deg, rgba(121, 9, 50, 1) 0%, rgba(255, 0, 94, 1) 100%);
+  --_order: var(--_4-order);
+  --_scale: var(--_4-scale);
+  --_opacity: var(--_4-opacity);
+  --_offset: var(--_4-offset);
+  --_pointer-event: var(--_4-pointer-event);
+  --_pointer-cursor: var(--_4-pointer-cursor);
+}
+
+.card:nth-of-type(5) {
+  --_bg-clr: linear-gradient(90deg, rgba(121, 9, 50, 1) 0%, rgba(255, 0, 94, 1) 100%);
+  --_order: var(--_5-order);
+  --_scale: var(--_5-scale);
+  --_opacity: var(--_5-opacity);
+  --_offset: var(--_5-offset);
+  --_pointer-event: var(--_5-pointer-event);
+  --_pointer-cursor: var(--_5-pointer-cursor);
+}
+
+.card:nth-of-type(6) {
+  --_bg-clr: linear-gradient(90deg, rgba(121, 9, 50, 1) 0%, rgba(255, 0, 94, 1) 100%);
+  --_order: var(--_6-order);
+  --_scale: var(--_6-scale);
+  --_opacity: var(--_6-opacity);
+  --_offset: var(--_6-offset);
+  --_pointer-event: var(--_6-pointer-event);
+  --_pointer-cursor: var(--_6-pointer-cursor);
+}
+
+.container:has(input:nth-child(1):focus-visible) .card:nth-of-type(1) label,
+.container:has(input:nth-child(2):focus-visible) .card:nth-of-type(2) label,
+.container:has(input:nth-child(3):focus-visible) .card:nth-of-type(3) label,
+.container:has(input:nth-child(4):focus-visible) .card:nth-of-type(4) label,
+.container:has(input:nth-child(5):focus-visible) .card:nth-of-type(5) label,
+.container:has(input:nth-child(6):focus-visible) .card:nth-of-type(6) label {
+  transform: translateX(5px) scale(1.1);
+}
+
+/* 1 checked */
+.container:has(input:nth-child(1):checked) {
+  --_1-order: 6;
+  --_1-scale: 1;
+  --_1-opacity: 1;
+  --_1-offset: 0;
+  --_1-pointer-event: auto;
+  --_1-pointer-cursor: pointer;
+
+  --_2-order: 5;
+  --_2-scale: var(--scale-steps-two);
+  --_2-opacity: var(--opacity-steps-two);
+  --_2-offset: var(--_offset-steps-two);
+
+  --_3-order: 4;
+  --_3-scale: var(--scale-steps-three);
+  --_3-opacity: var(--opacity-steps-three);
+  --_3-offset: var(--_offset-steps-three);
+
+  --_4-order: 3;
+  --_4-scale: var(--scale-steps-three);
+  --_4-opacity: var(--opacity-steps-three);
+  --_4-offset: var(--_offset-steps-three);
+
+  --_5-order: 2;
+  --_5-scale: var(--scale-steps-three);
+  --_5-opacity: var(--opacity-steps-three);
+  --_5-offset: var(--_offset-steps-three);
+
+  --_6-order: 1;
+  --_6-scale: var(--scale-steps-three);
+  --_6-opacity: var(--opacity-steps-three);
+  --_6-offset: var(--_offset-steps-three);
+}
+
+/* 2 checked */
+.container:has(input:nth-child(2):checked) {
+  --_2-order: 6;
+  --_2-scale: 1;
+  --_2-opacity: 1;
+  --_2-offset: 0;
+  --_2-pointer-event: auto;
+  --_2-pointer-cursor: pointer;
+
+  --_3-order: 5;
+  --_3-scale: var(--scale-steps-two);
+  --_3-opacity: var(--opacity-steps-two);
+  --_3-offset: var(--_offset-steps-two);
+
+  --_4-order: 4;
+  --_4-scale: var(--scale-steps-three);
+  --_4-opacity: var(--opacity-steps-three);
+  --_4-offset: var(--_offset-steps-three);
+
+  --_5-order: 3;
+  --_5-scale: var(--scale-steps-three);
+  --_5-opacity: var(--opacity-steps-three);
+  --_5-offset: var(--_offset-steps-three);
+
+  --_6-order: 2;
+  --_6-scale: var(--scale-steps-three);
+  --_6-opacity: var(--opacity-steps-three);
+  --_6-offset: var(--_offset-steps-three);
+
+  --_1-order: 1;
+  --_1-scale: var(--scale-steps-three);
+  --_1-opacity: var(--opacity-steps-three);
+  --_1-offset: var(--_offset-steps-three);
+}
+
+/* 3 checked */
+.container:has(input:nth-child(3):checked) {
+  --_3-order: 6;
+  --_3-scale: 1;
+  --_3-opacity: 1;
+  --_3-offset: 0;
+  --_3-pointer-event: auto;
+  --_3-pointer-cursor: pointer;
+
+  --_4-order: 5;
+  --_4-scale: var(--scale-steps-two);
+  --_4-opacity: var(--opacity-steps-two);
+  --_4-offset: var(--_offset-steps-two);
+
+  --_5-order: 4;
+  --_5-scale: var(--scale-steps-three);
+  --_5-opacity: var(--opacity-steps-three);
+  --_5-offset: var(--_offset-steps-three);
+
+  --_6-order: 3;
+  --_6-scale: var(--scale-steps-three);
+  --_6-opacity: var(--opacity-steps-three);
+  --_6-offset: var(--_offset-steps-three);
+
+  --_1-order: 2;
+  --_1-scale: var(--scale-steps-three);
+  --_1-opacity: var(--opacity-steps-three);
+  --_1-offset: var(--_offset-steps-two);
+
+  --_2-order: 1;
+  --_2-scale: var(--scale-steps-three);
+  --_2-opacity: var(--opacity-steps-three);
+  --_2-offset: var(--_offset-steps-three);
+}
+
+/* 4 checked */
+.container:has(input:nth-child(4):checked) {
+  --_4-order: 6;
+  --_4-scale: 1;
+  --_4-opacity: 1;
+  --_4-offset: 0;
+  --_4-pointer-event: auto;
+  --_4-pointer-cursor: pointer;
+
+  --_5-order: 5;
+  --_5-scale: var(--scale-steps-two);
+  --_5-opacity: var(--opacity-steps-two);
+  --_5-offset: var(--_offset-steps-two);
+
+  --_6-order: 4;
+  --_6-scale: var(--scale-steps-three);
+  --_6-opacity: var(--opacity-steps-three);
+  --_6-offset: var(--_offset-steps-three);
+
+  --_1-order: 3;
+  --_1-scale: var(--scale-steps-three);
+  --_1-opacity: var(--opacity-steps-three);
+  --_1-offset: var(--_offset-steps-three);
+
+  --_2-order: 2;
+  --_2-scale: var(--scale-steps-three);
+  --_2-opacity: var(--opacity-steps-three);
+  --_2-offset: var(--_offset-steps-three);
+
+  --_3-order: 1;
+  --_3-scale: var(--scale-steps-three);
+  --_3-opacity: var(--opacity-steps-three);
+  --_3-offset: var(--_offset-steps-three);
+}
+
+/* 5 checked */
+.container:has(input:nth-child(5):checked) {
+  --_5-order: 6;
+  --_5-scale: 1;
+  --_5-opacity: 1;
+  --_5-offset: 0;
+  --_5-pointer-event: auto;
+  --_5-pointer-cursor: pointer;
+
+  --_6-order: 5;
+  --_6-scale: var(--scale-steps-two);
+  --_6-opacity: var(--opacity-steps-two);
+  --_6-offset: var(--_offset-steps-two);
+
+  --_1-order: 4;
+  --_1-scale: var(--scale-steps-three);
+  --_1-opacity: var(--opacity-steps-three);
+  --_1-offset: var(--_offset-steps-three);
+
+  --_2-order: 3;
+  --_2-scale: var(--scale-steps-three);
+  --_2-opacity: var(--opacity-steps-three);
+  --_2-offset: var(--_offset-steps-three);
+
+  --_3-order: 2;
+  --_3-scale: var(--scale-steps-three);
+  --_3-opacity: var(--opacity-steps-three);
+  --_3-offset: var(--_offset-steps-three);
+
+  --_4-order: 1;
+  --_4-scale: var(--scale-steps-three);
+  --_4-opacity: var(--opacity-steps-three);
+  --_4-offset: var(--_offset-steps-three);
+}
+
+/* 6 checked */
+.container:has(input:nth-child(6):checked) {
+  --_6-order: 6;
+  --_6-scale: 1;
+  --_6-opacity: 1;
+  --_6-offset: 0;
+  --_6-pointer-event: auto;
+  --_6-pointer-cursor: pointer;
+
+  --_1-order: 5;
+  --_1-scale: var(--scale-steps-two);
+  --_1-opacity: var(--opacity-steps-two);
+  --_1-offset: var(--_offset-steps-two);
+
+  --_2-order: 4;
+  --_2-scale: var(--scale-steps-three);
+  --_2-opacity: var(--opacity-steps-three);
+  --_2-offset: var(--_offset-steps-three);
+
+  --_3-order: 3;
+  --_3-scale: var(--scale-steps-three);
+  --_3-opacity: var(--opacity-steps-three);
+  --_3-offset: var(--_offset-steps-three);
+
+  --_4-order: 2;
+  --_4-scale: var(--scale-steps-three);
+  --_4-opacity: var(--opacity-steps-three);
+  --_4-offset: var(--_offset-steps-three);
+
+  --_5-order: 1;
+  --_5-scale: var(--scale-steps-three);
+  --_5-opacity: var(--opacity-steps-three);
+  --_5-offset: var(--_offset-steps-three);
+}
+
+.cardHeader {
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(90deg, rgba(187, 0, 69, 0.8) 0%, rgba(255, 0, 94, 1) 100%);
+  transition: background-color var(--_ani-duration) ease-in-out;
+  border-radius: var(--_border-radius) var(--_border-radius) 0 0;
+}
+
+.cardHeader label {
+  padding: 0 1rem;
+  color: white;
+  transition: all 300ms ease-in-out;
+  pointer-events: var(--_pointer-event, none);
+  cursor: var(--_pointer-cursor, none);
+  font-size: 0.9rem;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cardHeader label::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.cardHeader label:hover::before {
+  left: 100%;
+}
+
+.cardHeader label:hover {
+  transform: translateX(5px) scale(1.05);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+.cardHeader h2 {
+  margin: 0;
+  font-weight: 500;
+  font-size: 1.3rem;
+  transition: translate var(--_ani-duration) ease-in-out, opacity var(--_ani-duration) ease-in-out;
+  transition-delay: var(--_delay-h2, 0);
+  opacity: var(--_opacity, 0);
+  color: #f5f5f5;
+}
+
+.cardBody {
+  position: relative;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  place-items: start;
+  gap: 2rem;
+  min-height: 400px;
+}
+
+@media (width > 600px) {
+  .cardBody {
+    grid-template-columns: 1fr 2fr;
+  }
+}
+
+.cardBody img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  transition: var(--_ani-duration) ease-in-out;
+  opacity: var(--_opacity, 0);
+  border-radius: 8px;
+}
+
+.content {
+  width: 100%;
+  height: 300px;
+  overflow-y: auto;
+  padding-right: 1rem;
+}
+
+.content h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  transition: var(--_ani-duration) ease-in-out;
+  transition-delay: 500ms;
+  opacity: var(--_opacity, 0);
+}
+
+.content h4 {
+  margin: 0 0 1rem 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(180, 0, 104, 1);
+  transition: var(--_ani-duration) ease-in-out;
+  transition-delay: 500ms;
+  opacity: var(--_opacity, 0);
+}
+
+.content p {
+  transition: var(--_ani-duration) ease-in-out;
+  transition-delay: 500ms;
+  opacity: var(--_opacity, 0);
+  margin: 0 0 1rem 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #444;
+}
+
+.content ul {
+  margin: 0.5rem 0 1rem 0;
+  padding-left: 1.5rem;
+  transition: var(--_ani-duration) ease-in-out;
+  transition-delay: 500ms;
+  opacity: var(--_opacity, 0);
+  list-style: none;
+}
+
+.content li {
+  margin: 0.5rem 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #555;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.content li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: rgba(180, 0, 104, 1);
+  font-weight: bold;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Custom Scrollbar Styling */
+.content::-webkit-scrollbar-track {
+  background: rgba(121, 9, 50, 0.05);
+  border-radius: 10px;
+}
+
+.content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.content::-webkit-scrollbar:horizontal {
+  display: none;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(187, 0, 69, 0.8), rgba(255, 0, 94, 0.9));
+  border-radius: 20px;
+  border: 2px solid rgba(121, 9, 50, 0.1);
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(187, 0, 69, 0.8), rgba(255, 0, 94, 1));
+} 
