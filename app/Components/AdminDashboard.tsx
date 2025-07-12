@@ -359,62 +359,66 @@ export default function AdminDashboard() {
       </div>
 
       <div className={styles.statsContainer}>
-        <div className={styles.statCard} style={{ backgroundColor: '#f0f9ff' }}>
+        <div className={styles.statCard}>
           <div className={styles.statHeader}>
             <span className={styles.statTitle}>LEADS (LAST 30 DAYS)</span>
+            <div className={styles.statIcon} style={{ backgroundColor: '#3b82f6' }}>
+              👥
+            </div>
           </div>
           <div className={styles.statMainValue}>1,200</div>
-          <div className={styles.statSubInfo}>
-            <span className={styles.statSubLabel}>THIS WEEK:</span>
+          <div className={styles.statSubLine}>
+            <span className={styles.statSubLabel}>This Week: </span>
             <span className={styles.statSubValue}>320</span>
-          </div>
-          <div className={styles.statSubInfo}>
-            <span className={styles.statSubLabel}>TOTAL LEADS:</span>
+            <span className={styles.statSubLabel} style={{ marginLeft: '24px' }}>Total Leads: </span>
             <span className={styles.statSubValue}>1,200</span>
           </div>
         </div>
 
-        <div className={styles.statCard} style={{ backgroundColor: '#fefce8' }}>
+        <div className={styles.statCard}>
           <div className={styles.statHeader}>
             <span className={styles.statTitle}>PENDING</span>
+            <div className={styles.statIcon} style={{ backgroundColor: '#f59e0b' }}>
+              ⏳
+            </div>
           </div>
           <div className={styles.statMainValue}>600</div>
-          <div className={styles.statSubInfo}>
-            <span className={styles.statSubLabel}>THIS WEEK:</span>
+          <div className={styles.statSubLine}>
+            <span className={styles.statSubLabel}>This Week: </span>
             <span className={styles.statSubValue}>150</span>
-          </div>
-          <div className={styles.statSubInfo}>
-            <span className={styles.statSubLabel}>THIS MONTH:</span>
+            <span className={styles.statSubLabel} style={{ marginLeft: '24px' }}>This Month: </span>
             <span className={styles.statSubValue}>450</span>
           </div>
         </div>
 
-        <div className={styles.statCard} style={{ backgroundColor: '#f0fdf4' }}>
+        <div className={styles.statCard}>
           <div className={styles.statHeader}>
             <span className={styles.statTitle}>ASSIGNED</span>
+            <div className={styles.statIcon} style={{ backgroundColor: '#10b981' }}>
+              ✅
+            </div>
           </div>
           <div className={styles.statMainValue}>1,100</div>
-          <div className={styles.statSubInfo}>
-            <span className={styles.statSubLabel}>THIS WEEK:</span>
+          <div className={styles.statSubLine}>
+            <span className={styles.statSubLabel}>This Week: </span>
             <span className={styles.statSubValue}>275</span>
-          </div>
-          <div className={styles.statSubInfo}>
-            <span className={styles.statSubLabel}>THIS MONTH:</span>
+            <span className={styles.statSubLabel} style={{ marginLeft: '24px' }}>This Month: </span>
             <span className={styles.statSubValue}>825</span>
           </div>
         </div>
 
-        <div className={styles.statCard} style={{ backgroundColor: '#fef2f2' }}>
+        <div className={styles.statCard}>
           <div className={styles.statHeader}>
             <span className={styles.statTitle}>REJECTED</span>
+            <div className={styles.statIcon} style={{ backgroundColor: '#ef4444' }}>
+              ❌
+            </div>
           </div>
           <div className={styles.statMainValue}>100</div>
-          <div className={styles.statSubInfo}>
-            <span className={styles.statSubLabel}>THIS WEEK:</span>
+          <div className={styles.statSubLine}>
+            <span className={styles.statSubLabel}>This Week: </span>
             <span className={styles.statSubValue}>15</span>
-          </div>
-          <div className={styles.statSubInfo}>
-            <span className={styles.statSubLabel}>THIS MONTH:</span>
+            <span className={styles.statSubLabel} style={{ marginLeft: '24px' }}>This Month: </span>
             <span className={styles.statSubValue}>85</span>
           </div>
         </div>

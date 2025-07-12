@@ -218,64 +218,66 @@
 
 .statCard {
   flex: 1;
-  min-width: 200px;
-  padding: 16px;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
+  min-width: 240px;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .statHeader {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
+  align-items: flex-start;
+  margin-bottom: 16px;
 }
 
 .statTitle {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: #9ca3af;
   text-transform: uppercase;
   font-weight: 600;
   letter-spacing: 0.5px;
+  line-height: 1.2;
 }
 
-.addBtn {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #3b82f6;
+.statIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
   color: white;
-  border: none;
-  font-size: 14px;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
 }
 
 .statMainValue {
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 8px;
+  color: #111827;
+  margin-bottom: 12px;
+  line-height: 1;
 }
 
-.statSubInfo {
+.statSubLine {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 4px;
+  flex-wrap: wrap;
+  gap: 4px;
 }
 
 .statSubLabel {
   font-size: 0.75rem;
-  color: #6b7280;
-  font-weight: 500;
+  color: #9ca3af;
+  font-weight: 400;
 }
 
 .statSubValue {
-  font-size: 0.875rem;
-  color: #1e293b;
+  font-size: 0.75rem;
+  color: #111827;
   font-weight: 600;
 }
 
