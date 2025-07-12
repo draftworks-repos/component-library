@@ -495,8 +495,8 @@ export default function AdminDashboard() {
                       {leadAssignments[lead.id] || 'BOE1'}
                     </button>
                     {showAssignedDropdown === lead.id && (
-                      <div className={`${styles.modernDropdown} ${mockLeads.indexOf(lead) >= mockLeads.length - 2 ? styles.dropdownUp : ''}`}>
-                        <div className={`${styles.dropdownArrowUp} ${mockLeads.indexOf(lead) >= mockLeads.length - 2 ? styles.arrowDown : ''}`}></div>
+                      <div className={`${styles.modernDropdown} ${mockLeads.indexOf(lead) >= mockLeads.length - 3 ? styles.dropdownUp : ''}`}>
+                        <div className={`${styles.dropdownArrowUp} ${mockLeads.indexOf(lead) >= mockLeads.length - 3 ? styles.arrowDown : ''}`}></div>
                         {['BOE1', 'BOE2', 'BOE3', 'BOE4', 'BOE5'].map((option, index) => (
                           <button
                             key={option}
@@ -529,8 +529,8 @@ export default function AdminDashboard() {
                       {leadStatuses[lead.id] || 'assigned'}
                     </button>
                     {showStatusDropdown === lead.id && (
-                      <div className={`${styles.modernDropdown} ${mockLeads.indexOf(lead) >= mockLeads.length - 2 ? styles.dropdownUp : ''}`}>
-                        <div className={`${styles.dropdownArrowUp} ${mockLeads.indexOf(lead) >= mockLeads.length - 2 ? styles.arrowDown : ''}`}></div>
+                      <div className={`${styles.modernDropdown} ${mockLeads.indexOf(lead) >= mockLeads.length - 3 ? styles.dropdownUp : ''}`}>
+                        <div className={`${styles.dropdownArrowUp} ${mockLeads.indexOf(lead) >= mockLeads.length - 3 ? styles.arrowDown : ''}`}></div>
                         {['assigned', 'pending', 'completed'].map(option => (
                           <button
                             key={option}
