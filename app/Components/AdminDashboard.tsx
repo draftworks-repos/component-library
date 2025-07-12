@@ -314,7 +314,7 @@ export default function AdminDashboard() {
             <span className={styles.statSubValue}>320</span>
           </div>
           <div className={styles.statSubInfo}>
-            <span className={styles.statSubLabel}>TOTAL:</span>
+            <span className={styles.statSubLabel}>TOTAL LEADS:</span>
             <span className={styles.statSubValue}>1,200</span>
           </div>
         </div>
