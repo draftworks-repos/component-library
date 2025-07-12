@@ -9,7 +9,7 @@ const teamMembers = [
     nextId: 'card-2',
     name: 'Sonam Singh',
     position: 'Founder & Managing Director',
-    imgSrc: '/SONAM.jpg',
+    imgSrc: '/SONAM.png',
     imgAlt: 'Sonam Singh',
     description: 'Sonam Singh is the founder and Managing Director of Delfyle and a qualified law graduate (LL.B.), bringing over a decade of expertise in sales, marketing, strategic planning, and legal consulting. With a strong foundation in law and business, Sonam envisioned Delfyle as a one-stop solution for legal, compliance, accounting, and regulatory needs. Her leadership has transformed Delfyle into a trusted name for startups, corporates, and public institutions, providing reliable support in accounting, taxation, civil and criminal law. Driven by the spirit of Atmanirbhar Bharat and Startup India, Sonam\'s mission is to eliminate business hurdles and make entrepreneurship seamless for India\'s innovators.',
   },
@@ -18,7 +18,7 @@ const teamMembers = [
     nextId: 'card-3',
     name: 'Adwitiya Mukherjee',
     position: 'Co-founder & Chief Executive Officer',
-    imgSrc: '/ADWITIYA.HEIC',
+    imgSrc: '/SONAM.png',
     imgAlt: 'Adwitiya Mukherjee',
     description: 'As a qualified Company Secretary (CS), CA Finalist and the Co-founder & CEO of Delfyle, Adwitiya Mukherjee brings in-depth knowledge and years of experience in Corporate and Secretarial Laws. She has successfully handled clients of high repute and has assisted in numerous high-stakes NCLT cases. Adwitiya\'s analytical approach and compliance expertise make her an integral pillar of Delfyle\'s operations. Her work ensures that every client, from startups to large enterprises, receives precise, up-to-date, and compliant corporate governance solutions.',
   },
@@ -27,7 +27,7 @@ const teamMembers = [
     nextId: 'card-4',
     name: 'Abhinandan Das',
     position: 'Legal Associate',
-    imgSrc: '/ABHINANDAN.jpg',
+    imgSrc: '/SONAM.png',
     imgAlt: 'Abhinandan Das',
     description: 'Abhinandan Das is a legal associate specializing in corporate and civil litigation, with hands-on experience representing clients in various courts and tribunals across India. A law graduate from Calcutta University, Abhinandan excels in contract management, corporate advisory, and dispute resolution. His sharp understanding of commercial laws and contractual risk management makes him an essential member of Delfyle\'s legal team, offering strategic counsel to businesses across sectors.',
   },
@@ -36,7 +36,7 @@ const teamMembers = [
     nextId: 'card-5',
     name: 'Sourav Mukherjee',
     position: 'Legal Associate',
-    imgSrc: '/SOURAV.jpg',
+    imgSrc: '/SONAM.png',
     imgAlt: 'Sourav Mukherjee',
     description: 'Sourav Mukherjee is a versatile legal associate at Delfyle with strong expertise in projects & infrastructure law, commercial law, and dispute resolution. A graduate of Calcutta University with a B.A. LL.B., Sourav brings a multidisciplinary approach to legal practice, handling a wide range of civil and criminal matters.',
     expertise: [
@@ -58,7 +58,7 @@ const teamMembers = [
     nextId: 'card-6',
     name: 'Avinash Roy',
     position: 'Senior Tax Associate',
-    imgSrc: '/AVINASH.png',
+    imgSrc: '/SONAM.png',
     imgAlt: 'Avinash Roy',
     description: 'Avinash Roy is a highly experienced Senior Tax Associate at Delfyle, specializing in both direct and indirect taxation. With over 6 years of in-depth experience, Avinash has successfully managed complex tax structures, assessments, and compliance strategies for startups, SMEs, corporates, and high-net-worth individuals.',
     expertise: [
@@ -77,7 +77,7 @@ const teamMembers = [
     nextId: 'card-1',
     name: 'Debangshu Auddy',
     position: 'Compliance Executive',
-    imgSrc: '/DEBANGSHU.jpg',
+    imgSrc: '/SONAM.png',
     imgAlt: 'Debangshu Auddy',
     description: 'Debangshu Auddy is a Compliance Executive at Delfyle with over 3 years of experience in managing ROC compliances and legal documentation for both private and public companies. He specializes in end-to-end corporate compliance, ensuring seamless filings with the Ministry of Corporate Affairs (MCA) under the Companies Act, 2013.',
     expertise: [
@@ -121,10 +121,20 @@ const PoemCards = () => {
               <label htmlFor={member.nextId}>Next</label>
             </header>
             <div className={styles.cardBody}>
-              <img src={member.imgSrc} alt={member.imgAlt} />
+              <div className={styles.imgContainer}>
+                <img src={member.imgSrc} alt={member.imgAlt} />
+              </div>
+              <div className={styles.contentWrapper}>  
               <div className={styles.content}>
-                <h3>{member.name}</h3>
-                <h4>{member.position}</h4>
+                <div className={styles.contentHeader}>
+                  <div className={styles.headerImage}>
+                    <img src={member.imgSrc} alt={member.imgAlt} />
+                  </div>
+                  <div className={styles.headerText}>
+                    <h3>{member.name}</h3>
+                    <h4>{member.position}</h4>
+                  </div>
+                </div>
                 <p>{member.description}</p>
                 {member.expertise && (
                   <ul>
@@ -134,6 +144,7 @@ const PoemCards = () => {
                   </ul>
                 )}
                 {member.additionalInfo && <p>{member.additionalInfo}</p>}
+              </div>
               </div>
             </div>
           </article>

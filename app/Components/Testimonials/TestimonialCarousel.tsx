@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import Image from 'next/image';
 
 // Import Swiper React components
@@ -20,56 +20,56 @@ import styles from './TestimonialCarousel.module.scss';
 const testimonialsData = [
   {
     name: 'Angana Roy',
-    text: '“I had gotten in touch with them through a friend. Adwitiya was extremely helpful and prompt with all of my queries. They provided legal advice in a way which was easy to understand for a layman like me. All love and wishes to them. Would definitely recommend further.”',
+    text: '"I had gotten in touch with them through a friend. Adwitiya was extremely helpful and prompt with all of my queries. They provided legal advice in a way which was easy to understand for a layman like me. All love and wishes to them. Would definitely recommend further."',
     linkedinUrl: 'https://www.linkedin.com/in/hugo-salazar/',
     imageUrl: 'https://www.ats.hugo-salazar.com/wp-content/uploads/2023/04/zzor.jpeg',
     googleReviewUrl: '#',
   },
   {
     name: 'Shyam Gupta',
-    text: '“I had gotten in touch with them through a friend. Adwitiya was extremely helpful and prompt with all of my queries. They provided legal advice in a way which was easy to understand for a layman like me. All love and wishes to them. Would definitely recommend further.”',
+    text: '"I had gotten in touch with them through a friend. Adwitiya was extremely helpful and prompt with all of my queries. They provided legal advice in a way which was easy to understand for a layman like me. All love and wishes to them. Would definitely recommend further."',
     linkedinUrl: 'https://www.linkedin.com/in/hugo-salazar/',
     imageUrl: 'https://www.ats.hugo-salazar.com/wp-content/uploads/2023/04/pincho.jpeg',
     googleReviewUrl: '#',
   },
   {
     name: 'Mechtrobo Private Limited',
-    text: '“Thank you Team Delfyle for on time delivering you commitment. Recommended by one of my friend when I&#39;m struggling with my ITR & license related work, you people&#39;s really help us in a great manner.”',
+    text: '"Thank you Team Delfyle for on time delivering you commitment. Recommended by one of my friend when I&#39;m struggling with my ITR & license related work, you people&#39;s really help us in a great manner."',
     linkedinUrl: 'https://www.linkedin.com/in/hugo-salazar/',
     imageUrl: 'https://www.ats.hugo-salazar.com/wp-content/uploads/2023/04/zzor.jpeg',
     googleReviewUrl: '#',
   },
   {
     name: 'Shantanu Samaddar',
-    text: '“The team is vey friendly in communication, yet professional in execution. Makes best and correct use of information provided and usually comes up with the best solution possible. There is usually no back and forth with information and documents to reach a conclusion or solution. In short, friendly, quick, confident and fair priced.”',
+    text: '"The team is vey friendly in communication, yet professional in execution. Makes best and correct use of information provided and usually comes up with the best solution possible. There is usually no back and forth with information and documents to reach a conclusion or solution. In short, friendly, quick, confident and fair priced."',
     linkedinUrl: 'https://www.linkedin.com/in/hugo-salazar/',
     imageUrl: 'https://www.ats.hugo-salazar.com/wp-content/uploads/2023/04/pincho.jpeg',
     googleReviewUrl: '#',
   },
   {
     name: 'Shashank Shekhar Singh ',
-    text: '“We’ve had an outstanding experience working with Delfyle. Their team has been absolutely helpful at every step—whether it was company registration, trademark filings, GST, ITR, tax audits, or accounting and other matters. They were always available, responsive, and proactive in finding the right solutions for our compliance needs. What sets Delfyle apart is their deep understanding of regulatory requirements and their commitment to making the process seamless and stress-free. Their support has been instrumental in helping our organization stay compliant and grow with confidence.”',
+    text: '"We\'ve had an outstanding experience working with Delfyle. Their team has been absolutely helpful at every step—whether it was company registration, trademark filings, GST, ITR, tax audits, or accounting and other matters. They were always available, responsive, and proactive in finding the right solutions for our compliance needs. What sets Delfyle apart is their deep understanding of regulatory requirements and their commitment to making the process seamless and stress-free. Their support has been instrumental in helping our organization stay compliant and grow with confidence."',
     linkedinUrl: 'https://www.linkedin.com/in/hugo-salazar/',
     imageUrl: 'https://www.ats.hugo-salazar.com/wp-content/uploads/2023/04/zzor.jpeg',
     googleReviewUrl: '#',
   },
   {
     name: 'Trishila Roy',
-    text: '“I have approached Delfyle for Trademark few months back. Loved their energy towards their work!! The team is highly professional and enthusiastic! Got my services delivered on time with minimal fees! Thank you Team Delfyle! You guys are amazing. Period.”',
+    text: '"I have approached Delfyle for Trademark few months back. Loved their energy towards their work!! The team is highly professional and enthusiastic! Got my services delivered on time with minimal fees! Thank you Team Delfyle! You guys are amazing. Period."',
     linkedinUrl: 'https://www.linkedin.com/in/hugo-salazar/',
     imageUrl: 'https://www.ats.hugo-salazar.com/wp-content/uploads/2023/04/pincho.jpeg',
     googleReviewUrl: '#',
   },
   {
     name: 'Subhanil Basu',
-    text: '“Great service provided by the team. The professionals are highly talented and does the work seamlessly and efficiently! Highly recommend.”',
+    text: '"Great service provided by the team. The professionals are highly talented and does the work seamlessly and efficiently! Highly recommend."',
     linkedinUrl: 'https://www.linkedin.com/in/hugo-salazar/',
     imageUrl: 'https://www.ats.hugo-salazar.com/wp-content/uploads/2023/04/zzor.jpeg',
     googleReviewUrl: '#',
   },
   {
     name: 'Shreyash Subudhi',
-    text: '“The team has been very helpful in delivering my needful requirements. The team have been able to provide services beyond their area of presence. A professional and humble team at the same time.”',
+    text: '"The team has been very helpful in delivering my needful requirements. The team have been able to provide services beyond their area of presence. A professional and humble team at the same time."',
     linkedinUrl: 'https://www.linkedin.com/in/hugo-salazar/',
     imageUrl: 'https://www.ats.hugo-salazar.com/wp-content/uploads/2023/04/pincho.jpeg',
     googleReviewUrl: '#',
@@ -94,20 +94,27 @@ export default function TestimonialCarousel() {
   const [expandedIndexes, setExpandedIndexes] = useState<{ [key: number]: boolean }>({});
   const swiperRef = useRef<any>(null);
 
-  const handleReadMore = (index: number) => {
+  const handleReadMore = useCallback((index: number, event: React.MouseEvent | React.TouchEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
     setExpandedIndexes((prev) => ({ ...prev, [index]: true }));
-  };
+  }, []);
 
-  const handlePrev = () => {
+  const handlePrev = useCallback((event: React.MouseEvent | React.TouchEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
     if (swiperRef.current && swiperRef.current.swiper) {
       swiperRef.current.swiper.slidePrev();
     }
-  };
-  const handleNext = () => {
+  }, []);
+
+  const handleNext = useCallback((event: React.MouseEvent | React.TouchEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
     if (swiperRef.current && swiperRef.current.swiper) {
       swiperRef.current.swiper.slideNext();
     }
-  };
+  }, []);
 
   return (
     <div className={styles.wrapper}>
@@ -131,6 +138,9 @@ export default function TestimonialCarousel() {
           }}
           className="mySwiper"
           ref={swiperRef}
+          touchRatio={1}
+          touchAngle={45}
+          grabCursor={true}
         >
           {testimonialsData.map((testimonial, index) => {
             let excerpt = testimonial.text;
@@ -166,7 +176,26 @@ export default function TestimonialCarousel() {
                       {showReadMore && (
                         <>
                           {' '}
-                          <button style={{ color: '#0070f3', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }} onClick={() => handleReadMore(index)}>
+                          <button 
+                            onClick={(e) => handleReadMore(index, e)}
+                            onTouchEnd={(e) => handleReadMore(index, e)}
+                            style={{ 
+                              color: '#0070f3', 
+                              background: 'none', 
+                              border: 'none', 
+                              cursor: 'pointer', 
+                              padding: 0,
+                              fontSize: 'inherit',
+                              fontFamily: 'inherit',
+                              touchAction: 'manipulation',
+                              WebkitTapHighlightColor: 'transparent',
+                              userSelect: 'none',
+                              WebkitUserSelect: 'none',
+                              MozUserSelect: 'none',
+                              msUserSelect: 'none',
+                              pointerEvents: 'auto'
+                            }}
+                          >
                             read more
                           </button>
                         </>
@@ -174,11 +203,27 @@ export default function TestimonialCarousel() {
                     </div>
                     {/* Navigation controls inside card */}
                     <div className={styles.cardNavContainer}>
-                      <button className={styles.cardNavButton} onClick={handlePrev} aria-label="Previous testimonial">
-                        <svg viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18" /></svg>
+                      <button 
+                        className={styles.cardNavButton} 
+                        onClick={handlePrev}
+                        onTouchEnd={handlePrev}
+                        aria-label="Previous testimonial"
+                        style={{ pointerEvents: 'auto' }}
+                      >
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="15 6 9 12 15 18" />
+                        </svg>
                       </button>
-                      <button className={styles.cardNavButton} onClick={handleNext} aria-label="Next testimonial">
-                        <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18" /></svg>
+                      <button 
+                        className={styles.cardNavButton} 
+                        onClick={handleNext}
+                        onTouchEnd={handleNext}
+                        aria-label="Next testimonial"
+                        style={{ pointerEvents: 'auto' }}
+                      >
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="9 6 15 12 9 18" />
+                        </svg>
                       </button>
                     </div>
                   </div>
@@ -187,10 +232,26 @@ export default function TestimonialCarousel() {
             );
           })}
         </Swiper>
-        <div className="c-testimonials__pagination"></div>
+        <div className={styles.cTestimonialsPagination}> 
+          <div className="c-testimonials__pagination"></div>
+        </div>
         <div className={styles.cTestimonialsArrows}>
-          <button className="c-testimonials__arrow-prev">Prev</button>
-          <button className="c-testimonials__arrow-next">Next</button>
+          <button 
+            className="c-testimonials__arrow-prev"
+            onClick={handlePrev}
+            onTouchEnd={handlePrev}
+            style={{ pointerEvents: 'auto' }}
+          >
+            Prev
+          </button>
+          <button 
+            className="c-testimonials__arrow-next"
+            onClick={handleNext}
+            onTouchEnd={handleNext}
+            style={{ pointerEvents: 'auto' }}
+          >
+            Next
+          </button>
         </div>
       </div>
     </div>
