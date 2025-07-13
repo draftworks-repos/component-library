@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import AuthManager from "./AuthManager";
 import styles from "./AdminDashboard.module.css";

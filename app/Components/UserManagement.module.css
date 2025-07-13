@@ -1,9 +1,9 @@
 .container {
   display: flex;
   gap: 24px;
-  padding: 20px;
+  padding: 0;
   min-height: 100vh;
-  background: #f8fafc;
+  background: transparent;
 }
 
 .leftPanel {
