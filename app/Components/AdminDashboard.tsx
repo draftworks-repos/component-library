@@ -5,6 +5,7 @@ import Link from "next/link";
 import AuthManager from "./AuthManager";
 import styles from "./AdminDashboard.module.css";
 import UserManagement from "./UserManagement";
+import DashboardPanel from "./DashboardPanel";
 
 // Import the Lead interface from the schema
 interface ILead {
@@ -43,7 +44,7 @@ type BackofficeItem = {
   created: string;
 };
 
-type Tab = "Leads" | "Users" | "Backoffice" | "Backoffice Executives";
+type Tab = "Leads" | "Users" | "Backoffice" | "Backoffice Executives" | "User Profile" | "Lead Details";
 
 // Function to get random BOE assignment
 const getRandomBOE = () => {
@@ -875,6 +876,14 @@ export default function AdminDashboard() {
   const [userStatuses, setUserStatuses] = useState<{[key: string]: string}>({});
   const [requestStatuses, setRequestStatuses] = useState<{[key: string]: string}>({});
   const [dropdownPositions, setDropdownPositions] = useState<{[key: string]: 'up' | 'down'}>({});
+  const [showUserProfile, setShowUserProfile] = useState(false);
+  const [profileStatus, setProfileStatus] = useState('Active');
+  const [profileRequestStatus, setProfileRequestStatus] = useState('Pending');
+  const [leadDetailsStatus, setLeadDetailsStatus] = useState('pending');
+  const [leadDetailsAssigned, setLeadDetailsAssigned] = useState('BOE1');
+
+  const statusOptions = ['Active', 'Inactive', 'Suspended'];
+  const requestStatusOptions = ['Pending', 'In Progress', 'Completed'];
 
   useEffect(() => {
     setMounted(true);
@@ -2177,30 +2186,454 @@ export default function AdminDashboard() {
     </div>
   );
 
+  const renderUserProfileTab = () => (
+    <div className={styles.leadsContainer} style={{ minHeight: 'calc(100vh - 120px)', background: 'inherit', boxShadow: 'none', border: 'none', padding: 0 }}>
+      {/* Header and stats remain unchanged */}
+      <div className={styles.leadsHeader}>
+        <div className={styles.headerLeft}>
+          <h2>User Profile</h2>
+          <p>Manage your personal profile and account settings</p>
+        </div>
+        <div className={styles.headerRight}>
+          <button className={styles.exportBtn}>
+            Export
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div className={styles.statsContainerCentered}>
+        <div className={styles.statCard}>
+          <div className={styles.statHeader}>
+            <span className={styles.statTitle}>Profile Status</span>
+            <div className={styles.statIcon} style={{ backgroundColor: '#10b981' }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22,4 12,14.01 9,11.01"/>
+              </svg>
+            </div>
+          </div>
+          <div className={styles.statMainValue}>Active</div>
+          <div className={styles.statSubLine}>
+            <div>
+              <span className={styles.statSubLabel}>Last Updated: </span>
+              <span className={styles.statSubValue}>Today</span>
+            </div>
+            <div>
+              <span className={styles.statSubLabel} style={{ marginLeft: '24px' }}>Account Type: </span> 
+              <span className={styles.statSubValue}>User</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Full-width, full-height profile section */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'stretch',
+        width: '100%',
+        minHeight: 'calc(100vh - 365px)',
+        background: 'inherit',
+        margin: '0',
+        padding: '0 0 40px 0',
+        boxShadow: 'none',
+        border: 'none',
+      }}>
+        {/* Left: Avatar and Basic Info */}
+        <div style={{
+          flex: '0 0 340px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'relative',
+          padding: '0 0 0 0',
+        }}>
+          {/* Avatar */}
+          <div style={{
+            width: 160,
+            height: 160,
+            borderRadius: '50%',
+            background: 'linear-gradient(135deg, #b40068 0%, #a0005e 100%)',
+            color: '#fff',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: 80,
+            fontWeight: 700,
+            marginBottom: 32,
+            marginTop: 32,
+            boxShadow: '0 2px 8px rgba(180,0,104,0.08)'
+          }}>
+            <svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="7" r="4"/><path d="M5.5 21v-2A4.5 4.5 0 0 1 10 14h4a4.5 4.5 0 0 1 4.5 4.5v2"/></svg>
+          </div>
+          {/* Name and Verified */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
+            <span style={{ fontWeight: 700, fontSize: 32, color: '#1e293b' }}>Admin User</span>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/></svg>
+          </div>
+          <div style={{ color: '#64748b', fontSize: 20, fontWeight: 500, marginBottom: 12 }}>#U3066</div>
+        </div>
+
+        {/* Divider */}
+        <div style={{ width: 2, background: '#e5e7eb', margin: '48px 0' }} />
+
+        {/* Right: Details */}
+        <div style={{ flex: 1, padding: '48px 48px 48px 40px', display: 'flex', flexDirection: 'column', gap: 28, justifyContent: 'center', fontFamily: 'inherit' }}>
+          {/* Contact Info */}
+          <div>
+            <div style={{ fontWeight: 600, fontSize: 20, color: '#1e293b', marginBottom: 12 }}>Contact Information</div>
+            <div style={{ color: '#374151', fontSize: 16, marginBottom: 6, fontWeight: 500 }}>Email: <span style={{ color: '#2563eb', fontWeight: 400 }}>admin@company.com</span></div>
+            <div style={{ color: '#374151', fontSize: 16, fontWeight: 500 }}>Phone Number: <span style={{ color: '#2563eb', fontWeight: 400 }}>+1 (555) 123-4567</span></div>
+          </div>
+          {/* Status */}
+          <div>
+            <div style={{ fontWeight: 600, fontSize: 20, color: '#1e293b', marginBottom: 12 }}>Status</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <button
+                style={{
+                  background: '#fff',
+                  color: getStatusColor('Active'),
+                  border: `1px solid ${getStatusColor('Active')}`,
+                  borderRadius: 8,
+                  padding: '8px 24px',
+                  fontWeight: 600,
+                  fontSize: 15,
+                  cursor: 'default',
+                  transition: 'all 0.2s',
+                  boxShadow: `0 1px 4px rgba(0,0,0,0.04)`
+                }}
+              >
+                Active
+              </button>
+              <button
+                style={{
+                  background: '#fff',
+                  color: '#374151',
+                  border: '1px solid #d1d5db',
+                  borderRadius: 8,
+                  padding: '8px 24px',
+                  fontWeight: 600,
+                  fontSize: 15,
+                  cursor: 'not-allowed',
+                  transition: 'all 0.2s',
+                }}
+                disabled
+              >
+                Inactive
+              </button>
+              <button
+                style={{
+                  background: '#fff',
+                  color: '#374151',
+                  border: '1px solid #d1d5db',
+                  borderRadius: 8,
+                  padding: '8px 24px',
+                  fontWeight: 600,
+                  fontSize: 15,
+                  cursor: 'not-allowed',
+                  transition: 'all 0.2s',
+                }}
+                disabled
+              >
+                Suspended
+              </button>
+            </div>
+          </div>
+          {/* Request Status */}
+          <div>
+            <div style={{ fontWeight: 600, fontSize: 20, color: '#1e293b', marginBottom: 12 }}>Request Status</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <button
+                style={{
+                  background: '#fff',
+                  color: getStatusColor('Pending'),
+                  border: `1px solid ${getStatusColor('Pending')}`,
+                  borderRadius: 8,
+                  padding: '8px 24px',
+                  fontWeight: 600,
+                  fontSize: 15,
+                  cursor: 'default',
+                  transition: 'all 0.2s',
+                  boxShadow: `0 1px 4px rgba(0,0,0,0.04)`
+                }}
+              >
+                Pending
+              </button>
+              <button
+                style={{
+                  background: '#fff',
+                  color: '#374151',
+                  border: '1px solid #d1d5db',
+                  borderRadius: 8,
+                  padding: '8px 24px',
+                  fontWeight: 600,
+                  fontSize: 15,
+                  cursor: 'not-allowed',
+                  transition: 'all 0.2s',
+                }}
+                disabled
+              >
+                In Progress
+              </button>
+              <button
+                style={{
+                  background: '#fff',
+                  color: '#374151',
+                  border: '1px solid #d1d5db',
+                  borderRadius: 8,
+                  padding: '8px 24px',
+                  fontWeight: 600,
+                  fontSize: 15,
+                  cursor: 'not-allowed',
+                  transition: 'all 0.2s',
+                }}
+                disabled
+              >
+                Completed
+              </button>
+            </div>
+          </div>
+          {/* Created At */}
+          <div>
+            <div style={{ fontWeight: 600, fontSize: 20, color: '#1e293b', marginBottom: 12 }}>Created At</div>
+            <div style={{ color: '#64748b', fontSize: 16, fontWeight: 400 }}>Just now</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderLeadDetailsTab = () => {
+    const lead = mockLeads[0]; // Using the first lead as sample data
+    const assignedOptions = ['None', 'BOE1', 'BOE2', 'BOE3', 'BOE4', 'BOE5'];
+    const statusOptions = ['pending', 'assigned', 'completed'];
+
+    return (
+      <div className={styles.leadsContainer} style={{ minHeight: 'calc(100vh - 120px)', background: 'inherit', boxShadow: 'none', border: 'none', padding: 0 }}>
+        {/* Header */}
+        <div className={styles.leadsHeader}>
+          <div className={styles.headerLeft}>
+            <h2>Lead Details</h2>
+            <p>View and manage lead-specific information and status</p>
+          </div>
+          <div className={styles.headerRight}>
+            <button className={styles.exportBtn}>
+              Export
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7,10 12,15 17,10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+  
+        {/* Full-width, full-height profile section */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'stretch',
+          width: '100%',
+          minHeight: 'calc(100vh - 220px)',
+          background: 'inherit',
+          margin: '0',
+          padding: '0 0 40px 0',
+          boxShadow: 'none',
+          border: 'none',
+        }}>
+          {/* Left: Avatar and Basic Info */}
+          <div style={{
+            flex: '0 0 340px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'relative',
+            padding: '0 0 0 0',
+          }}>
+            {/* Avatar */}
+            <div style={{
+              width: 160,
+              height: 160,
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+              color: '#fff',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: 80,
+              fontWeight: 700,
+              marginBottom: 32,
+              marginTop: 32,
+              boxShadow: '0 2px 8px rgba(59,130,246,0.2)'
+            }}>
+              {lead.client.initials}
+            </div>
+            {/* Name */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
+              <span style={{ fontWeight: 700, fontSize: 32, color: '#1e293b' }}>{lead.client.name}</span>
+            </div>
+            <div style={{ color: '#64748b', fontSize: 20, fontWeight: 500, marginBottom: 12 }}>{lead._id}</div>
+          </div>
+  
+          {/* Divider */}
+          <div style={{ width: 2, background: '#e5e7eb', margin: '48px 0' }} />
+  
+          {/* Right: Details */}
+          <div style={{ flex: 1, padding: '48px 48px 48px 40px', display: 'flex', flexDirection: 'column', gap: 28, justifyContent: 'center', fontFamily: 'inherit' }}>
+            {/* Contact Info */}
+            <div>
+              <div style={{ fontWeight: 600, fontSize: 20, color: '#1e293b', marginBottom: 12 }}>Contact Information</div>
+              <div style={{ color: '#374151', fontSize: 16, marginBottom: 6, fontWeight: 500 }}>Email: <span style={{ color: '#2563eb', fontWeight: 400 }}>{lead.email}</span></div>
+              <div style={{ color: '#374151', fontSize: 16, fontWeight: 500 }}>Phone Number: <span style={{ color: '#2563eb', fontWeight: 400 }}>{lead.phone}</span></div>
+            </div>
+            {/* Message */}
+            <div>
+              <div style={{ fontWeight: 600, fontSize: 20, color: '#1e293b', marginBottom: 12 }}>Message</div>
+              <p style={{ color: '#374151', fontSize: 16, fontWeight: 400, margin: 0, lineHeight: 1.5 }}>{lead.message}</p>
+            </div>
+            {/* Status */}
+            <div>
+              <div style={{ fontWeight: 600, fontSize: 20, color: '#1e293b', marginBottom: 12 }}>Status</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <button
+                  style={{
+                    background: '#fff',
+                    color: getStatusColor('pending'),
+                    border: `1px solid ${getStatusColor('pending')}`,
+                    borderRadius: 8,
+                    padding: '8px 24px',
+                    fontWeight: 600,
+                    fontSize: 15,
+                    cursor: 'default',
+                    transition: 'all 0.2s',
+                    boxShadow: `0 1px 4px rgba(0,0,0,0.04)`
+                  }}
+                >
+                  pending
+                </button>
+                <button
+                  style={{
+                    background: '#fff',
+                    color: '#374151',
+                    border: '1px solid #d1d5db',
+                    borderRadius: 8,
+                    padding: '8px 24px',
+                    fontWeight: 600,
+                    fontSize: 15,
+                    cursor: 'not-allowed',
+                    transition: 'all 0.2s',
+                  }}
+                  disabled
+                >
+                  assigned
+                </button>
+                <button
+                  style={{
+                    background: '#fff',
+                    color: '#374151',
+                    border: '1px solid #d1d5db',
+                    borderRadius: 8,
+                    padding: '8px 24px',
+                    fontWeight: 600,
+                    fontSize: 15,
+                    cursor: 'not-allowed',
+                    transition: 'all 0.2s',
+                  }}
+                  disabled
+                >
+                  completed
+                </button>
+              </div>
+            </div>
+            {/* Assigned */}
+            <div>
+              <div style={{ fontWeight: 600, fontSize: 20, color: '#1e293b', marginBottom: 12 }}>Assigned</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <button
+                  style={{
+                    background: '#fff',
+                    color: getStatusColor('None'),
+                    border: `1px solid #d1d5db`,
+                    borderRadius: 8,
+                    padding: '8px 24px',
+                    fontWeight: 600,
+                    fontSize: 15,
+                    cursor: 'default',
+                    transition: 'all 0.2s',
+                    boxShadow: `0 1px 4px rgba(0,0,0,0.04)`
+                  }}
+                >
+                  None
+                </button>
+                {['BOE1', 'BOE2', 'BOE3', 'BOE4', 'BOE5'].map(option => (
+                  <button
+                    key={option}
+                    style={{
+                      background: '#fff',
+                      color: '#374151',
+                      border: '1px solid #d1d5db',
+                      borderRadius: 8,
+                      padding: '8px 24px',
+                      fontWeight: 600,
+                      fontSize: 15,
+                      cursor: 'not-allowed',
+                      transition: 'all 0.2s',
+                    }}
+                    disabled
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.dashboard}>
       <div className={styles.sidebar}>
         <div className={styles.profileSection}>
           <div className={styles.profileIcon}>
-            👤
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
           </div>
           <div className={styles.profileName}>Admin User</div>
           <div className={styles.profileEmail}>admin@company.com</div>
           <div className={styles.profileButtons}>
             <Link href="/" className={styles.profileBtn}>
-              🏠 Home
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+              Home
             </Link>
             <button 
               className={`${styles.profileBtn} ${styles.logoutBtn}`}
               onClick={() => setShowAuthPopup(true)}
             >
-              🚪 Logout
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+              Logout
             </button>
           </div>
         </div>
         <nav className={styles.nav}>
-          {(["Leads", "Users", "Backoffice", "Backoffice Executives"] as Tab[]).map((tab) => (
+          {(["Leads", "Users", "Backoffice", "Backoffice Executives", "User Profile", "Lead Details"] as Tab[]).map((tab) => (
             <button
               key={tab}
               className={`${styles.navItem} ${activeTab === tab ? styles.active : ""}`}
@@ -2217,11 +2650,22 @@ export default function AdminDashboard() {
         {activeTab === "Users" && renderUsersTab()}
         {activeTab === "Backoffice" && renderBackofficeTab()}
         {activeTab === "Backoffice Executives" && renderBackofficeExecutivesTab()}
+        {activeTab === "User Profile" && renderUserProfileTab()}
+        {activeTab === "Lead Details" && renderLeadDetailsTab()}
       </div>
 
       <AuthManager 
         isOpen={showAuthPopup} 
         onClose={() => setShowAuthPopup(false)} 
+      />
+
+      <DashboardPanel
+        isOpen={showUserProfile}
+        onClose={() => setShowUserProfile(false)}
+        onLogout={() => {
+          setShowUserProfile(false);
+          setShowAuthPopup(true);
+        }}
       />
 
       {/* Message Popup */}
