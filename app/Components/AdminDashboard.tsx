@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import AuthManager from "./AuthManager";
 import styles from "./AdminDashboard.module.css";
+import UserManagement from "./UserManagement";
 
 // Import the Lead interface from the schema
 interface ILead {
@@ -2205,6 +2206,12 @@ export default function AdminDashboard() {
               onClick={() => setActiveTab(tab)}
             >
               {tab}
+            <button
+              className={`${styles.navItem} ${activeTab === "users" ? styles.active : ""}`}
+              onClick={() => setActiveTab("users")}
+            >
+              Users
+            </button>
             </button>
           ))}
         </nav>
