@@ -1326,7 +1326,7 @@ export default function AdminDashboard() {
                       <div className={`${styles.modernDropdown} ${dropdownPositions[lead._id] === 'up' ? styles.dropdownUp : ''}`}>
                         <div className={`${styles.dropdownArrowUp} ${dropdownPositions[lead._id] === 'up' ? styles.arrowDown : ''}`}></div>
                         {['None', 'BOE1', 'BOE2', 'BOE3', 'BOE4', 'BOE5'].map((option, index) => (
-                          <button
+                          <div
                             key={option}
                             className={styles.modernDropdownItem}
                             onClick={(e) => handleAssignmentChangeWithEvent(e, lead._id, option)}
@@ -1339,7 +1339,7 @@ export default function AdminDashboard() {
                             }}
                           >
                             {option}
-                          </button>
+                          </div>
                         ))}
                       </div>
                     )}
@@ -1393,7 +1393,7 @@ export default function AdminDashboard() {
                         <line x1="12" y1="15" x2="12" y2="3"/>
                       </svg>
                     </button>
-                    <button
+                    <div
                       onClick={() => handleActionIconClick(lead._id, 'delete')}
                       className={styles.actionIcon}
                       style={{ color: '#ef4444' }}
@@ -1405,7 +1405,7 @@ export default function AdminDashboard() {
                         <line x1="10" y1="11" x2="10" y2="17"/>
                         <line x1="14" y1="11" x2="14" y2="17"/>
                       </svg>
-                    </button>
+                    </div>
                     <button
                       onClick={() => handleActionIconClick(lead._id, 'view')}
                       className={styles.actionIcon}
@@ -2207,12 +2207,6 @@ export default function AdminDashboard() {
               onClick={() => setActiveTab(tab)}
             >
               {tab}
-            <button
-              className={`${styles.navItem} ${activeTab === "users" ? styles.active : ""}`}
-              onClick={() => setActiveTab("users")}
-            >
-              Users
-            </button>
             </button>
           ))}
         </nav>

@@ -454,11 +454,35 @@
   user-select: none;
 }
 
+.dropdownButtonInner {
+  background: none;
+  border: none;
+  cursor: pointer;
+  fontWeight: 500;
+  fontSize: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
 .dropdownButton:hover {
   background: rgba(0, 0, 0, 0.05);
 }
 
+.dropdownButtonInner:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
 .dropdownButton:focus {
+  outline: none;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.dropdownButtonInner:focus {
   outline: none;
   background: rgba(0, 0, 0, 0.05);
 }
@@ -469,6 +493,10 @@
 }
 
 .dropdownButton:hover .dropdownArrow {
+  transform: translateY(-1px);
+}
+
+.dropdownButtonInner:hover .dropdownArrow {
   transform: translateY(-1px);
 }
 
